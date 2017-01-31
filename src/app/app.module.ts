@@ -12,6 +12,7 @@ import { NavbarComponent } from './navbar/navbar.component';
 import { CategorySingleComponent } from './categories/category-single/category-single.component';
 import { CategoryListComponent } from './categories/category-list/category-list.component';
 import { CategoryService } from './categories/category.service';
+import { WordPressModule } from 'ng2-wp-api';
 
 @NgModule({
   declarations: [
@@ -26,6 +27,7 @@ import { CategoryService } from './categories/category.service';
     BrowserModule,
     FormsModule,
     HttpModule,
+    WordPressModule,
     AppRoutingModule
   ],
   providers: [PostsService, CategoryService],

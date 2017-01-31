@@ -1,6 +1,6 @@
 <div *ngIf="post">
-  <h1>{{ post.title.rendered }}</h1>
-  <div [innerHTML]="post.content.rendered"></div>
+  <h1>{{ post.title() }}</h1>
+  <div [innerHTML]="post.content()"></div>
 </div>
 <div *ngIf="!post">
   <p>no post found</p>

@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
+import { WpQueryArgs, WpEndpoint, WpService, CollectionResponse } from 'ng2-wp-api';
 import { Router } from '@angular/router';
 
-import { Post } from '../post';
-import { PostsService } from '../posts.service';
+// import { Post } from '../post';
+// import { PostsService } from '../posts.service';
 
 @Component({
   selector: 'app-post-list',
@@ -10,20 +11,67 @@ import { PostsService } from '../posts.service';
   styleUrls: ['./post-list.component.css']
 })
 export class PostListComponent implements OnInit {
-  posts: Post[];
-  constructor(private postsService: PostsService, private router: Router) { }
-
+  // posts: Post[];
+  endpoint = WpEndpoint.posts;
+  args;
+  posts;
+  pagination;
+  collection;
+//   constructor(private postsService: PostsService, private router: Router) { }
+  constructor(private wpService: WpService, private router: Router) {}
+//   ngOnInit() {
+//     this.getPosts();
+//   }
   ngOnInit() {
-    this.getPosts();
+    this.get();
   }
 
-  getPosts() {
-    this.postsService.getPosts()
-      .subscribe(posts => this.posts = posts);
+  get() {
+    this.args = new WpQueryArgs({ per_page: 4 });
+    this.collection = this.wpService.collection().posts();
+    this.collection.get(this.args)
+      .subscribe((res: CollectionResponse) => {
+        if (res.error) {
+          console.log(res.error)
+        } else {
+          this.pagination = res.pagination;
+          this.posts = res.data;
+        }
+      });
   }
 
-  getPost(slug) {
-    this.router.navigate(['posts', slug]);
+  getNext() {
+    this.collection.next()
+      .subscribe((res: CollectionResponse) => {
+        this.posts = res.data;
+        this.pagination = res.pagination;
+      })
   }
 
+  getPrevious() {
+    if (this.pagination.currentPage > 1) {
+      this.collection.prev()
+        .subscribe((res: CollectionResponse) => {
+          this.posts = res.data;
+          this.pagination = res.pagination;
+        })
+    } else {
+      alert('You are on the first page of results!');
+    }
+  }
+
+  
+
+//   getPosts() {
+//     this.postsService.getPosts()
+//       .subscribe(posts => this.posts = posts);
+//   }
+
+  getPost(id) {
+    this.router.navigate(['posts', id]);
+  }
 }
+
+
+
+
