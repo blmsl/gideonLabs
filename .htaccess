@@ -1,0 +1,18 @@
+
+# BEGIN WordPress
+<IfModule mod_rewrite.c>
+RewriteEngine On
+RewriteBase /
+RewriteRule ^index\.php$ - [L]
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule . /index.php [L]
+</IfModule>
+
+# END WordPress
+
+AddOutputFilterByType DEFLATE text/html text/css text/plain application/javascript
+
+RewriteEngine On
+RewriteCond %{HTTPS} off
+RewriteRule .* https://www.doulacooperative.com%{REQUEST_URI} [redirect=301,last]

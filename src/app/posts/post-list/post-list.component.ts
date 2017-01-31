@@ -11,17 +11,15 @@ import { Router } from '@angular/router';
   styleUrls: ['./post-list.component.css']
 })
 export class PostListComponent implements OnInit {
-  // posts: Post[];
+
   endpoint = WpEndpoint.posts;
   args;
   posts;
   pagination;
   collection;
-//   constructor(private postsService: PostsService, private router: Router) { }
+
   constructor(private wpService: WpService, private router: Router) {}
-//   ngOnInit() {
-//     this.getPosts();
-//   }
+
   ngOnInit() {
     this.get();
   }
@@ -60,15 +58,8 @@ export class PostListComponent implements OnInit {
     }
   }
 
-  
-
-//   getPosts() {
-//     this.postsService.getPosts()
-//       .subscribe(posts => this.posts = posts);
-//   }
-
-  getPost(id) {
-    this.router.navigate(['posts', id]);
+  getPost(slug) {
+    this.router.navigate(['posts', slug]);
   }
 }
 
