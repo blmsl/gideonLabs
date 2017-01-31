@@ -12,7 +12,6 @@ import { Router } from '@angular/router';
 })
 export class PostListComponent implements OnInit {
 
-  endpoint = WpEndpoint.posts;
   args;
   posts;
   pagination;
@@ -30,7 +29,7 @@ export class PostListComponent implements OnInit {
     this.collection.get(this.args)
       .subscribe((res: CollectionResponse) => {
         if (res.error) {
-          console.log(res.error)
+          console.error(res.error)
         } else {
           this.pagination = res.pagination;
           this.posts = res.data;

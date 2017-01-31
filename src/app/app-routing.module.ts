@@ -6,21 +6,17 @@ import { CategoryListComponent } from './categories/category-list/category-list.
 import { CategorySingleComponent } from './categories/category-single/category-single.component';
 
 const routes: Routes = [
+  { path: 'posts', component: PostListComponent },
+  { path: 'category', component: CategoryListComponent },
   {
-    path: 'posts',
-    component: PostListComponent
+    path: 'posts/category', children: [
+      { path: '', component: CategoryListComponent },
+      { path: ':category', component: CategorySingleComponent }
+    ]
   },
   {
     path: 'posts/:slug',
     component: PostSingleComponent
-  },
-  {
-    path: 'category',
-    component: CategoryListComponent
-  },
-  {
-    path: 'category/:id',
-    component: CategorySingleComponent
   },
   {
     path: '',

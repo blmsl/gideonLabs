@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { WpQueryArgs, WpEndpoint, WpService, CollectionResponse } from 'ng2-wp-api';
 
-import { Category } from '../category';
-import { CategoryService } from '../category.service';
+// import { Category } from '../category';
+// import { CategoryService } from '../category.service';
 
 @Component({
   selector: 'app-category-list',
@@ -10,17 +11,53 @@ import { CategoryService } from '../category.service';
   styleUrls: ['./category-list.component.css']
 })
 export class CategoryListComponent  {
-  categories: Category[];
-  constructor(private categoryService: CategoryService, private router: Router) { }
+  categories;
+  args;
+  pagination;
+  collection;
+
+  constructor(private wpService: WpService, private router: Router) { }
 
   ngOnInit() {
-    this.categoryService.getCategories()
-      .subscribe(categories => this.categories = categories);
+    this.get();
   }
 
-  getCategories() {
-    this.categoryService.getCategories()
-      .subscribe(categories => this.categories = categories);
+  get() {
+    this.args = new WpQueryArgs({ per_page: 4});
+    this.collection = this.wpService.collection().categories();
+    this.collection.get(this.args)
+      .subscribe((res: CollectionResponse) => {
+        if (res.error) {
+          console.error(res.error)
+        } else {
+          this.pagination = res.pagination;
+          this.categories = res.data;
+        }
+      });
+  }
+
+  getNext() {
+    this.collection.next()
+      .subscribe((res: CollectionResponse) => {
+        this.categories = res.data;
+        this.pagination = res.pagination;
+      })
+  }
+
+  getPrevious() {
+    if (this.pagination.currentPage > 1) {
+      this.collection.prev()
+        .subscribe((res: CollectionResponse) => {
+          this.categories = res.data;
+          this.pagination = res.pagination;
+        })
+    } else {
+      alert('You are on the first page of results!');
+    }
+  }
+
+  getCategory(slug) {
+    this.router.navigate(['posts/category', slug]);
   }
 
 }

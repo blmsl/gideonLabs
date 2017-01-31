@@ -15,4 +15,4 @@ AddOutputFilterByType DEFLATE text/html text/css text/plain application/javascri
 
 RewriteEngine On
 RewriteCond %{HTTPS} off
-RewriteRule .* https://www.doulacooperative.com%{REQUEST_URI} [redirect=301,last]
+RewriteRule .* https://www.gideonlabs.com%{REQUEST_URI} [redirect=301,last]
