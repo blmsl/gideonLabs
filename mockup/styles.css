@@ -28,6 +28,7 @@ header {
   display: none;
   margin: 0 auto;
   max-width: 1110px;
+  position: relative;
 }
 
 @media (min-width: 40em) {
@@ -40,8 +41,37 @@ header img {
   width: 100%
 }
 
+.header-callout {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  text-align: center;
+  background-color: rgba(255,255,255,0.7);
+}
+
+.header-callout--phone a {
+  font-size: 3.5em;
+  color: #560114;
+  font-weight: bold;
+}
+
 .container {
   padding-bottom: 1em;
+}
+
+.card-flex-group {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.card-flex-group .card {
+  flex: 1 1 30%;
 }
 
 footer {
