@@ -63,6 +63,7 @@ header img {
 
 .container {
   padding-bottom: 1em;
+  padding-top: 1em;
 }
 
 .card-flex-group {
@@ -72,6 +73,12 @@ header img {
 
 .card-flex-group .card {
   flex: 1 1 30%;
+  margin: 0.5em;
+}
+
+.card-flex-group .btn {
+  background-color: #560114;
+  border-color: #560114;
 }
 
 footer {
