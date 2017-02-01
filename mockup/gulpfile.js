@@ -17,7 +17,7 @@ gulp.task('serve', () => {
       baseDir: './',
     },
   });
-  gulp.watch('*.html').on('change', reload);
+  gulp.watch('*.*').on('change', reload);
 });
 
 gulp.task('default', ['deploy']);
