@@ -1,4 +1,15 @@
 <app-navbar></app-navbar>
 <div class="container">
-  <router-outlet></router-outlet>
+  <header>
+    <img src="https://unsplash.it/1110/400" alt="">
+    <div class="header-callout">
+      <h1 class="header-callout--text">Call the Problem Solvers of the Electronic Industry</h1>
+      <div class="header-callout--phone"><a href="tel:845-255-5356">845-255-5356</a></div>
+    </div>
+  </header>
+  <main>
+    <app-category-list></app-category-list>
+    <router-outlet></router-outlet>
+  </main>
+  
 </div>
