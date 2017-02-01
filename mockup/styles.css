@@ -5,6 +5,7 @@
 
 .navbar {
   background-color: #560114;
+  margin-bottom: 1em;
 }
 
 .navbar-inverse .navbar-toggler {
@@ -21,4 +22,33 @@
   background-color: white;
   border: 1px solid white;
   color: #560114;
+}
+
+header {
+  display: none;
+  margin: 0 auto;
+  max-width: 1110px;
+}
+
+@media (min-width: 40em) {
+  header {
+    display: block;
+  }
+}
+
+header img {
+  width: 100%
+}
+
+.container {
+  padding-bottom: 1em;
+}
+
+footer {
+  /*position: fixed;
+  bottom: 0;*/
+  background-color: #560114;
+  width: 100%;
+  color: white;
+  padding: 1em;
 }
