@@ -35,9 +35,11 @@ export class PostListComponent implements OnInit {
           this.posts = res.data;
         }
       });
+    console.log('got the posts!');
   }
 
   getNext() {
+    console.log('Getting next page');
     this.collection.next()
       .subscribe((res: CollectionResponse) => {
         this.posts = res.data;
@@ -46,6 +48,7 @@ export class PostListComponent implements OnInit {
   }
 
   getPrevious() {
+    console.log('Getting previous page');
     if (this.pagination.currentPage > 1) {
       this.collection.prev()
         .subscribe((res: CollectionResponse) => {

@@ -1,29 +1,27 @@
-<!--<ul *ngIf="posts">
-  <li *ngFor="let post of posts" (click)="getPost(post.slug)">
-    {{ post.title.rendered }}
-  </li>
-</ul>-->
 <!--<div class="test">
     <div *ngFor="let post of posts" class="item">
         <h3 (click)="getPost(post.slug)">{{post.title.rendered}}</h3>
+        <div *ngIf="post.featured_media !== 0">
+        <img src="{{post._embedded['wp:featuredmedia'][0].media_details.sizes.medium?.source_url}}">
+        {{post.featured_media | json}}
+        </div>
     </div>
     <button (click)="getPrevious()">Previous Page</button>
     <button (click)="getNext()">Next Page</button>
-</div>
+</div>-->
 
--->
+
 
 <div class="card-flex" *ngIf="posts">
   
   <div class="card" *ngFor="let post of posts">
-    <img src="{{post._embedded['wp:featuredmedia'][0].media_details.sizes.medium.source_url}}" alt="" class="card-img-top">
+    <img *ngIf="post.featured_media" src="{{post._embedded['wp:featuredmedia'][0].media_details.sizes.medium?.source_url}}" alt="" class="card-img-top">
     <div class="card-block">
       <h4 class="card-title">{{post.title.rendered}}</h4>
       <p class="card-text" [innerHTML]="post.excerpt.rendered"></p>
       <a (click)="getPost(post.slug)" class="btn btn-primary">Read more</a>
     </div>
-
-  </div>
+</div>
 
   <nav aria-label="Page navigation example">
     <ul class="pagination pagination-lg justify-content-center">
@@ -31,5 +29,4 @@
       <li class="page-item"><a class="page-link" (click)="getNext()">Next</a></li>
     </ul>
   </nav>
-<pre>{{pagination | json}}</pre>
-</div>
+<!--<pre>{{pagination | json}}</pre>-->

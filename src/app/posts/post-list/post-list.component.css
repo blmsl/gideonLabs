@@ -28,3 +28,7 @@
 .card img {
   object-fit: cover;
 }
+
+.pagination .page-link {
+  cursor: pointer;
+}
