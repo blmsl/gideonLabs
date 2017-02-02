@@ -1,4 +1,4 @@
-<div class="test">
+<div class="categories">
     <div *ngFor="let category of categories" class="item">
         <h3 (click)="getCategory(category.slug)">{{category.name}}</h3>
     </div>
@@ -6,4 +6,4 @@
     <button (click)="getNext()">Next Page</button>
 </div>
 
-<pre>{{pagination | json}}</pre>
+<!--<pre>{{pagination | json}}</pre>-->

@@ -24,7 +24,7 @@ export class PostListComponent implements OnInit {
   }
 
   get() {
-    this.args = new WpQueryArgs({ per_page: 4 });
+    this.args = new WpQueryArgs({ per_page: 6, _embed: true });
     this.collection = this.wpService.collection().posts();
     this.collection.get(this.args)
       .subscribe((res: CollectionResponse) => {

@@ -8,7 +8,7 @@ import { WpQueryArgs, WpEndpoint, WpService, CollectionResponse } from 'ng2-wp-a
 @Component({
   selector: 'app-category-list',
   templateUrl: './category-list.component.html',
-  styleUrls: ['./category-list.component.css']
+  styleUrls: ['./category-list.component.scss']
 })
 export class CategoryListComponent  {
   categories;

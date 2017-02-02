@@ -5,7 +5,7 @@ import { WpQueryArgs, WpService, CollectionResponse } from 'ng2-wp-api';
 @Component({
   selector: 'app-category-single',
   templateUrl: './category-single.component.html',
-  styleUrls: ['./category-single.component.css']
+  styleUrls: ['./category-single.component.scss']
 })
 export class CategorySingleComponent implements OnInit {
   category: string;

@@ -1,0 +1,8 @@
+.categories {
+  font-size: 0.75em;
+  display: none;
+
+  @media (min-width: 48em) {
+    display: block;
+  }
+}

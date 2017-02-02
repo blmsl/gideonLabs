@@ -1,0 +1,30 @@
+.card-flex {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.card-flex .card {
+  flex: 1 1 25%;
+  margin: 0.5em;
+}
+
+.card-flex nav {
+  flex: 1 1 100%;
+}
+
+.card-flex .btn {
+  background-color: #560114;
+  border-color: #560114;
+  color: white;
+}
+
+.card-flex .btn:focus,
+.card-flex .btn:hover {
+  background-color: white;
+  color: #560114;
+  cursor: pointer;
+}
+
+.card img {
+  object-fit: cover;
+}
