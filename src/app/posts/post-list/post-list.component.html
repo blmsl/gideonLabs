@@ -19,7 +19,7 @@
     <div class="card-block">
       <h4 class="card-title">{{post.title.rendered}}</h4>
       <p class="card-text" [innerHTML]="post.excerpt.rendered"></p>
-      <a (click)="getPost(post.slug)" class="btn btn-primary">Read more</a>
+      <a [routerLink]="['posts', post.slug]" class="btn btn-primary">Read More</a>
     </div>
 </div>
 

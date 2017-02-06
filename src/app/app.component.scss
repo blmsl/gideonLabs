@@ -4,16 +4,15 @@ header {
   width: 100%;
   position: relative;
   margin-bottom: 1em;
-}
 
-@media (min-width: 40em) {
-  header {
+  @media (min-width: 40em) {
     display: block;
   }
 }
 
 header img {
-  width: 100%
+  width: 100%;
+  object-fit: cover;
 }
 
 .header-callout {
@@ -27,7 +26,10 @@ header img {
   align-items: center;
   flex-direction: column;
   text-align: center;
-  background-color: rgba(255,255,255,0.7);
+}
+
+.callout-container {
+  background-color: rgba(255,255,255,0.8);
 }
 
 .header-callout--phone a {
@@ -38,4 +40,21 @@ header img {
 
 main {
   display: flex;
+}
+
+.category-container {
+  flex: 1 1 20%;
+  border: 1px solid red;
+  font-size: 0.75em;
+  display: none;
+  padding: 1em;
+
+  @media (min-width: 48em) {
+    display: block;
+  }
+}
+
+.router-container {
+  border: 1px solid red;
+  flex: 1 1 75%;
 }
