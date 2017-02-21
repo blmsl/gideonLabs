@@ -10,23 +10,29 @@
     <button (click)="getNext()">Next Page</button>
 </div>-->
 
-
-
-<div class="card-flex" *ngIf="posts">
+<div class="post-container">
   
-  <div class="card" *ngFor="let post of posts">
-    <img *ngIf="post.featured_media" src="{{post._embedded['wp:featuredmedia'][0].media_details.sizes.medium?.source_url}}" alt="" class="card-img-top">
-    <div class="card-block">
-      <h4 class="card-title">{{post.title.rendered}}</h4>
-      <p class="card-text" [innerHTML]="post.excerpt.rendered"></p>
-      <a [routerLink]="['posts', post.slug]" class="btn btn-primary">Read More</a>
-    </div>
-</div>
+  <div class="category-container">
+    <app-category-list></app-category-list>
+  </div>
 
-  <nav aria-label="Page navigation example">
-    <ul class="pagination pagination-lg justify-content-center">
-      <li class="page-item"><a class="page-link" (click)="getPrevious()">Previous</a></li>
-      <li class="page-item"><a class="page-link" (click)="getNext()">Next</a></li>
-    </ul>
-  </nav>
-<!--<pre>{{pagination | json}}</pre>-->
+  <div class="card-flex" *ngIf="posts">  
+    <!--TODO: Make separate component for this-->
+    <div class="card" *ngFor="let post of posts">
+      <img *ngIf="post.featured_media" [src]="post._embedded['wp:featuredmedia'][0].media_details.sizes.medium?.source_url" alt="microscope" class="card-img-top">
+      <div class="card-block">
+        <h4 class="card-title">{{post.title.rendered}}</h4>
+        <p class="card-text" [innerHTML]="post.excerpt.rendered"></p>
+        <a [routerLink]="['posts', post.slug]" class="btn btn-primary">Read More</a>
+      </div>
+    </div>
+
+    <nav aria-label="Page navigation example">
+      <ul class="pagination pagination-lg justify-content-center">
+        <li class="page-item"><a class="page-link" (click)="getPrevious()">Previous</a></li>
+        <li class="page-item"><a class="page-link" (click)="getNext()">Next</a></li>
+      </ul>
+    </nav>
+  </div>
+
+</div>

@@ -37,24 +37,3 @@ header img {
   color: #560114;
   font-weight: bold;
 }
-
-main {
-  display: flex;
-}
-
-.category-container {
-  flex: 1 1 20%;
-  border: 1px solid red;
-  font-size: 0.75em;
-  display: none;
-  padding: 1em;
-
-  @media (min-width: 48em) {
-    display: block;
-  }
-}
-
-.router-container {
-  border: 1px solid red;
-  flex: 1 1 75%;
-}

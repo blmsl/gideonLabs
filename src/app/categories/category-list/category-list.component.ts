@@ -39,7 +39,6 @@ export class CategoryListComponent  {
           this.pagination = res.pagination;
           this.categories = res.data;
           this.parentCategories = this.categories.filter(category => category.parent === 0);
-          console.log(this.categories);
         }
       });
 

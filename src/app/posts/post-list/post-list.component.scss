@@ -1,6 +1,7 @@
 .card-flex {
   display: flex;
   flex-wrap: wrap;
+  flex: 1 1 75%;
 }
 
 .card-flex .card {
@@ -29,6 +30,21 @@
   object-fit: cover;
 }
 
+.post-container {
+  display: flex;
+}
+
 .pagination .page-link {
   cursor: pointer;
+}
+
+.category-container {
+  flex: 1 1 20%;
+  font-size: 0.75em;
+  display: none;
+  padding: 1em;
+
+  @media (min-width: 48em) {
+    display: block;
+  }
 }

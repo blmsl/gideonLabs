@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import { WpPost, WpQueryArgs, WpService, CollectionResponse } from 'ng2-wp-api';
 
-import { PostsService } from '../posts.service';
 // import { Post } from '../post';
 
 @Component({
@@ -13,14 +12,13 @@ import { PostsService } from '../posts.service';
 export class PostSingleComponent implements OnInit {
   
   slug: string;
-  post;
+  post: WpPost;
 
   constructor(private route: ActivatedRoute, private wpService: WpService) {
     route.params.subscribe((param: any) => this.slug = param['slug']);
   }
 
   ngOnInit() {
-    
     let args = new WpQueryArgs({
       _embed: true
     });
@@ -33,9 +31,6 @@ export class PostSingleComponent implements OnInit {
           this.post = new WpPost(res.data[0]);
         }
       });
-
   }
-
-
 
 }
