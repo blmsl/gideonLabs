@@ -6,22 +6,21 @@ import { Observable } from 'rxjs/Rx';
 
 import 'rxjs/Rx';
 
-// import { Category } from '../category';
-// import { CategoryService } from '../category.service';
-
 @Component({
   selector: 'app-category-list',
   templateUrl: './category-list.component.html',
   styleUrls: ['./category-list.component.scss']
 })
 export class CategoryListComponent  {
-  categories;
-  args;
+  categories: Array<any>;
+  args: WpQueryArgs = null;
   pagination;
   collection;
-  parentCategories = [];
+  parentCategories: Array<any> = [];
 
-  constructor(private wpService: WpService, private router: Router) { }
+  constructor(private wpService: WpService, private router: Router) {
+  
+  }
 
   ngOnInit() {
     this.get();
@@ -29,6 +28,8 @@ export class CategoryListComponent  {
 
   get() {
     this.args = new WpQueryArgs({ per_page: 100, _embed: true });
+    // const allCategories$ = this.wpService.collection().categories().get(this.args);
+    // allCategories$.map(res => res.data).subscribe();
     this.collection = this.wpService.collection().categories();
     const categories$ = this.collection.get(this.args);
 
@@ -41,8 +42,6 @@ export class CategoryListComponent  {
           this.parentCategories = this.categories.filter(category => category.parent === 0);
         }
       });
-
-
   }
 
   getNext() {
