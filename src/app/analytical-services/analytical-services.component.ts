@@ -1,22 +1,35 @@
 import { Component, OnInit } from '@angular/core';
-import { WpPost, WpQueryArgs, WpService, ModelResponse } from 'ng2-wp-api';
+import { Router } from '@angular/router';
+import { WpPost, WpQueryArgs, WpService, ModelResponse, CollectionResponse } from 'ng2-wp-api';
+import { Observable } from 'rxjs/Rx';
 
 @Component({
   selector: 'app-analytical-services',
-  templateUrl: './analytical-services.component.html',
-  styleUrls: ['./analytical-services.component.scss']
+  styleUrls: ['./analytical-services.component.scss'],
+  template: `
+    <service-list
+      (servicePage)="handleGetService($event)"
+      [services]="services$ | async"> 
+    </service-list>
+    <router-outlet></router-outlet>
+  `
 })
 export class AnalyticalServicesComponent implements OnInit {
   page: WpPost;
+  services$: Observable<any>;
+  args: WpQueryArgs;
 
-  constructor(private wpService: WpService) {
+  constructor(private wpService: WpService, private router: Router) {
   }
 
   ngOnInit() {
-
-    let args = new WpQueryArgs({ _embed: true });
-    this.wpService.model().pages().get(65, args)
-      .subscribe((res) => this.page = new WpPost(res.data));
+    this.args = new WpQueryArgs({
+      per_page: 30
+    });
+    this.services$ = this.wpService.link('https://www.gideonlabs.com/wp-json/wp/v2/pages?per_page=30&parent=65');
   }
 
+  handleGetService(event) {
+     this.router.navigate(['analytical-services', event])
+  }
 }

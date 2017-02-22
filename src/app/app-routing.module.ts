@@ -25,9 +25,10 @@ const routes: Routes = [
     component: PostSingleComponent
   },
   { 
-    path: 'analytical-services', children: [
-      { path: '', component: AnalyticalServicesComponent },
-      { path: ':service', component: ServiceDetailComponent },
+    path: 'analytical-services', 
+    component: AnalyticalServicesComponent,
+    children: [
+      { path: ':slug', component: ServiceDetailComponent },
     ]
   },
   {
