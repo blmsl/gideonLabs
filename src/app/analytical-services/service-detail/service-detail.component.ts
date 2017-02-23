@@ -22,6 +22,7 @@ export class ServiceDetailComponent implements OnInit {
 
   ngOnInit() {
     this.route.params
+      // Keep data typed to any
       .switchMap((data: any) => {
         return this.wpService
           .link(`https://www.gideonlabs.com/wp-json/wp/v2/pages?slug=${data.slug}`);
