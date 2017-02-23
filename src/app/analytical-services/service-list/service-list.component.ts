@@ -21,9 +21,18 @@ export class ServiceListComponent implements OnInit {
   @Input()
   services: Observable<any>
 
+  @Output()
+  servicePage: EventEmitter<any> = new EventEmitter();
+
   constructor() { }
 
   ngOnInit() {
   }
+
+  getService(event: string) {
+    this.servicePage.emit(event);
+  }
+
+  //(click)="getService(service.slug)"
 
 }

@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { Router, ActivatedRoute } from '@angular/router';
+import { Router, ActivatedRoute, Params } from '@angular/router';
 import { WpService, ModelResponse } from 'ng2-wp-api';
-import { Page } from '../../shared/page';
 
 import 'rxjs/add/operator/switchMap';
 
@@ -14,7 +13,7 @@ import 'rxjs/add/operator/switchMap';
   `
 })
 export class ServiceDetailComponent implements OnInit {
-  servicePage: Page;
+  servicePage: any;
 
   constructor(
     private wpService: WpService,
@@ -23,12 +22,12 @@ export class ServiceDetailComponent implements OnInit {
 
   ngOnInit() {
     this.route.params
-      .switchMap((data) => {
+      .switchMap((data: any) => {
         return this.wpService
           .link(`https://www.gideonlabs.com/wp-json/wp/v2/pages?slug=${data.slug}`);
       })
       .concatMap(res => res)
-      .subscribe((page: Page) => this.servicePage = page);
+      .subscribe(page => this.servicePage = page);
   }
 
 }
