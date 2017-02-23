@@ -11,6 +11,7 @@ import { HistoryComponent } from './history/history.component';
 import { ForSaleComponent } from './for-sale/for-sale.component';
 import { SpecificationsComponent } from './specifications/specifications.component';
 import { ContactComponent } from './contact/contact.component';
+import { ForSaleDetailComponent } from './for-sale/for-sale-detail/for-sale-detail.component';
 
 const routes: Routes = [
   { path: 'posts', component: PostListComponent },
@@ -38,7 +39,11 @@ const routes: Routes = [
     path: 'history', component: HistoryComponent
   },
   {
-    path: 'for-sale', component: ForSaleComponent
+    path: 'for-sale',
+    component: ForSaleComponent,
+    children: [
+      { path: ':slug', component: ForSaleDetailComponent },
+    ]
   },
   {
     path: 'specifications', component: SpecificationsComponent

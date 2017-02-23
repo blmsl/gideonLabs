@@ -21,6 +21,8 @@ import { ContactComponent } from './contact/contact.component';
 import { HistoryComponent } from './history/history.component';
 import { SpecificationsComponent } from './specifications/specifications.component';
 import { ServiceListComponent } from './analytical-services/service-list/service-list.component';
+import { ForSaleListComponent } from './for-sale/for-sale-list/for-sale-list.component';
+import { ForSaleDetailComponent } from './for-sale/for-sale-detail/for-sale-detail.component';
 
 @NgModule({
   declarations: [
@@ -37,7 +39,9 @@ import { ServiceListComponent } from './analytical-services/service-list/service
     ContactComponent,
     HistoryComponent,
     SpecificationsComponent,
-    ServiceListComponent
+    ServiceListComponent,
+    ForSaleListComponent,
+    ForSaleDetailComponent
   ],
   imports: [
     BrowserModule,

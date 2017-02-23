@@ -1,20 +1,33 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { Observable } from 'rxjs/Rx';
 import { WpPost, WpQueryArgs, WpService, ModelResponse } from 'ng2-wp-api';
 
 @Component({
   selector: 'app-for-sale',
-  templateUrl: './for-sale.component.html',
-  styleUrls: ['./for-sale.component.scss']
+  styleUrls: ['./for-sale.component.scss'],
+  template: `
+    <for-sale-list
+      (itemPage)="handleGetItem($event)"
+      [items]="items$ | async"> 
+    </for-sale-list>
+    <router-outlet></router-outlet>
+  `
 })
 export class ForSaleComponent implements OnInit {
   page: WpPost;
+  items$: Observable<any>;
+  args: WpQueryArgs;
 
-  constructor(private wpService: WpService) { }
+  constructor(private wpService: WpService, private router: Router) {
+  }
 
   ngOnInit() {
-    let args = new WpQueryArgs({ _embed: true });
-    this.wpService.model().pages().get(423, args)
-      .subscribe((res) => this.page = new WpPost(res.data));
+    this.items$ = this.wpService.link('https://www.gideonlabs.com/wp-json/wp/v2/pages?per_page=30&parent=423');
+  }
+
+  handleGetItem(event) {
+     this.router.navigate(['for-sale', event])
   }
 
 }

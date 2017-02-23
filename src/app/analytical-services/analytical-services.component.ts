@@ -23,9 +23,6 @@ export class AnalyticalServicesComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.args = new WpQueryArgs({
-      per_page: 30
-    });
     this.services$ = this.wpService.link('https://www.gideonlabs.com/wp-json/wp/v2/pages?per_page=30&parent=65');
   }
 
