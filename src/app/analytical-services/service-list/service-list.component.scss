@@ -1,12 +1,15 @@
-.flex-list {
-  display: flex;
-  flex-wrap: wrap;
-}
-
-.flex-item {
+.service-item {
   background-color: #560114;
   color: rgba(255, 255, 255, 0.6);
-  justify-content: center;
-  border-radius: 0.5em;
+  border-radius: 0.25em;
   padding: 0.5em;
+  margin-bottom: 0.5em;
+  cursor: pointer;
+  &:hover {
+    color: rgba(255, 255, 255, 1.0);
+  }
+}
+
+.active {
+  color: rgba(255, 255, 255, 1.0);
 }

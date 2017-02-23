@@ -6,9 +6,10 @@ import { Observable } from 'rxjs/Rx';
   styleUrls: ['./service-list.component.scss'],
   template: `
     <h1>Analytical Services</h1>
-    <div class="flex-list">
-      <div class="flex-item"
-        (click)="getService(service.slug)"
+    <div class="d-flex flex-wrap justify-content-around">
+      <div class="service-item"
+        routerLinkActive="active"
+        [routerLink]="[service.slug]"
         *ngFor="let service of services">
         {{ service.title.rendered }}
       </div>
@@ -31,5 +32,7 @@ export class ServiceListComponent implements OnInit {
   getService(event: string) {
     this.servicePage.emit(event);
   }
+
+  //(click)="getService(service.slug)"
 
 }
