@@ -21,7 +21,8 @@ export class ForSaleDetailComponent implements OnInit {
   ngOnInit() {
     this.route.params
       .switchMap((data: any) => {
-        return this.wpService.link(`https://www.gideonlabs.com/wp-json/wp/v2/pages?slug=${data.slug}`);
+        return this.wpService
+          .link(`https://www.gideonlabs.com/wp-json/wp/v2/pages?slug=${data.slug}`);
       })
       .concatMap(res => res)
       .subscribe(page => this.itemPage = page);

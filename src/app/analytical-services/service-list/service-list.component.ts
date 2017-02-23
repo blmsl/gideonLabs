@@ -5,13 +5,14 @@ import { Observable } from 'rxjs/Rx';
   selector: 'service-list',
   styleUrls: ['./service-list.component.scss'],
   template: `
-    <ul>
-      <li 
+    <h1>Analytical Services</h1>
+    <div class="flex-list">
+      <div class="flex-item"
         (click)="getService(service.slug)"
         *ngFor="let service of services">
         {{ service.title.rendered }}
-      </li>
-    </ul>
+      </div>
+    </div>
   `
 })
 export class ServiceListComponent implements OnInit {

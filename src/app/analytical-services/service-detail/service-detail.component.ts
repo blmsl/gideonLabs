@@ -23,7 +23,8 @@ export class ServiceDetailComponent implements OnInit {
   ngOnInit() {
     this.route.params
       .switchMap((data: any) => {
-        return this.wpService.link(`https://www.gideonlabs.com/wp-json/wp/v2/pages?slug=${data.slug}&_embed`);
+        return this.wpService
+          .link(`https://www.gideonlabs.com/wp-json/wp/v2/pages?slug=${data.slug}`);
       })
       .concatMap(res => res)
       .subscribe(page => this.servicePage = page);
