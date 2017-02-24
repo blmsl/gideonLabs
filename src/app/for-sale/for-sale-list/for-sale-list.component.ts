@@ -3,30 +3,26 @@ import { Observable } from 'rxjs/Rx';
 
 @Component({
   selector: 'for-sale-list',
-  styleUrls: ['./for-sale-list.component.css'],
+  styleUrls: ['./for-sale-list.component.scss'],
   template: `
-    <ul>
-      <li 
-        (click)="getItem(item.slug)"
+    <h1>For Sale</h1>
+    <div class="d-flex justify-content-around">
+      <div class="sale-item"
+        [routerLink]="[item.slug]"
+        routerLinkActive="active"
         *ngFor="let item of items">
         {{ item.title.rendered }}
-      </li>
-    </ul>
+      </div>
+    </div>
   `
 })
 export class ForSaleListComponent implements OnInit {
 
   @Input() items: Observable<any>
 
-  @Output() itemPage: EventEmitter<any> = new EventEmitter();
-
   constructor() { }
 
   ngOnInit() {
-  }
-
-  getItem(event: string) {
-    this.itemPage.emit(event);
   }
 
 }
