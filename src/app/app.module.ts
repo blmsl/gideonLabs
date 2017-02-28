@@ -15,6 +15,7 @@ import { PostSingleComponent } from './posts/post-single/post-single.component';
 import { NavbarComponent } from './navbar/navbar.component';
 import { CategorySingleComponent } from './categories/category-single/category-single.component';
 import { CategoryListComponent } from './categories/category-list/category-list.component';
+import { FooterComponent } from './footer/footer.component';
 
 
 @NgModule({
@@ -25,6 +26,7 @@ import { CategoryListComponent } from './categories/category-list/category-list.
     NavbarComponent,
     CategorySingleComponent,
     CategoryListComponent,
+    FooterComponent,
   ],
   imports: [
     BrowserModule,
