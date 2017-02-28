@@ -15,16 +15,7 @@ import { PostSingleComponent } from './posts/post-single/post-single.component';
 import { NavbarComponent } from './navbar/navbar.component';
 import { CategorySingleComponent } from './categories/category-single/category-single.component';
 import { CategoryListComponent } from './categories/category-list/category-list.component';
-import { AnalyticalServicesComponent } from './analytical-services/analytical-services.component';
-import { ServiceDetailComponent } from './analytical-services/service-detail/service-detail.component';
-import { ComponentsComponent } from './components/components.component';
-import { ForSaleComponent } from './for-sale/for-sale.component';
-import { ContactComponent } from './contact/contact.component';
-import { HistoryComponent } from './history/history.component';
-import { SpecificationsComponent } from './specifications/specifications.component';
-import { ServiceListComponent } from './analytical-services/service-list/service-list.component';
-import { ForSaleListComponent } from './for-sale/for-sale-list/for-sale-list.component';
-import { ForSaleDetailComponent } from './for-sale/for-sale-detail/for-sale-detail.component';
+
 
 @NgModule({
   declarations: [
@@ -34,16 +25,6 @@ import { ForSaleDetailComponent } from './for-sale/for-sale-detail/for-sale-deta
     NavbarComponent,
     CategorySingleComponent,
     CategoryListComponent,
-    AnalyticalServicesComponent,
-    ServiceDetailComponent,
-    ComponentsComponent,
-    ForSaleComponent,
-    ContactComponent,
-    HistoryComponent,
-    SpecificationsComponent,
-    ServiceListComponent,
-    ForSaleListComponent,
-    ForSaleDetailComponent
   ],
   imports: [
     BrowserModule,

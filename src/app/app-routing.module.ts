@@ -4,8 +4,8 @@ import { PostListComponent } from './posts/post-list/post-list.component';
 import { PostSingleComponent } from './posts/post-single/post-single.component';
 import { CategoryListComponent } from './categories/category-list/category-list.component';
 import { CategorySingleComponent } from './categories/category-single/category-single.component';
-import { AnalyticalServicesComponent } from './analytical-services/analytical-services.component';
-import { ServiceDetailComponent } from './analytical-services/service-detail/service-detail.component';
+
+
 import { ComponentsComponent } from './components/components.component';
 import { HistoryComponent } from './history/history.component';
 import { ForSaleComponent } from './for-sale/for-sale.component';
@@ -27,29 +27,27 @@ const routes: Routes = [
   },
   { 
     path: 'analytical-services', 
-    component: AnalyticalServicesComponent,
-    children: [
-      { path: ':slug', component: ServiceDetailComponent },
-    ]
+    loadChildren: 'app/analytical-services/analytical-services.module#AnalyticalServicesModule'
   },
   {
-    path: 'components', component: ComponentsComponent
+    path: 'components',
+    loadChildren: 'app/components/components.module#ComponentsModule'
   },
   {
-    path: 'history', component: HistoryComponent
+    path: 'history',
+    loadChildren: 'app/history/history.module#HistoryModule'
   },
   {
     path: 'for-sale',
-    component: ForSaleComponent,
-    children: [
-      { path: ':slug', component: ForSaleDetailComponent },
-    ]
+    loadChildren: 'app/for-sale/for-sale.module#ForSaleModule'
   },
   {
-    path: 'specifications', component: SpecificationsComponent
+    path: 'specifications',
+    loadChildren: 'app/specifications/specifications.module#SpecificationsModule'
   },
   {
-    path: 'contact', component: ContactComponent
+    path: 'contact', 
+    loadChildren: 'app/contact/contact.module#ContactModule'
   },
   {
     path: '',

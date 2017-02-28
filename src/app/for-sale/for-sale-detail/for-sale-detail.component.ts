@@ -4,7 +4,7 @@ import { WpService, ModelResponse } from 'ng2-wp-api';
 
 @Component({
   selector: 'app-for-sale-detail',
-  styleUrls: ['./for-sale-detail.component.css'],
+  styleUrls: ['./for-sale-detail.component.scss'],
   template: `
     <h1>{{ itemPage?.title.rendered }}</h1>
     <div [innerHTML]="itemPage?.content.rendered"></div>

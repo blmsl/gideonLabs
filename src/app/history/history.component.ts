@@ -3,8 +3,15 @@ import { WpPost, WpQueryArgs, WpService, ModelResponse } from 'ng2-wp-api';
 
 @Component({
   selector: 'app-history',
-  templateUrl: './history.component.html',
-  styleUrls: ['./history.component.scss']
+  styleUrls: ['./history.component.scss'],
+  template: `
+  <div *ngIf="page">
+    <div [innerHTML]="page.content()"></div>
+  </div>
+  <div *ngIf="!page">
+    <p>no page found</p>
+  </div>
+  `
 })
 export class HistoryComponent implements OnInit {
   page: WpPost;
@@ -13,7 +20,6 @@ export class HistoryComponent implements OnInit {
   }
 
   ngOnInit() {
-
     let args = new WpQueryArgs({ _embed: true });
     this.wpService.model().pages().get(7, args)
       .subscribe((res) => this.page = new WpPost(res.data));
