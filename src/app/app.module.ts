@@ -6,6 +6,8 @@ import { HttpModule } from '@angular/http';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { AppRoutingModule } from './app-routing.module';
 import { WordPressModule } from 'ng2-wp-api';
+import { AngularFireModule } from 'angularfire2';
+import { environment } from '../environments/environment';
 
 import { CategoryService } from './categories/category.service';
 
@@ -35,6 +37,7 @@ import { FooterComponent } from './footer/footer.component';
     WordPressModule,
     AppRoutingModule,
     NgbModule.forRoot(),
+    AngularFireModule.initializeApp(environment.firebase),
   ],
   providers: [CategoryService],
   bootstrap: [AppComponent]

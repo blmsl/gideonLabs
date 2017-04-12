@@ -1,19 +1,41 @@
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { AngularFire } from 'angularfire2';
 
 
 @Component({
   selector: 'app-contact',
   styleUrls: ['./contact.component.scss'],
-  template: `
-  <iframe src="https://docs.google.com/forms/d/e/1FAIpQLSeiNfQQFbqNAGwtaStGqDRn7FqVxrfUADx77dWtq4UkkTypUg/viewform?embedded=true" width="100%" height="1000" frameborder="0" marginheight="0" marginwidth="0">Loading...</iframe>
-  `
+  templateUrl: 'contact.component.html'
 })
 export class ContactComponent implements OnInit {
-  constructor() {
+  contactForm: FormGroup;
+  
+  constructor(private fb: FormBuilder, private af: AngularFire) {
+    this.createForm();
   }
 
-  ngOnInit() {
-   
+  ngOnInit() { }
+
+  createForm() {
+    this.contactForm = this.fb.group({
+      name: ['', Validators.required],
+      email: ['', Validators.required],
+      problem: ['', Validators.required]
+    });
+  }
+
+  onSubmit() {
+    const {name, email, problem} = this.contactForm.value;
+    const date = Date();
+    let message = {
+      name,
+      email,
+      problem,
+      date
+    }
+    this.af.database.list('/messages').push(message);
+    this.contactForm.reset();
   }
 
 }
