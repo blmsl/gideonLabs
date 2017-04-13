@@ -40,7 +40,7 @@ export class ContactComponent implements OnInit {
       problem,
       date,
       html
-    }
+    };
     this.af.database.list('/messages').push(message);
     this.contactForm.reset();
   }
