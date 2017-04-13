@@ -10,14 +10,20 @@ const gmailPassword = encodeURIComponent(functions.config().gmail.password);
 const mailTransport = nodemailer.createTransport(`smtps://${gmailEmail}:${gmailPassword}@smtp.gmail.com`);
 
 exports.sendContactMessage = functions.database.ref('/messages/{pushKey}').onWrite(event => {
+
   const snapshot = event.data;
+
+  // Only send email for new messages.
+  if (snapshot.previous.val() || !snapshot.val().name) {
+    return;
+  }
+
   const val = snapshot.val();
 
   const mailOptions = {
-    from: `${val.name} - ${val.email}`,
     to: 'markgoho@gmail.com',
-    subject: `Information Request - ${val.date}`,
-    html: val.problem
+    subject: `Information Request from ${val.name}`,
+    html: val.html
   };
 
   return mailTransport.sendMail(mailOptions).then(() => console.log('Mail sent to: markgoho@gmail.com'));

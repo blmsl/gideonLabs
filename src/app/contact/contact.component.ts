@@ -28,11 +28,18 @@ export class ContactComponent implements OnInit {
   onSubmit() {
     const {name, email, problem} = this.contactForm.value;
     const date = Date();
+    const html = `
+      <div>From: ${name}</div>
+      <div>Email: <a href="mailto:${email}">${email}</a></div>
+      <div>Date: ${date}</div>
+      <div>Message: ${problem}</div>
+    `;
     let message = {
       name,
       email,
       problem,
-      date
+      date,
+      html
     }
     this.af.database.list('/messages').push(message);
     this.contactForm.reset();
