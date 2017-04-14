@@ -12,48 +12,59 @@ import { ForSaleComponent } from './for-sale/for-sale.component';
 import { SpecificationsComponent } from './specifications/specifications.component';
 import { ContactComponent } from './contact/contact.component';
 import { ForSaleDetailComponent } from './for-sale/for-sale-detail/for-sale-detail.component';
+import { BaseComponent } from "./base/base.component";
 
 const routes: Routes = [
-  { path: 'posts', component: PostListComponent },
   {
-    path: 'posts/category', children: [
-      { path: '', component: CategoryListComponent },
-      { path: ':category', component: CategorySingleComponent }
-    ]
-  },
-  {
-    path: 'posts/:slug',
-    component: PostSingleComponent
-  },
-  { 
-    path: 'analytical-services', 
-    loadChildren: 'app/analytical-services/analytical-services.module#AnalyticalServicesModule'
-  },
-  {
-    path: 'components',
-    loadChildren: 'app/components/components.module#ComponentsModule'
-  },
-  {
-    path: 'history',
-    loadChildren: 'app/history/history.module#HistoryModule'
-  },
-  {
-    path: 'for-sale',
-    loadChildren: 'app/for-sale/for-sale.module#ForSaleModule'
-  },
-  {
-    path: 'specifications',
-    loadChildren: 'app/specifications/specifications.module#SpecificationsModule'
-  },
-  {
-    path: 'contact', 
-    loadChildren: 'app/contact/contact.module#ContactModule'
+    path: 'admin',
+    loadChildren: 'app/admin/admin.module#AdminModule'
   },
   {
     path: '',
-    component: PostListComponent,
-    pathMatch: 'full'
+    component: BaseComponent,
+    children: [
+      {
+        path: '',
+        component: PostListComponent
+      },
+      { path: 'posts', component: PostListComponent },
+        {
+          path: 'posts/category', children: [
+            { path: '', component: CategoryListComponent },
+            { path: ':category', component: CategorySingleComponent }
+          ]
+        },
+        {
+          path: 'posts/:slug',
+          component: PostSingleComponent
+        },
+      {
+        path: 'history',
+        loadChildren: 'app/history/history.module#HistoryModule'
+      },
+      {
+        path: 'contact', 
+        loadChildren: 'app/contact/contact.module#ContactModule'
+      },
+      { 
+        path: 'analytical-services', 
+        loadChildren: 'app/analytical-services/analytical-services.module#AnalyticalServicesModule'
+      },
+      {
+        path: 'components',
+        loadChildren: 'app/components/components.module#ComponentsModule'
+      },
+      {
+        path: 'for-sale',
+        loadChildren: 'app/for-sale/for-sale.module#ForSaleModule'
+      },
+      {
+        path: 'specifications',
+        loadChildren: 'app/specifications/specifications.module#SpecificationsModule'
+      },
+    ]
   },
+  
 ];
 
 @NgModule({

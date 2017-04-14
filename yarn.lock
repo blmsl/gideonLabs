@@ -98,6 +98,10 @@
   version "4.0.2"
   resolved "https://registry.yarnpkg.com/@angular/http/-/http-4.0.2.tgz#8c61b9ff52748c5dcb52b57046829d34d66662ec"
 
+"@angular/material@^2.0.0-beta.3":
+  version "2.0.0-beta.3"
+  resolved "https://registry.yarnpkg.com/@angular/material/-/material-2.0.0-beta.3.tgz#ec31dee61d7300ece28fee476852db236ded1e13"
+
 "@angular/platform-browser-dynamic@^4.0.2":
   version "4.0.2"
   resolved "https://registry.yarnpkg.com/@angular/platform-browser-dynamic/-/platform-browser-dynamic-4.0.2.tgz#5a26f9a3e9f7eaf3cc7c02836cfae2e88cf1862f"
@@ -3642,9 +3646,9 @@ pretty-error@^2.0.2:
     renderkid "^2.0.1"
     utila "~0.4"
 
-primeng@^2.0.6:
-  version "2.0.6"
-  resolved "https://registry.yarnpkg.com/primeng/-/primeng-2.0.6.tgz#d8b95ce65fe29242465bd3e42f493fba2584746c"
+primeng@^4.0.0-rc.3:
+  version "4.0.0-rc.3"
+  resolved "https://registry.yarnpkg.com/primeng/-/primeng-4.0.0-rc.3.tgz#9dd61d3ae8f11fe3db58344811dc5c01215b4cf3"
 
 process-nextick-args@~1.0.6:
   version "1.0.7"

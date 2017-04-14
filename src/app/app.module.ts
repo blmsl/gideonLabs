@@ -6,7 +6,7 @@ import { HttpModule } from '@angular/http';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { AppRoutingModule } from './app-routing.module';
 import { WordPressModule } from 'ng2-wp-api';
-import { AngularFireModule } from 'angularfire2';
+import { AngularFireModule, AuthProviders, AuthMethods } from 'angularfire2';
 import { environment } from '../environments/environment';
 
 import { CategoryService } from './categories/category.service';
@@ -18,6 +18,8 @@ import { NavbarComponent } from './navbar/navbar.component';
 import { CategorySingleComponent } from './categories/category-single/category-single.component';
 import { CategoryListComponent } from './categories/category-list/category-list.component';
 import { FooterComponent } from './footer/footer.component';
+import { BaseComponent } from './base/base.component';
+import { AuthService } from "./auth/auth.service";
 
 
 @NgModule({
@@ -29,6 +31,7 @@ import { FooterComponent } from './footer/footer.component';
     CategorySingleComponent,
     CategoryListComponent,
     FooterComponent,
+    BaseComponent,
   ],
   imports: [
     BrowserModule,
@@ -37,9 +40,15 @@ import { FooterComponent } from './footer/footer.component';
     WordPressModule,
     AppRoutingModule,
     NgbModule.forRoot(),
-    AngularFireModule.initializeApp(environment.firebase),
+    AngularFireModule.initializeApp(environment.firebase, {
+      provider: AuthProviders.Google,
+      method: AuthMethods.Redirect
+    }),
   ],
-  providers: [CategoryService],
+  providers: [
+    CategoryService, 
+    AuthService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
