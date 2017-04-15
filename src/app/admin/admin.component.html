@@ -1,22 +1,5 @@
-<div class="grid">
-  <md-toolbar>
-    
-    <span>Gideon Analytical Labs</span>
-    <span class="example-spacer"></span>
-
-    <span *ngIf="auth.userInfo">
-      <button md-raised-button (click)="logout()"> 
-        <div></div> {{ auth.userInfo.displayName }}
-      </button>
-    </span>
-      
-    <span *ngIf="!auth.userInfo">
-      <button md-raised-button (click)="signInWithGoogle()"> 
-        <md-icon>account_circle</md-icon> Sign in with Google
-      </button>
-    </span>
-
-  </md-toolbar>
-  <pre>{{ auth.userInfo | json }}</pre>
-
-</div>
+<app-header [authenticated]="auth.authenticated"
+              [userInfo]="auth.userInfo"
+              (signOut)="signOut($event)"
+              (signIn)="signIn($event)"></app-header>
+<router-outlet></router-outlet>

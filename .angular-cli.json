@@ -20,7 +20,6 @@
       "styles": [
         "../node_modules/quill/dist/quill.bubble.css",
         "../node_modules/quill/dist/quill.snow.css",
-        "../node_modules/@angular/material/prebuilt-themes/pink-bluegrey.css",
         "styles.scss"
       ],
       "scripts": [

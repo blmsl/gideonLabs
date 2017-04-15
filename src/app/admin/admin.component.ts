@@ -2,6 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { AuthService } from "../auth/auth.service";
 import { FirebaseAuthState } from "angularfire2";
 import { UserInfo } from "firebase";
+import { Router } from "@angular/router";
+import { MdSnackBar, MdIconRegistry } from '@angular/material';
+import { DomSanitizer } from "@angular/platform-browser";
+
 
 
 @Component({
@@ -11,18 +15,31 @@ import { UserInfo } from "firebase";
 })
 export class AdminComponent implements OnInit {
 
-  constructor(public auth: AuthService) { }
+  constructor(public auth: AuthService, 
+              private router: Router, 
+              public snackBar: MdSnackBar,
+              iconRegistry: MdIconRegistry,
+              sanitizer: DomSanitizer) { 
+    
+    iconRegistry.addSvgIcon(
+      'google',
+      sanitizer.bypassSecurityTrustResourceUrl('assets/icons/auth/google.svg'));
 
-  ngOnInit() {
-    console.log('User logged in:', this.auth.state);
   }
 
-  signInWithGoogle() {
+  ngOnInit() { }
+
+  signIn() {
     this.auth.signInWithGoogle();
   }
 
-  logout() {
-    this.auth.signOut();
-  }
+  signOut(message: string): void {
+        this.auth.signOut();
+        this.router.navigate(['admin', 'sign-in']);
+
+        this.snackBar.open(message, null, {
+            duration: 1000
+        });
+    }
 
 }

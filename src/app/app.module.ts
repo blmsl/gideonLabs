@@ -2,6 +2,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { AppRoutingModule } from './app-routing.module';
@@ -10,6 +11,7 @@ import { AngularFireModule, AuthProviders, AuthMethods } from 'angularfire2';
 import { environment } from '../environments/environment';
 
 import { CategoryService } from './categories/category.service';
+import { AuthService } from "./auth/auth.service";
 
 import { AppComponent } from './app.component';
 import { PostListComponent } from './posts/post-list/post-list.component';
@@ -19,8 +21,11 @@ import { CategorySingleComponent } from './categories/category-single/category-s
 import { CategoryListComponent } from './categories/category-list/category-list.component';
 import { FooterComponent } from './footer/footer.component';
 import { BaseComponent } from './base/base.component';
-import { AuthService } from "./auth/auth.service";
 
+import 'rxjs/add/operator/do';
+import 'rxjs/add/operator/map';
+import 'rxjs/add/operator/take';
+import { AuthGuard } from "./auth/auth.guard";
 
 @NgModule({
   declarations: [
@@ -35,6 +40,7 @@ import { AuthService } from "./auth/auth.service";
   ],
   imports: [
     BrowserModule,
+    BrowserAnimationsModule,
     FormsModule,
     HttpModule,
     WordPressModule,
@@ -42,12 +48,13 @@ import { AuthService } from "./auth/auth.service";
     NgbModule.forRoot(),
     AngularFireModule.initializeApp(environment.firebase, {
       provider: AuthProviders.Google,
-      method: AuthMethods.Redirect
+      method: AuthMethods.Popup
     }),
   ],
   providers: [
     CategoryService, 
-    AuthService
+    AuthService,
+    AuthGuard
   ],
   bootstrap: [AppComponent]
 })
