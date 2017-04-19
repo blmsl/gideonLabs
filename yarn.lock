@@ -169,8 +169,8 @@
   resolved "https://registry.yarnpkg.com/@types/jasmine/-/jasmine-2.5.38.tgz#a4379124c4921d4e21de54ec74669c9e9b356717"
 
 "@types/node@^6.0.46", "@types/node@^6.0.60":
-  version "6.0.68"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-6.0.68.tgz#0c43b6b8b9445feb86a0fbd3457e3f4bc591e66d"
+  version "6.0.70"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-6.0.70.tgz#f6e04b859205ee3611849921f09819701dbfa5e8"
 
 "@types/q@^0.0.32":
   version "0.0.32"
@@ -225,8 +225,8 @@ ajv-keywords@^1.1.1:
   resolved "https://registry.yarnpkg.com/ajv-keywords/-/ajv-keywords-1.5.1.tgz#314dd0a4b3368fad3dfcdc54ede6171b886daf3c"
 
 ajv@^4.11.2, ajv@^4.7.0, ajv@^4.9.1:
-  version "4.11.6"
-  resolved "https://registry.yarnpkg.com/ajv/-/ajv-4.11.6.tgz#947e93049790942b2a2d60a8289b28924d39f987"
+  version "4.11.7"
+  resolved "https://registry.yarnpkg.com/ajv/-/ajv-4.11.7.tgz#8655a5d86d0824985cc471a1d913fb6729a0ec48"
   dependencies:
     co "^4.6.0"
     json-stable-stringify "^1.0.1"
@@ -320,8 +320,8 @@ arr-diff@^2.0.0:
     arr-flatten "^1.0.1"
 
 arr-flatten@^1.0.1:
-  version "1.0.2"
-  resolved "https://registry.yarnpkg.com/arr-flatten/-/arr-flatten-1.0.2.tgz#1ec1e63439c54f67d6f72bb4299c3d4f73b2d996"
+  version "1.0.3"
+  resolved "https://registry.yarnpkg.com/arr-flatten/-/arr-flatten-1.0.3.tgz#a274ed85ac08849b6bd7847c4580745dc51adfb1"
 
 array-find-index@^1.0.1:
   version "1.0.2"
@@ -1407,8 +1407,8 @@ ee-first@1.1.1:
   resolved "https://registry.yarnpkg.com/ee-first/-/ee-first-1.1.1.tgz#590c61156b0ae2f4f0255732a158b266bc56b21d"
 
 electron-to-chromium@^1.2.7:
-  version "1.3.3"
-  resolved "https://registry.yarnpkg.com/electron-to-chromium/-/electron-to-chromium-1.3.3.tgz#651eb63fe89f39db70ffc8dbd5d9b66958bc6a0e"
+  version "1.3.4"
+  resolved "https://registry.yarnpkg.com/electron-to-chromium/-/electron-to-chromium-1.3.4.tgz#e51769c0cf550e0cf5aedf6aa2b803a264b3a900"
 
 elliptic@^6.0.0:
   version "6.4.0"
@@ -1540,7 +1540,7 @@ eventemitter3@1.x.x:
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/eventemitter3/-/eventemitter3-1.2.0.tgz#1c86991d816ad1e504750e73874224ecf3bec508"
 
-eventemitter3@~2.0.2:
+eventemitter3@~2.0.3:
   version "2.0.3"
   resolved "https://registry.yarnpkg.com/eventemitter3/-/eventemitter3-2.0.3.tgz#b5e1079b59fb5e1ba2771c0a993be060a58c99ba"
 
@@ -1745,8 +1745,8 @@ findup-sync@~0.3.0:
     glob "~5.0.0"
 
 firebase@^3.0.0, firebase@^3.7.6:
-  version "3.7.8"
-  resolved "https://registry.yarnpkg.com/firebase/-/firebase-3.7.8.tgz#1365a191a0b66470f9fbfd7292365f7f398f7e57"
+  version "3.8.0"
+  resolved "https://registry.yarnpkg.com/firebase/-/firebase-3.8.0.tgz#068e680aa82b05fa53fc13cb082f3bffac49d190"
   dependencies:
     dom-storage "^2.0.2"
     faye-websocket "0.9.3"
@@ -2238,8 +2238,8 @@ inquirer@^3.0.0:
     through "^2.3.6"
 
 interpret@^1.0.0:
-  version "1.0.2"
-  resolved "https://registry.yarnpkg.com/interpret/-/interpret-1.0.2.tgz#f4f623f0bb7122f15f5717c8e254b8161b5c5b2d"
+  version "1.0.3"
+  resolved "https://registry.yarnpkg.com/interpret/-/interpret-1.0.3.tgz#cbc35c62eeee73f19ab7b10a801511401afc0f90"
 
 invariant@^2.2.0:
   version "2.2.2"
@@ -3295,9 +3295,9 @@ param-case@2.1.x:
   dependencies:
     no-case "^2.2.0"
 
-parchment@1.0.8:
-  version "1.0.8"
-  resolved "https://registry.yarnpkg.com/parchment/-/parchment-1.0.8.tgz#13ec6becce6c167481f1772bd51a5906de75a038"
+parchment@1.0.9:
+  version "1.0.9"
+  resolved "https://registry.yarnpkg.com/parchment/-/parchment-1.0.9.tgz#faa9f6ef654ebda3ba0199d6e460f24c73c677f2"
 
 parse-asn1@^5.0.0:
   version "5.1.0"
@@ -3778,8 +3778,8 @@ qs@6.4.0, qs@~6.4.0:
   resolved "https://registry.yarnpkg.com/qs/-/qs-6.4.0.tgz#13e26d28ad6b0ffaa91312cd3bf708ed351e7233"
 
 query-string@^4.1.0:
-  version "4.3.2"
-  resolved "https://registry.yarnpkg.com/query-string/-/query-string-4.3.2.tgz#ec0fd765f58a50031a3968c2431386f8947a5cdd"
+  version "4.3.4"
+  resolved "https://registry.yarnpkg.com/query-string/-/query-string-4.3.4.tgz#bbb693b9ca915c232515b228b1a02b609043dbeb"
   dependencies:
     object-assign "^4.1.0"
     strict-uri-encode "^1.0.0"
@@ -3805,14 +3805,14 @@ quill-delta@3.5.0:
     fast-diff "1.1.1"
 
 quill@^1.2.3:
-  version "1.2.3"
-  resolved "https://registry.yarnpkg.com/quill/-/quill-1.2.3.tgz#8fc62ed66d8173edf9bc1d9fb777dd74eb0632ee"
+  version "1.2.4"
+  resolved "https://registry.yarnpkg.com/quill/-/quill-1.2.4.tgz#2a822fb10f4346e63845b37637ee3d6bf0d20b65"
   dependencies:
     clone "~2.1.1"
     deep-equal "~1.0.1"
-    eventemitter3 "~2.0.2"
+    eventemitter3 "~2.0.3"
     extend "~3.0.0"
-    parchment "1.0.8"
+    parchment "1.0.9"
     quill-delta "3.5.0"
 
 randomatic@^1.1.3:
@@ -4694,8 +4694,8 @@ tslint@^5.1.0:
     tsutils "^1.4.0"
 
 tsutils@^1.4.0:
-  version "1.6.0"
-  resolved "https://registry.yarnpkg.com/tsutils/-/tsutils-1.6.0.tgz#1fd7fac2a61369ed99cd3997f0fbb437128850f2"
+  version "1.7.0"
+  resolved "https://registry.yarnpkg.com/tsutils/-/tsutils-1.7.0.tgz#2e63ccc2d6912bb095f7e363ff4100721dc86f50"
 
 tty-browserify@0.0.0:
   version "0.0.0"
@@ -4847,8 +4847,8 @@ uuid@^3.0.0:
   resolved "https://registry.yarnpkg.com/uuid/-/uuid-3.0.1.tgz#6544bba2dfda8c1cf17e629a3a305e2bb1fee6c1"
 
 v8flags@^2.0.11:
-  version "2.0.12"
-  resolved "https://registry.yarnpkg.com/v8flags/-/v8flags-2.0.12.tgz#73235d9f7176f8e8833fb286795445f7938d84e5"
+  version "2.1.1"
+  resolved "https://registry.yarnpkg.com/v8flags/-/v8flags-2.1.1.tgz#aab1a1fa30d45f88dd321148875ac02c0b55e5b4"
   dependencies:
     user-home "^1.1.1"
 
