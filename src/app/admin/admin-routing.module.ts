@@ -13,11 +13,15 @@ const routes: Routes = [
       {
         path: '',
         component: DashboardComponent,
-        //canActivate: [AuthGuard]
+        canActivate: [AuthGuard]
       },
       {
         path: 'sign-in',
         component: SignInComponent
+      },
+      {
+        path: 'create',
+        loadChildren: 'app/admin/create-story/create-story.module#CreateStoryModule'
       }
     ]
   }
