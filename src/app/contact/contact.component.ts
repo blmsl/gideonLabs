@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { AngularFire } from 'angularfire2';
+import { AngularFireDatabase } from 'angularfire2/database';
 
 
 @Component({
@@ -11,7 +11,7 @@ import { AngularFire } from 'angularfire2';
 export class ContactComponent implements OnInit {
   contactForm: FormGroup;
   
-  constructor(private fb: FormBuilder, private af: AngularFire) {
+  constructor(private fb: FormBuilder, private db: AngularFireDatabase) {
     this.createForm();
   }
 
@@ -41,7 +41,7 @@ export class ContactComponent implements OnInit {
       date,
       html
     };
-    this.af.database.list('/messages').push(message);
+    this.db.list('/messages').push(message);
     this.contactForm.reset();
   }
 

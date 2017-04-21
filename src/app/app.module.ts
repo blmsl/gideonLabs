@@ -7,7 +7,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { AppRoutingModule } from './app-routing.module';
 import { WordPressModule } from 'ng2-wp-api';
-import { AngularFireModule, AuthProviders, AuthMethods } from 'angularfire2';
+import { AngularFireModule } from 'angularfire2';
+import { AngularFireAuthModule } from 'angularfire2/auth';
 import { environment } from '../environments/environment';
 
 import { CategoryService } from './categories/category.service';
@@ -46,10 +47,9 @@ import { AuthGuard } from "./auth/auth.guard";
     WordPressModule,
     AppRoutingModule,
     NgbModule.forRoot(),
-    AngularFireModule.initializeApp(environment.firebase, {
-      provider: AuthProviders.Google,
-      method: AuthMethods.Popup
-    }),
+    AngularFireModule.initializeApp(environment.firebase),
+    AngularFireAuthModule,
+    
   ],
   providers: [
     CategoryService, 
@@ -59,3 +59,4 @@ import { AuthGuard } from "./auth/auth.guard";
   bootstrap: [AppComponent]
 })
 export class AppModule { }
+

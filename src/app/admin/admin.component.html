@@ -1,5 +1,6 @@
 <app-header [authenticated]="auth.authenticated"
-              [userInfo]="auth.userInfo"
-              (signOut)="signOut($event)"
-              (signIn)="signIn($event)"></app-header>
+            [userInfo]="auth.user"
+            (signIn)="signIn()"
+            (signOut)="signOut($event)">
+            </app-header>
 <router-outlet></router-outlet>

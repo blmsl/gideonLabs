@@ -9,7 +9,11 @@
 
   <div class="app-user" *ngIf="authenticated">
 
-      <img class="user-image" [src]="userInfo.photoURL" [mdTooltip]="userInfo.displayName" mdTooltipPosition="below" />
+      <img 
+        class="user-image" 
+        [src]="userInfo.photoURL" 
+        [mdTooltip]="userInfo.displayName" 
+        mdTooltipPosition="below" />
       <button class="user-action" md-button (click)="triggerSignOut($event)">Sign Out</button>
 
   </div>

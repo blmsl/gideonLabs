@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from "../auth/auth.service";
-import { FirebaseAuthState } from "angularfire2";
 import { UserInfo } from "firebase";
 import { Router } from "@angular/router";
 import { MdSnackBar, MdIconRegistry } from '@angular/material';

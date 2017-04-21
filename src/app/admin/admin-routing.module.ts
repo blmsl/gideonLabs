@@ -13,7 +13,7 @@ const routes: Routes = [
       {
         path: '',
         component: DashboardComponent,
-        canActivate: [AuthGuard]
+        //canActivate: [AuthGuard]
       },
       {
         path: 'sign-in',
@@ -28,3 +28,4 @@ const routes: Routes = [
   exports: [RouterModule]
 })
 export class AdminRoutingModule { }
+
