@@ -9,13 +9,17 @@ import { StoryInfoComponent } from './story-info/story-info.component';
 import { StoryPicturesComponent } from './story-pictures/story-pictures.component';
 import { StoryPictureComponent } from './story-picture/story-picture.component';
 
+import {EditorModule,SharedModule} from 'primeng/primeng';
+
 @NgModule({
   imports: [
     CommonModule,
     CreateStoryRoutingModule,
     MdCardModule,
     MdInputModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    EditorModule,
+    SharedModule
   ],
   declarations: [CreateStoryComponent, StoryInfoComponent, StoryPicturesComponent, StoryPictureComponent]
 })
