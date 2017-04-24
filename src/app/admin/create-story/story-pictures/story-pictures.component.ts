@@ -10,9 +10,9 @@ import { FormGroup, FormArray } from "@angular/forms";
       <div formArrayName="pictures">
         <div *ngFor="let picture of pictureArray; let i = index;">
           <div [formGroupName]="i">
+            <img [src]="picture.value.storageLink" style="width: 150px;">
             <div>Title: {{ picture.value.title }}</div>
             <div>Caption: {{ picture.value.caption }}</div>
-            <div>Storage: {{ picture.value.storageLink }}</div>
             <button 
               type="button" 
               (click)="onRemove(picture, i)">

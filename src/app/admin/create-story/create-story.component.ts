@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormArray, FormGroup, Validators } from "@angular/forms";
+import { AngularFireDatabase } from 'angularfire2/database';
 
 @Component({
   selector: 'app-create-story',
@@ -13,6 +14,7 @@ import { FormBuilder, FormArray, FormGroup, Validators } from "@angular/forms";
         </app-story-info>
 
         <p-editor
+          tabindex="2"
           [style]="{'height': '25em'}"
           formControlName="content"
           placeholder="Story">
@@ -50,7 +52,10 @@ import { FormBuilder, FormArray, FormGroup, Validators } from "@angular/forms";
         <div class="submit-button">
           <button
             type="submit"
-            [disabled]="form.invalid">
+            [disabled]="
+              form.get('title').invalid || 
+              form.get('content').invalid ||
+              form.get('pictures').value.length === 0">
             Create Story
           </button>
         </div>
@@ -75,7 +80,7 @@ export class CreateStoryComponent implements OnInit {
     })
   }
   
-  constructor(private fb: FormBuilder) { }
+  constructor(private fb: FormBuilder, private db: AngularFireDatabase) { }
 
   ngOnInit() {
     this.createForm();
@@ -99,12 +104,42 @@ export class CreateStoryComponent implements OnInit {
 
 
   onSubmit() {
-    console.log('Submit:', this.form.value);
+
+    // Pull form values out
+    let title = this.form.get('title').value;
+    let slug = this.createSlug(title);
+    let content = this.form.get('content').value;
+
+    let story = {
+      title,
+      content,
+      slug
+    };
+
+    this.db.object(`/stories/${slug}`).update(story);
+    this.pushPictures(slug);
+  }
+
+  // Push each picture reference to database
+  pushPictures(titleSlug: string) {
+    this.form.get('pictures').value.forEach(picture => {
+      this.db.list(`/stories/${titleSlug}/pictures`).push(picture);
+    });      
   }
 
 
   get _pictures() {
     return this.form.get('pictures') as FormArray;
+  }
+
+  createSlug(title: string): string {
+    // https://gist.github.com/mathewbyrne/1280286
+    return title.toString().toLowerCase()
+      .replace(/\s+/g, '-')           // Replace spaces with -
+      .replace(/[^\w\-]+/g, '')       // Remove all non-word chars
+      .replace(/\-\-+/g, '-')         // Replace multiple - with single -
+      .replace(/^-+/, '')             // Trim - from start of text
+      .replace(/-+$/, '');            // Trim - from end of text
   }
 
 }

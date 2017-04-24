@@ -8,6 +8,7 @@ import { FormGroup } from "@angular/forms";
     <div [formGroup]="parent">
       <h2>Story Title</h2>
       <input
+        tabindex="1"
         formControlName="title"
         type="text" 
         placeholder="Title">

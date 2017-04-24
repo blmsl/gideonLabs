@@ -21,16 +21,17 @@ import { AngularFireDatabase } from 'angularfire2/database';
           placeholder="Caption" 
           formControlName="caption">
         <input
-            type="text" 
-            placeholder="Storage Link" 
-            formControlName="storageLink"
-            readonly>
+          type="text" 
+          placeholder="Storage Link" 
+          formControlName="storageLink"
+          readonly>
         <input
           id="picture-input"
           class="upload"
           type="file"
           accept="image/*"
-          (change)="onUploadPicture($event)">
+          (change)="onUploadPicture($event)"
+          [disabled]="parent.get('title').invalid || parent.get('content').invalid">
         <div class="progress">
           <progress [attr.value]="progressValue" max="100" id="uploader"></progress>
         </div>
@@ -98,7 +99,6 @@ export class StoryPictureComponent {
         // Called on complete
         () => {
           let url = pictureTask.snapshot.downloadURL;
-          console.log('Uploaded audio file to', url);
           this.parent.get('picture').patchValue({ storageLink: url });
         }
       );
@@ -110,7 +110,11 @@ export class StoryPictureComponent {
   }
 
   onResetPicture() {
-    this.parent.get('picture').reset();
+    this.parent.get('picture').reset({
+      title: '',
+      caption: '',
+      storageLink: ''
+    });
     this.progressValue = 0;
   }
 
