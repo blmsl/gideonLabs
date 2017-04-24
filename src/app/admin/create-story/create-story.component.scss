@@ -1,0 +1,46 @@
+.create-story-container {
+  display: flex;
+  justify-content: center;
+  align-content: center;
+}
+
+form {
+  margin: 5em 0;
+  display: grid;
+  grid-template-columns: repeat(3, 20vw);
+  grid-template-rows: auto;
+  grid-gap: 1em;
+  grid-template-areas:
+    "story-info story-info story-info"
+    "editor editor picture-list"
+    "editor editor picture-list"
+    "add-picture add-picture picture-list"
+    "submit value picture-list"
+}
+
+app-story-info {
+  grid-area: story-info;
+}
+
+p-editor {
+  grid-area: editor;
+}
+
+app-story-picture {
+  grid-area: add-picture;
+
+}
+
+app-story-pictures {
+  grid-area: picture-list;
+  border: 1px solid red;
+}
+
+.submit-button {
+  grid-area: submit;
+}
+
+.form-value {
+  grid-area: value;
+}
+

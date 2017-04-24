@@ -11,6 +11,8 @@ import { StoryPictureComponent } from './story-picture/story-picture.component';
 
 import {EditorModule,SharedModule} from 'primeng/primeng';
 
+import { AngularFireDatabaseModule } from 'angularfire2/database';
+
 @NgModule({
   imports: [
     CommonModule,
@@ -19,7 +21,8 @@ import {EditorModule,SharedModule} from 'primeng/primeng';
     MdInputModule,
     ReactiveFormsModule,
     EditorModule,
-    SharedModule
+    SharedModule,
+    AngularFireDatabaseModule
   ],
   declarations: [CreateStoryComponent, StoryInfoComponent, StoryPicturesComponent, StoryPictureComponent]
 })

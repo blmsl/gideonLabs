@@ -5,12 +5,37 @@ import { FormBuilder, FormArray, FormGroup, Validators } from "@angular/forms";
   selector: 'app-create-story',
   styleUrls: ['./create-story.component.scss'],
   template: `
-    <div>
+    <div class="create-story-container">
       <form [formGroup]="form" (ngSubmit)="onSubmit()">
 
         <app-story-info
           [parent]="form">
         </app-story-info>
+
+        <p-editor
+          [style]="{'height': '25em'}"
+          formControlName="content"
+          placeholder="Story">
+          <p-header>
+            <span class="ql-formats">
+              <button class="ql-bold" type="button" type="button"></button>
+              <button class="ql-italic" type="button"></button>
+              <button class="ql-underline" type="button"></button>
+            </span>
+            <span class="ql-formats">
+              <button class="ql-script" value="sub" type="button"></button>
+              <button class="ql-script" value="super" type="button"></button>
+            </span>
+            <span class="ql-formats">
+              <button class="ql-header" value="2" type="button"></button>
+              <button class="ql-list" value="ordered" type="button"></button>
+              <button class="ql-list" value="bullet" type="button"></button>
+            </span>
+            <span class="ql-formats">
+              <button class="ql-link" type="button"></button>
+            </span>
+          </p-header>
+        </p-editor>
 
         <app-story-picture
           [parent]="form"
@@ -22,7 +47,7 @@ import { FormBuilder, FormArray, FormGroup, Validators } from "@angular/forms";
           (removed)="removePicture($event)">
         </app-story-pictures>
 
-        <div>
+        <div class="submit-button">
           <button
             type="submit"
             [disabled]="form.invalid">
@@ -30,7 +55,9 @@ import { FormBuilder, FormArray, FormGroup, Validators } from "@angular/forms";
           </button>
         </div>
 
-        <pre>{{form.value | json}}</pre>
+<pre class="form-value">
+{{form.value | json}}
+</pre>
 
       </form>
     </div>

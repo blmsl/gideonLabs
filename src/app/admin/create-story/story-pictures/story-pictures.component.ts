@@ -6,7 +6,7 @@ import { FormGroup, FormArray } from "@angular/forms";
   styleUrls: ['./story-pictures.component.scss'],
   template: `
     <div [formGroup]="parent">
-
+      <h2>Added Pictures</h2>
       <div formArrayName="pictures">
         <div *ngFor="let picture of pictureArray; let i = index;">
           <div [formGroupName]="i">
