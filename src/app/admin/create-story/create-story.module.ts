@@ -12,6 +12,7 @@ import { StoryPictureComponent } from './story-picture/story-picture.component';
 import {EditorModule,SharedModule} from 'primeng/primeng';
 
 import { AngularFireDatabaseModule } from 'angularfire2/database';
+import { TaxonomyModule } from "../taxonomy/taxonomy.module";
 
 @NgModule({
   imports: [
@@ -22,7 +23,8 @@ import { AngularFireDatabaseModule } from 'angularfire2/database';
     ReactiveFormsModule,
     EditorModule,
     SharedModule,
-    AngularFireDatabaseModule
+    AngularFireDatabaseModule,
+    TaxonomyModule
   ],
   declarations: [CreateStoryComponent, StoryInfoComponent, StoryPicturesComponent, StoryPictureComponent]
 })

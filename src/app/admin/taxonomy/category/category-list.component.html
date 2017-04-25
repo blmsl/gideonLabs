@@ -1,0 +1,10 @@
+<div *ngIf="categories | async as categories" class="category-list">
+  <ul class="category-list__top-level">
+    <li *ngFor="let category of categories">{{category.name}}
+      <!--<ul>
+        <li *ngFor="let subcat of category.subcategories">{{subcat.name}}</li>
+      </ul>-->
+    </li>
+  </ul>
+<pre>{{categories |json}}</pre>
+</div>

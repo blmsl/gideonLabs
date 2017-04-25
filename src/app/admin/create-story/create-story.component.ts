@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormArray, FormGroup, Validators } from "@angular/forms";
-import { AngularFireDatabase } from 'angularfire2/database';
+import { AngularFireDatabase, FirebaseListObservable } from 'angularfire2/database';
+import { Category } from "../taxonomy/category/category";
 
 @Component({
   selector: 'app-create-story',
@@ -9,9 +10,9 @@ import { AngularFireDatabase } from 'angularfire2/database';
     <div class="create-story-container">
       <form [formGroup]="form" (ngSubmit)="onSubmit()">
 
-        <app-story-info
-          [parent]="form">
-        </app-story-info>
+        <app-story-info [parent]="form"></app-story-info>
+
+        <app-category-list [categories]="categories"></app-category-list>
 
         <p-editor
           tabindex="2"
@@ -70,6 +71,7 @@ import { AngularFireDatabase } from 'angularfire2/database';
 })
 export class CreateStoryComponent implements OnInit {
   public form: FormGroup;
+  categories: FirebaseListObservable<Category[]>;
   
   createForm() {
     this.form = this.fb.group({
@@ -84,6 +86,7 @@ export class CreateStoryComponent implements OnInit {
 
   ngOnInit() {
     this.createForm();
+    this.categories = this.db.list('/categories');
   }
 
   initPicture(pic) {
@@ -109,21 +112,25 @@ export class CreateStoryComponent implements OnInit {
     let title = this.form.get('title').value;
     let slug = this.createSlug(title);
     let content = this.form.get('content').value;
+    let description = this.generateDescription(content);
 
     let story = {
       title,
       content,
-      slug
+      slug,
+      description
     };
 
     this.db.object(`/stories/${slug}`).update(story);
     this.pushPictures(slug);
+    this.form.reset();
   }
 
   // Push each picture reference to database
   pushPictures(titleSlug: string) {
     this.form.get('pictures').value.forEach(picture => {
-      this.db.list(`/stories/${titleSlug}/pictures`).push(picture);
+      picture.slug = this.createSlug(picture.title);
+      this.db.object(`/stories/${titleSlug}/pictures/${picture.slug}`).set(picture);
     });      
   }
 
@@ -140,6 +147,14 @@ export class CreateStoryComponent implements OnInit {
       .replace(/\-\-+/g, '-')         // Replace multiple - with single -
       .replace(/^-+/, '')             // Trim - from start of text
       .replace(/-+$/, '');            // Trim - from end of text
+  }
+
+  generateDescription(content: string): string {
+    // First strip HTML from string,
+    // cf. http://stackoverflow.com/questions/822452/strip-html-from-text-javascript
+    // Second, limit the string 155 characters breaking on spaces
+    // cf. http://stackoverflow.com/questions/5454235/javascript-shorten-string-without-cutting-words
+    return content.replace(/<(?:.|\n)*?>/gm, '').replace(/^(.{155}[^\s]*).*/, "$1");
   }
 
 }

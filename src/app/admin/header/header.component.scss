@@ -9,3 +9,11 @@
   margin: 0 12px;
   border: 1px solid rgba(0,0,0,.1);
 }
+
+md-toolbar {
+  background: black;
+  color: white;
+  & a {
+    color: white;
+  }
+}

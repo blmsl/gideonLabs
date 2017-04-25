@@ -31,7 +31,7 @@ import { DashboardComponent } from './dashboard/dashboard.component';
     AdminComponent, 
     HeaderComponent, 
     SignInComponent, 
-    DashboardComponent
+    DashboardComponent,
   ]
 })
 export class AdminModule { }

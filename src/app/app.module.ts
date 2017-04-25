@@ -27,6 +27,7 @@ import 'rxjs/add/operator/do';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/take';
 import { AuthGuard } from "./auth/auth.guard";
+import { ChildGuard } from "./auth/child-guard.guard";
 
 @NgModule({
   declarations: [
@@ -54,7 +55,8 @@ import { AuthGuard } from "./auth/auth.guard";
   providers: [
     CategoryService, 
     AuthService,
-    AuthGuard
+    AuthGuard,
+    ChildGuard
   ],
   bootstrap: [AppComponent]
 })
