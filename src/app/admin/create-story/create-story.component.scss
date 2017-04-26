@@ -13,8 +13,8 @@ form {
   grid-template-areas:
     "story-info story-info story-info category"
     "editor editor picture-list category"
-    "add-picture add-picture picture-list ."
-    "submit value picture-list ."
+    "add-picture add-picture picture-list category"
+    "submit value picture-list category"
 }
 
 app-story-info {
@@ -41,5 +41,9 @@ app-story-pictures {
 
 .form-value {
   grid-area: value;
+}
+
+app-category-list {
+  grid-area: category;
 }
 

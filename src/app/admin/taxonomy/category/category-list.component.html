@@ -1,10 +1,14 @@
-<div *ngIf="categories | async as categories" class="category-list">
+<div *ngFor="let parent of categories" class="category-list">
   <ul class="category-list__top-level">
-    <li *ngFor="let category of categories">{{category.name}}
-      <!--<ul>
-        <li *ngFor="let subcat of category.subcategories">{{subcat.name}}</li>
-      </ul>-->
+    <li>{{parent.name}}
+      <ul *ngIf="parent.children.length > 0">
+        <li *ngFor="let child of parent.children">{{child.name}}
+          <ul *ngIf="child.children.length > 0">
+            <li *ngFor="let grandChild of child.children">{{grandChild.name}}
+            </li>
+          </ul>
+        </li>
+      </ul>
     </li>
   </ul>
-<pre>{{categories |json}}</pre>
 </div>

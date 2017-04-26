@@ -3,75 +3,21 @@ import { FormBuilder, FormArray, FormGroup, Validators } from "@angular/forms";
 import { AngularFireDatabase, FirebaseListObservable } from 'angularfire2/database';
 import { Category } from "../taxonomy/category/category";
 
+import "rxjs/add/operator/map";
+import "rxjs/add/operator/filter";
+import "rxjs/add/operator/do";
+
 @Component({
   selector: 'app-create-story',
   styleUrls: ['./create-story.component.scss'],
-  template: `
-    <div class="create-story-container">
-      <form [formGroup]="form" (ngSubmit)="onSubmit()">
-
-        <app-story-info [parent]="form"></app-story-info>
-
-        <app-category-list [categories]="categories"></app-category-list>
-
-        <p-editor
-          tabindex="2"
-          [style]="{'height': '25em'}"
-          formControlName="content"
-          placeholder="Story">
-          <p-header>
-            <span class="ql-formats">
-              <button class="ql-bold" type="button" type="button"></button>
-              <button class="ql-italic" type="button"></button>
-              <button class="ql-underline" type="button"></button>
-            </span>
-            <span class="ql-formats">
-              <button class="ql-script" value="sub" type="button"></button>
-              <button class="ql-script" value="super" type="button"></button>
-            </span>
-            <span class="ql-formats">
-              <button class="ql-header" value="2" type="button"></button>
-              <button class="ql-list" value="ordered" type="button"></button>
-              <button class="ql-list" value="bullet" type="button"></button>
-            </span>
-            <span class="ql-formats">
-              <button class="ql-link" type="button"></button>
-            </span>
-          </p-header>
-        </p-editor>
-
-        <app-story-picture
-          [parent]="form"
-          (added)="addPicture($event)">
-        </app-story-picture>
-
-        <app-story-pictures
-          [parent]="form"
-          (removed)="removePicture($event)">
-        </app-story-pictures>
-
-        <div class="submit-button">
-          <button
-            type="submit"
-            [disabled]="
-              form.get('title').invalid || 
-              form.get('content').invalid ||
-              form.get('pictures').value.length === 0">
-            Create Story
-          </button>
-        </div>
-
-<pre class="form-value">
-{{form.value | json}}
-</pre>
-
-      </form>
-    </div>
-  `
+  templateUrl: './create-story.component.html'
 })
 export class CreateStoryComponent implements OnInit {
   public form: FormGroup;
   categories: FirebaseListObservable<Category[]>;
+  parentCategories: Category[];
+
+  categoryHierarchy: Category[];
   
   createForm() {
     this.form = this.fb.group({
@@ -86,7 +32,57 @@ export class CreateStoryComponent implements OnInit {
 
   ngOnInit() {
     this.createForm();
-    this.categories = this.db.list('/categories');
+
+    this.db.list('/categories')
+      .subscribe(category => {
+        // Initialize a parents array
+        const parents: Category[] = category.filter(category => {
+          if (category.parent === undefined) {
+            return true;
+          }
+        });
+
+        // Initialize a children array
+        const children: Category[] = category.filter(category => {
+          if (category.parent !== undefined) {
+            return true;
+          }
+        });
+          
+        // Iterate through each parent category
+        for (let parentCat of parents) {
+
+          // Initialize a temporary child category array
+          const childrenCats = [];
+
+          for (let childCat of children) {
+
+            // If the child's parent equals the parent slug, add to the temporrary array
+            if (childCat.parent === parentCat.slug) {
+              childrenCats.push(childCat);
+            }
+
+            // Check for grandchildren
+            const grandChildren = [];
+            for (let grandchildCat of children) {
+              if (grandchildCat.parent === childCat.slug) {
+                grandChildren.push(childCat);
+              }
+            }
+            childCat.children = [...grandChildren];
+            
+          }
+
+          // Assign the temporary array to the children key of parent array
+          parentCat.children = [...childrenCats];
+
+        }
+
+        // Assign the parents array to the class variable for exporting
+        this.parentCategories = parents;
+
+      });
+    
   }
 
   initPicture(pic) {

@@ -1,51 +1,60 @@
-<md-card>
-    
-    <md-card-header>
-      <md-card-title>Create New Story</md-card-title>
-    </md-card-header>
+<div class="create-story-container">
+  <form [formGroup]="form" (ngSubmit)="onSubmit()">
 
-    <md-card-content>
+    <app-story-info [parent]="form"></app-story-info>
 
-      <form [formGroup]="form" (ngSubmit)=onSubmit()>
-        <md-input-container>
-          <input mdInput type="text" placeholder="Title" formControlName="title">
-        </md-input-container>
+    <app-category-list [categories]="parentCategories"></app-category-list>
 
-        <md-input-container>
-          <textarea 
-            mdInput 
-            placeholder="Story" 
-            formControlName="content"></textarea>
-        </md-input-container>
+    <p-editor
+      tabindex="2"
+      [style]="{'height': '25em'}"
+      formControlName="content"
+      placeholder="Story">
+      <p-header>
+        <span class="ql-formats">
+          <button class="ql-bold" type="button" type="button"></button>
+          <button class="ql-italic" type="button"></button>
+          <button class="ql-underline" type="button"></button>
+        </span>
+        <span class="ql-formats">
+          <button class="ql-script" value="sub" type="button"></button>
+          <button class="ql-script" value="super" type="button"></button>
+        </span>
+        <span class="ql-formats">
+          <button class="ql-header" value="2" type="button"></button>
+          <button class="ql-list" value="ordered" type="button"></button>
+          <button class="ql-list" value="bullet" type="button"></button>
+        </span>
+        <span class="ql-formats">
+          <button class="ql-link" type="button"></button>
+        </span>
+      </p-header>
+    </p-editor>
 
-        <div formArrayName="pictures">
-          
-          <div *ngFor="let picture of _pictures; let i=index" [formGroupName]="i">
-            <h4>Picture #{{i +1}}</h4>
-            <md-input-container>
-              <input mdInput type="text" placeholder="Title" formControlName="title">
-            </md-input-container>
+    <app-story-picture
+      [parent]="form"
+      (added)="addPicture($event)">
+    </app-story-picture>
 
-            <md-input-container>
-              <input mdInput type="text" placeholder="Caption" formControlName="caption">
-            </md-input-container>
+    <app-story-pictures
+      [parent]="form"
+      (removed)="removePicture($event)">
+    </app-story-pictures>
 
-            <md-input-container>
-              <input mdInput type="text" formControlName="storageLink" placeholder="Storage Link" readonly>
-            </md-input-container>
-          </div>
+    <div class="submit-button">
+      <button
+        type="submit"
+        [disabled]="
+          form.get('title').invalid || 
+          form.get('content').invalid ||
+          form.get('pictures').value.length === 0">
+        Create Story
+      </button>
+    </div>
 
-          <button md-raised-button (click)=addPicture()>Add Picture</button>
+<pre class="form-value">
+{{form.value | json}}
+</pre>
 
-        </div>
-
-        
-
-
-        <pre>{{ form.value | json }}</pre>
-        <button type="submit" [disabled]="form.valid">Add Story</button>
-      </form>
-
-    </md-card-content>
-
-  </md-card>
+  </form>
+</div>
