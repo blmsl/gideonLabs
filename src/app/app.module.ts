@@ -9,6 +9,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { WordPressModule } from 'ng2-wp-api';
 import { AngularFireModule } from 'angularfire2';
 import { AngularFireAuthModule } from 'angularfire2/auth';
+import { AngularFireDatabaseModule } from 'angularfire2/database';
 import { environment } from '../environments/environment';
 
 import { CategoryService } from './categories/category.service';
@@ -28,6 +29,7 @@ import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/take';
 import { AuthGuard } from "./auth/auth.guard";
 import { ChildGuard } from "./auth/child-guard.guard";
+import { TaxonomyService } from "./taxonomy/taxonomy.service";
 
 @NgModule({
   declarations: [
@@ -50,13 +52,14 @@ import { ChildGuard } from "./auth/child-guard.guard";
     NgbModule.forRoot(),
     AngularFireModule.initializeApp(environment.firebase),
     AngularFireAuthModule,
-    
+    AngularFireDatabaseModule
   ],
   providers: [
     CategoryService, 
     AuthService,
     AuthGuard,
-    ChildGuard
+    ChildGuard,
+    TaxonomyService
   ],
   bootstrap: [AppComponent]
 })

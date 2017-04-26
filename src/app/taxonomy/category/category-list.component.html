@@ -1,5 +1,5 @@
 <div *ngFor="let parent of categories" class="category-list">
-  <ul class="category-list__top-level">
+  <ul *ngIf="parent.parent === undefined" class="category-list__top-level">
     <li>{{parent.name}}
       <ul *ngIf="parent.children.length > 0">
         <li *ngFor="let child of parent.children">{{child.name}}

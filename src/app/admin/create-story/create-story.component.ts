@@ -1,11 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormArray, FormGroup, Validators } from "@angular/forms";
 import { AngularFireDatabase, FirebaseListObservable } from 'angularfire2/database';
-import { Category } from "../taxonomy/category/category";
+import { Category } from "../../taxonomy/category/category";
 
 import "rxjs/add/operator/map";
 import "rxjs/add/operator/filter";
 import "rxjs/add/operator/do";
+import { TaxonomyService } from "../../taxonomy/taxonomy.service";
 
 @Component({
   selector: 'app-create-story',
@@ -23,66 +24,38 @@ export class CreateStoryComponent implements OnInit {
     this.form = this.fb.group({
       title: ['', Validators.required],
       content: ['', Validators.required],
+      category: ['', Validators.required],
       picture: this.initPicture({}),
       pictures: this.fb.array([])
     })
   }
   
-  constructor(private fb: FormBuilder, private db: AngularFireDatabase) { }
+  constructor(private fb: FormBuilder, 
+              private db: AngularFireDatabase, 
+              private taxonomy: TaxonomyService) { }
 
   ngOnInit() {
     this.createForm();
+    this.getCategories();
+  }
 
+  getCategories() {
     this.db.list('/categories')
-      .subscribe(category => {
-        // Initialize a parents array
-        const parents: Category[] = category.filter(category => {
-          if (category.parent === undefined) {
-            return true;
-          }
-        });
+      .subscribe(categories => {
 
-        // Initialize a children array
-        const children: Category[] = category.filter(category => {
-          if (category.parent !== undefined) {
-            return true;
-          }
-        });
-          
-        // Iterate through each parent category
-        for (let parentCat of parents) {
+        for (let category of categories) {
+          let children: Category[] = [];
 
-          // Initialize a temporary child category array
-          const childrenCats = [];
-
-          for (let childCat of children) {
-
-            // If the child's parent equals the parent slug, add to the temporrary array
-            if (childCat.parent === parentCat.slug) {
-              childrenCats.push(childCat);
+          for (let catList of categories) {
+            if (catList.parent === category.slug) {
+              children.push(catList);
             }
-
-            // Check for grandchildren
-            const grandChildren = [];
-            for (let grandchildCat of children) {
-              if (grandchildCat.parent === childCat.slug) {
-                grandChildren.push(childCat);
-              }
-            }
-            childCat.children = [...grandChildren];
-            
           }
-
-          // Assign the temporary array to the children key of parent array
-          parentCat.children = [...childrenCats];
-
+          category['children'] = [...children];
         }
 
-        // Assign the parents array to the class variable for exporting
-        this.parentCategories = parents;
-
-      });
-    
+        this.parentCategories = categories;
+      })
   }
 
   initPicture(pic) {

@@ -7,6 +7,8 @@ import { CategoryListComponent } from "./category/category-list.component";
     CommonModule
   ],
   declarations: [CategoryListComponent],
-  exports: [CategoryListComponent]
+  exports: [
+    CategoryListComponent
+  ]
 })
 export class TaxonomyModule { }

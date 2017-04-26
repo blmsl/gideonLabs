@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { Http, Response } from '@angular/http';
 
 import { Observable } from 'rxjs/Observable';
-import { Category } from './category';
 
 import 'rxjs/add/operator/map';
 
@@ -10,7 +9,7 @@ import 'rxjs/add/operator/map';
 export class CategoryService {
   private categoriesUrl = "https://www.gideonlabs.com/wp-json/wp/v2/categories"
   constructor(private http: Http) { }
-  getCategories(): Observable<Category[]> {
+  getCategories() {
     return this.http.get(this.categoriesUrl)
       .map((res: Response) => res.json());
   }
