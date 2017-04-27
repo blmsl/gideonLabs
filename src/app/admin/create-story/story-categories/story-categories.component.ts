@@ -12,10 +12,11 @@ import { Category } from "../../../taxonomy/category/category";
       <select
         formControlName="category">
         <option value="">Select Category</option>
-        <option *ngFor="let parent of categories">{{parent.name}}<option>
-
-        
-        
+        <option
+          *ngFor="let parent of categories" 
+          [value]="parent.slug">
+          {{space.repeat(parent.level)}}{{parent.name}}
+        </option>
       </select>
 
     </div>
@@ -27,10 +28,13 @@ export class StoryCategoriesComponent implements OnInit {
 
   @Input()
   categories: Category[];
+
+  space = "\u00A0\u00A0\u00A0";
   
   constructor() { }
 
   ngOnInit() {
+
   }
 
 }

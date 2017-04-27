@@ -15,10 +15,10 @@ import { TaxonomyService } from "../../taxonomy/taxonomy.service";
 })
 export class CreateStoryComponent implements OnInit {
   public form: FormGroup;
-  categories: FirebaseListObservable<Category[]>;
-  parentCategories: Category[];
+  hierarchyCategories: Category[];
 
-  categoryHierarchy: Category[];
+  testParents: Category[];
+  testChildren: Category[];
   
   createForm() {
     this.form = this.fb.group({
@@ -43,19 +43,40 @@ export class CreateStoryComponent implements OnInit {
     this.db.list('/categories')
       .subscribe(categories => {
 
-        for (let category of categories) {
-          let children: Category[] = [];
-
-          for (let catList of categories) {
-            if (catList.parent === category.slug) {
-              children.push(catList);
-            }
+        const parents: Category[] = categories.filter(category => {
+          if (category.parent === undefined) {
+            return true;
           }
-          category['children'] = [...children];
+        });
+
+        const children: Category[] = categories.filter(category => {
+          if (category.parent !== undefined) {
+            return true;
+          }
+        });
+
+        const hierarchy: Category[] = [];
+
+        for (let hierarchyCategory of parents) {
+          hierarchy['level'] = 0;
+          hierarchy.push(hierarchyCategory);
+          for (let child of children) {
+            if (child.parent === hierarchyCategory.slug) {
+              child['level'] = 1;
+              hierarchy.push(child);
+              for (let grandChild of children) {
+                if (grandChild.parent === child.slug) {
+                  grandChild['level'] = 2;
+                  hierarchy.push(grandChild);
+                } 
+              }
+            } 
+          }
         }
 
-        this.parentCategories = categories;
-      })
+        this.hierarchyCategories = hierarchy;
+
+      });
   }
 
   initPicture(pic) {
@@ -65,6 +86,29 @@ export class CreateStoryComponent implements OnInit {
       storageLink: [pic.storageLink || '', Validators.required]
     })
   }
+
+  // getParentStructure() {
+  //   //Parent based array where children categories are properties of parents
+  //   const children = [...this.testChildren];
+  //   const parentCats = [...this.testParents];
+    
+  //   for (let parentCategory of parentCats) {
+  //     const kids = [];
+  //     for (let child of children) {
+  //       let grandChildren: Category[] = [];
+  //       if (child.parent === parentCategory.slug) {
+  //         kids.push(child);
+  //         for (let kid of children) {
+  //           if (kid.parent === child.slug) {
+  //             grandChildren.push(kid);
+  //           }
+  //         }
+  //       }
+  //       child['children'] = grandChildren;
+  //     }
+  //     parentCategory['children'] = kids;
+  //   }
+  // }
 
   addPicture(picture) {
     this._pictures.push(this.initPicture(picture));
