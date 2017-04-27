@@ -1,12 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormArray, FormGroup, Validators } from "@angular/forms";
-import { AngularFireDatabase, FirebaseListObservable } from 'angularfire2/database';
+import { AngularFireDatabase } from 'angularfire2/database';
 import { Category } from "../../taxonomy/category/category";
-
-import "rxjs/add/operator/map";
-import "rxjs/add/operator/filter";
-import "rxjs/add/operator/do";
-import { TaxonomyService } from "../../taxonomy/taxonomy.service";
 
 @Component({
   selector: 'app-create-story',
@@ -16,9 +11,6 @@ import { TaxonomyService } from "../../taxonomy/taxonomy.service";
 export class CreateStoryComponent implements OnInit {
   public form: FormGroup;
   hierarchyCategories: Category[];
-
-  testParents: Category[];
-  testChildren: Category[];
   
   createForm() {
     this.form = this.fb.group({
@@ -31,8 +23,7 @@ export class CreateStoryComponent implements OnInit {
   }
   
   constructor(private fb: FormBuilder, 
-              private db: AngularFireDatabase, 
-              private taxonomy: TaxonomyService) { }
+              private db: AngularFireDatabase) { }
 
   ngOnInit() {
     this.createForm();

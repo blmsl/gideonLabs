@@ -1,19 +1,19 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
+import { ReactiveFormsModule } from "@angular/forms";
+import {EditorModule,SharedModule} from 'primeng/primeng';
+import { AngularFireDatabaseModule } from 'angularfire2/database';
+import { MdCardModule, MdInputModule } from "@angular/material";
+
 import { CreateStoryRoutingModule } from './create-story-routing.module';
 import { CreateStoryComponent } from './create-story.component';
-import { MdCardModule, MdInputModule } from "@angular/material";
-import { ReactiveFormsModule } from "@angular/forms";
 import { StoryInfoComponent } from './story-info/story-info.component';
 import { StoryPicturesComponent } from './story-pictures/story-pictures.component';
 import { StoryPictureComponent } from './story-picture/story-picture.component';
+import { AdminSharedModule } from "../shared/admin-shared.module";
 
-import {EditorModule,SharedModule} from 'primeng/primeng';
 
-import { AngularFireDatabaseModule } from 'angularfire2/database';
-import { TaxonomyModule } from "../../taxonomy/taxonomy.module";
-import { StoryCategoriesComponent } from './story-categories/story-categories.component';
 
 
 @NgModule({
@@ -26,13 +26,13 @@ import { StoryCategoriesComponent } from './story-categories/story-categories.co
     EditorModule,
     SharedModule,
     AngularFireDatabaseModule,
-    TaxonomyModule
+    AdminSharedModule
   ],
   declarations: [
     CreateStoryComponent, 
     StoryInfoComponent, 
     StoryPicturesComponent, 
-    StoryPictureComponent, StoryCategoriesComponent
+    StoryPictureComponent
   ]
 })
 export class CreateStoryModule { }

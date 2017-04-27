@@ -3,11 +3,10 @@ import { FormGroup } from "@angular/forms";
 import { Category } from "../../../taxonomy/category/category";
 
 @Component({
-  selector: 'app-story-categories',
-  styleUrls: ['./story-categories.component.scss'],
+  selector: 'app-select-categories',
+  styleUrls: ['./select-categories.component.scss'],
   template: `
     <div [formGroup]="parent">
-      
 
       <select
         formControlName="category">
@@ -22,7 +21,7 @@ import { Category } from "../../../taxonomy/category/category";
     </div>
   `
 })
-export class StoryCategoriesComponent implements OnInit {
+export class SelectCategoriesComponent implements OnInit {
   @Input()
   parent: FormGroup;
 

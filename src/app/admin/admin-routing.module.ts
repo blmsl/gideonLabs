@@ -18,8 +18,13 @@ const routes: Routes = [
         canActivateChild: [ChildGuard],
         children: [
           {
-            path: 'create',
+            path: 'create-story',
             loadChildren: 'app/admin/create-story/create-story.module#CreateStoryModule'
+          },
+          {
+            path: 'create-category',
+            loadChildren:
+            'app/admin/create-category/create-category.module#CreateCategoryModule'
           }
         ]
       },
