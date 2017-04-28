@@ -6,7 +6,14 @@
     <input type="text" id="name" formControlName="name">
 
     <label for="slug">Slug</label>
-    <input type="text" id="slug" formControlName="slug">
+    <div>
+      <input type="text" id="slug" formControlName="slug">
+      <div 
+        class="error"
+        *ngIf="categoryExists">
+        Category already exists. Please change name or just slug.
+      </div>
+    </div>
 
     <label for="category">Parent</label>
     <app-select-categories
@@ -50,7 +57,9 @@
       </button>
     </div>
 <pre>
-{{form.value | json}}
+Value: {{form.value | json}}
+Status: {{form.status | json}}
+Errors: {{form.errors | json}}
 </pre>
   </form>
 </div>

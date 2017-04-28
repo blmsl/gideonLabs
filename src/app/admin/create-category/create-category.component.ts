@@ -1,8 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormArray, FormGroup, Validators } from "@angular/forms";
+import { FormBuilder, FormArray, FormGroup, Validators, AbstractControl } from "@angular/forms";
 import { AngularFireDatabase } from 'angularfire2/database';
 import { Category } from "../../taxonomy/category/category";
+
 import 'rxjs/add/operator/debounceTime';
+import 'rxjs/add/operator/map';
+import 'rxjs/add/operator/first';
+import { Observable } from "rxjs/Observable";
 
 @Component({
   selector: 'app-create-category',
@@ -31,7 +35,7 @@ export class CreateCategoryComponent implements OnInit {
   createForm() {
     this.form = this.fb.group({
       name: ['', Validators.required],
-      slug: ['', Validators.required],
+      slug: ['', Validators.required, [this.validateCategory.bind(this)]],
       category: null,
       description: null,
     })
@@ -77,6 +81,17 @@ export class CreateCategoryComponent implements OnInit {
       });
   }
 
+  findCategory(category): Observable<boolean> {
+    return this.db.object(`/categories/${category}`)
+      .map(category => category.$exists());
+  }
+
+  validateCategory(control: AbstractControl) {
+    return this.findCategory(control.value)
+      .first()
+      .map((response: boolean) => response ? { categoryExists: true } : null);
+  }
+
   createSlug(title: string): string {
     // https://gist.github.com/mathewbyrne/1280286
     return title.toString().toLowerCase()
@@ -85,6 +100,12 @@ export class CreateCategoryComponent implements OnInit {
       .replace(/\-\-+/g, '-')         // Replace multiple - with single -
       .replace(/^-+/, '')             // Trim - from start of text
       .replace(/-+$/, '');            // Trim - from end of text
+  }
+
+  get categoryExists() {
+    return (
+      this.form.get('slug').hasError('categoryExists')
+    )
   }
 
   onSubmit() {

@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { FormGroup } from "@angular/forms";
 import { Category } from "../../../taxonomy/category/category";
 
@@ -18,10 +18,12 @@ import { Category } from "../../../taxonomy/category/category";
         </option>
       </select>
 
+      
+
     </div>
   `
 })
-export class SelectCategoriesComponent implements OnInit {
+export class SelectCategoriesComponent {
   @Input()
   parent: FormGroup;
 
@@ -30,11 +32,6 @@ export class SelectCategoriesComponent implements OnInit {
 
   space = "\u00A0\u00A0\u00A0";
   
-  constructor() { }
-
-  ngOnInit() {
-
-  }
 
 }
 
