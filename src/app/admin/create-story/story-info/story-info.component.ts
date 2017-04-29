@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output } from '@angular/core';
+import { Component, Input, Output } from '@angular/core';
 import { FormGroup } from "@angular/forms";
 
 @Component({
@@ -6,23 +6,32 @@ import { FormGroup } from "@angular/forms";
   styleUrls: ['./story-info.component.scss'],
   template: `
     <div [formGroup]="parent">
-      <h2>Story Title</h2>
+      <h2>Add New Post</h2>
       <input
-        tabindex="1"
         formControlName="title"
         type="text" 
-        placeholder="Title">
+        placeholder="Enter title here">
+      <input
+        formControlName="slug"
+        type="text"
+        placeholder="A slug will be generated automatically">
+      <div 
+        class="error"
+        *ngIf="storyExists">
+        Story already exists. Please change name or just slug.
+      </div>
     </div>
   `
 })
-export class StoryInfoComponent implements OnInit {
+export class StoryInfoComponent {
 
   @Input()
   parent: FormGroup;
 
-  constructor() { }
-
-  ngOnInit() {
+  get storyExists() {
+    return (
+      this.parent.get('slug').hasError('storyExists')
+    )
   }
 
 }

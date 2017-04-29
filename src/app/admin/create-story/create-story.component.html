@@ -3,7 +3,13 @@
 
     <app-story-info [parent]="form"></app-story-info>
 
-    <app-select-categories [parent]="form" [categories]="hierarchyCategories"></app-select-categories>
+    <div>
+      <h2>Categories</h2>
+      <app-select-categories
+      [parent]="form" 
+      [categories]="hierarchyCategories">
+      </app-select-categories>
+    </div>
 
     <p-editor
       tabindex="2"

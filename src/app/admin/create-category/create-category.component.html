@@ -6,7 +6,7 @@
     <input type="text" id="name" formControlName="name">
 
     <label for="slug">Slug</label>
-    <div>
+    <div class="validation-error">
       <input type="text" id="slug" formControlName="slug">
       <div 
         class="error"
@@ -56,10 +56,5 @@
         Create Category
       </button>
     </div>
-<pre>
-Value: {{form.value | json}}
-Status: {{form.status | json}}
-Errors: {{form.errors | json}}
-</pre>
   </form>
 </div>

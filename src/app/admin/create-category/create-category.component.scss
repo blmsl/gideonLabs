@@ -9,3 +9,12 @@ form {
   grid-template-rows: auto;
   grid-gap: 2em;
 }
+
+.validation-error {
+  width: 100%;
+
+    input[type="text"] {
+      width: 100%;
+    }
+}
+

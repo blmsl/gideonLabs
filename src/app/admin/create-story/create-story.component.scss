@@ -5,16 +5,18 @@
 }
 
 form {
-  margin: 5em 0;
+  width: 90vw;
+  margin: 3em 0;
   display: grid;
-  grid-template-columns: repeat(4, 15vw);
+  grid-template-columns: 1fr max-content;
   grid-template-rows: auto;
   grid-gap: 1em;
   grid-template-areas:
-    "story-info story-info story-info category"
-    "editor editor picture-list category"
-    "add-picture add-picture picture-list category"
-    "submit value picture-list category"
+    "story-info category"
+    "editor picture-list"
+    "add-picture picture-list"
+    "submit picture-list"
+    "value ."
 }
 
 app-story-info {

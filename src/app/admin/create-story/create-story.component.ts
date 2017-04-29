@@ -1,7 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormArray, FormGroup, Validators } from "@angular/forms";
+import { FormBuilder, FormArray, FormGroup, Validators, AbstractControl } from "@angular/forms";
 import { AngularFireDatabase } from 'angularfire2/database';
 import { Category } from "../../taxonomy/category/category";
+
+import 'rxjs/add/operator/debounceTime';
+import 'rxjs/add/operator/map';
+import 'rxjs/add/operator/first';
+import { Observable } from "rxjs/Observable";
 
 @Component({
   selector: 'app-create-story',
@@ -15,6 +20,7 @@ export class CreateStoryComponent implements OnInit {
   createForm() {
     this.form = this.fb.group({
       title: ['', Validators.required],
+      slug: ['', Validators.required, [this.validateStory.bind(this)]],
       content: ['', Validators.required],
       category: ['', Validators.required],
       picture: this.initPicture({}),
@@ -28,6 +34,11 @@ export class CreateStoryComponent implements OnInit {
   ngOnInit() {
     this.createForm();
     this.getCategories();
+    this.form.get('title').valueChanges
+      .debounceTime(350)
+      .subscribe(name => {
+        this.form.get('slug').patchValue(this.createSlug(name))
+      });
   }
 
   getCategories() {
@@ -68,6 +79,17 @@ export class CreateStoryComponent implements OnInit {
         this.hierarchyCategories = hierarchy;
 
       });
+  }
+
+  findStory(story): Observable<boolean> {
+    return this.db.object(`/stories/${story}`)
+      .map(story => story.$exists());
+  }
+
+  validateStory(control: AbstractControl) {
+    return this.findStory(control.value)
+      .first()
+      .map((response: boolean) => response ? { storyExists: true } : null);
   }
 
   initPicture(pic) {
@@ -114,7 +136,7 @@ export class CreateStoryComponent implements OnInit {
 
     // Pull form values out
     let title = this.form.get('title').value;
-    let slug = this.createSlug(title);
+    let slug = this.form.get('slug').value;
     let content = this.form.get('content').value;
     let description = this.generateDescription(content);
 
