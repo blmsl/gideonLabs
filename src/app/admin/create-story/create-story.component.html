@@ -3,6 +3,24 @@
 
     <app-story-info [parent]="form"></app-story-info>
 
+    <div class="publish-box">
+      <h2>Publish</h2>
+      <label for="date">Date</label>
+      <input
+        id="date"
+        formControlName="date"
+        type="text">
+      <div>Author: {{this.form.get('author').value}}</div>
+      <button
+        type="submit"
+        [disabled]="
+          form.get('title').invalid || 
+          form.get('content').invalid ||
+          form.get('pictures').value.length === 0">
+        Create Story
+      </button>
+    </div>
+
     <div>
       <h2>Categories</h2>
       <app-select-categories
@@ -46,17 +64,6 @@
       [parent]="form"
       (removed)="removePicture($event)">
     </app-story-pictures>
-
-    <div class="submit-button">
-      <button
-        type="submit"
-        [disabled]="
-          form.get('title').invalid || 
-          form.get('content').invalid ||
-          form.get('pictures').value.length === 0">
-        Create Story
-      </button>
-    </div>
 
 <pre class="form-value">
 {{form.value | json}}

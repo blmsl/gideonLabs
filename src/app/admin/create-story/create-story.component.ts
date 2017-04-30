@@ -7,6 +7,8 @@ import 'rxjs/add/operator/debounceTime';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/first';
 import { Observable } from "rxjs/Observable";
+import { AuthService } from "../../auth/auth.service";
+import { Post } from "../../shared/post";
 
 @Component({
   selector: 'app-create-story',
@@ -18,18 +20,26 @@ export class CreateStoryComponent implements OnInit {
   hierarchyCategories: Category[];
   
   createForm() {
+    let currentDate = new Date();
+    let dateString = currentDate.toLocaleDateString();
+
+    let author = this.auth.user.displayName;
+
     this.form = this.fb.group({
+      date: [dateString, Validators.required],
       title: ['', Validators.required],
       slug: ['', Validators.required, [this.validateStory.bind(this)]],
       content: ['', Validators.required],
       category: ['', Validators.required],
+      author: [author, Validators.required],
       picture: this.initPicture({}),
       pictures: this.fb.array([])
     })
   }
   
   constructor(private fb: FormBuilder, 
-              private db: AngularFireDatabase) { }
+              private db: AngularFireDatabase,
+              private auth: AuthService) { }
 
   ngOnInit() {
     this.createForm();
@@ -135,16 +145,27 @@ export class CreateStoryComponent implements OnInit {
   onSubmit() {
 
     // Pull form values out
-    let title = this.form.get('title').value;
-    let slug = this.form.get('slug').value;
-    let content = this.form.get('content').value;
-    let description = this.generateDescription(content);
+    // let title = this.form.get('title').value;
+    // let slug = this.form.get('slug').value;
+    // let content = this.form.get('content').value;
+    
+    let {date, title, slug, content, category, author} = this.form.value;
 
-    let story = {
+    let excerpt = this.generateDescription(content);
+    let published = Date.now();
+    let created = Date.parse(date);
+    let link = `/posts/${slug}`;
+
+    const story: Post = {
+      published,
+      created,
+      slug,
+      link,
       title,
       content,
-      slug,
-      description
+      excerpt,
+      author,
+      category
     };
 
     this.db.object(`/stories/${slug}`).update(story);

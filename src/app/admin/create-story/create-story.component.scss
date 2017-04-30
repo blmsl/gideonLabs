@@ -12,8 +12,8 @@ form {
   grid-template-rows: auto;
   grid-gap: 1em;
   grid-template-areas:
-    "story-info category"
-    "editor picture-list"
+    "story-info publish"
+    "editor category"
     "add-picture picture-list"
     "submit picture-list"
     "value ."
@@ -37,8 +37,8 @@ app-story-pictures {
   border: 1px solid red;
 }
 
-.submit-button {
-  grid-area: submit;
+.publish-box {
+  grid-area: publish;
 }
 
 .form-value {
