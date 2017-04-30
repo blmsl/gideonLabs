@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormArray, FormGroup, Validators, AbstractControl } from "@angular/forms";
-import { AngularFireDatabase } from 'angularfire2/database';
+import { AngularFireDatabase, FirebaseListObservable } from 'angularfire2/database';
 import { Category } from "../../taxonomy/category/category";
 
 import 'rxjs/add/operator/debounceTime';
@@ -9,6 +9,7 @@ import 'rxjs/add/operator/first';
 import { Observable } from "rxjs/Observable";
 import { AuthService } from "../../auth/auth.service";
 import { Post } from "../../shared/post";
+import { User } from "../shared/user";
 
 @Component({
   selector: 'app-create-story',
@@ -18,12 +19,13 @@ import { Post } from "../../shared/post";
 export class CreateStoryComponent implements OnInit {
   public form: FormGroup;
   hierarchyCategories: Category[];
+  users: User[];
   
   createForm() {
     let currentDate = new Date();
     let dateString = currentDate.toLocaleDateString();
 
-    let author = this.auth.user.displayName;
+    let author = this.auth.user.uid;
 
     this.form = this.fb.group({
       date: [dateString, Validators.required],
@@ -44,11 +46,18 @@ export class CreateStoryComponent implements OnInit {
   ngOnInit() {
     this.createForm();
     this.getCategories();
+    this.getUsers();
     this.form.get('title').valueChanges
       .debounceTime(350)
       .subscribe(name => {
         this.form.get('slug').patchValue(this.createSlug(name))
       });
+    
+  }
+
+  getUsers() {
+    this.db.list('/users')
+      .subscribe(users => this.users = users)
   }
 
   getCategories() {

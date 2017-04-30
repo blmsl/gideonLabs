@@ -10,7 +10,10 @@
         id="date"
         formControlName="date"
         type="text">
-      <div>Author: {{this.form.get('author').value}}</div>
+      <app-select-users
+        [parent]="form"
+        [users]="users">
+      </app-select-users>
       <button
         type="submit"
         [disabled]="

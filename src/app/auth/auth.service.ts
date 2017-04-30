@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { AngularFireAuth } from 'angularfire2/auth';
 import { GoogleAuthProvider } from 'firebase/auth';
+import { AngularFireDatabase } from 'angularfire2/database';
 import { Observable } from 'rxjs/Observable';
 
 @Injectable()
@@ -9,7 +10,7 @@ export class AuthService {
   private _user: firebase.User;
 
   
-  constructor(public afAuth: AngularFireAuth) {
+  constructor(public afAuth: AngularFireAuth, private db: AngularFireDatabase) {
     this.user = null;
 
     afAuth.authState.subscribe(user => {
@@ -36,6 +37,23 @@ export class AuthService {
 
   signInWithGoogle() {
     return this.afAuth.auth.signInWithPopup(new GoogleAuthProvider())
+      .then(response => {
+        this.db.object(`/users/${response.user.uid}`)
+          .subscribe(user => {
+            if (user.$exists()) {
+              console.log(user.displayName, "exists in the database.");
+            } else {
+              let {displayName, email, emailVerified, photoURL, uid} = response.user;
+              this.db.object(`/users/${response.user.uid}`).set({
+                displayName,
+                email,
+                emailVerified,
+                photoURL,
+                uid
+              })
+            }
+          });
+      })
       .catch(err => console.log('ERRROR @ AuthService#signIn() :', err));
   }
 

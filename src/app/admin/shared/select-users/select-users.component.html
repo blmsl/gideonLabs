@@ -1,0 +1,6 @@
+<div [formGroup]="parent">
+  <label for="author">Author:</label>
+  <select name="author" id="author" formControlName="author">
+    <option *ngFor="let user of users" [value]="user.uid">{{user.displayName}}</option>
+  </select>
+</div>
