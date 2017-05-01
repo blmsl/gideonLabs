@@ -29,43 +29,51 @@ export class CreateCategoryComponent implements OnInit {
     this.form.get('name')!.valueChanges
       .debounceTime(350)
       .subscribe(name => {
-        this.form.get('slug')!.patchValue(this.createSlug(name))
+        this.form.get('slug')!.patchValue(this.createSlug(name));
+        this.createLink();
       });
 
     this.form.get('parent')!.valueChanges
       .subscribe(slug => {
-        const baseUrl = 'https://www.gideonlabs.com/posts/category';
-        const childSlug = this.form.get('slug')!.value;
-        const link = this.form.get('link')!;
-
-        const parentCategory = this.hierarchyCategories.find(category => {
-          return category.slug === slug;
-        });
-
-        const grandParentCategory = this.hierarchyCategories.find(category => {
-          return category.slug === parentCategory!.parent;
-        });
-
-        if (grandParentCategory) {
-          const greatGrandParentCategory = this.hierarchyCategories.find(category => {
-            return category.slug === grandParentCategory.parent;
-          });
-          if (greatGrandParentCategory) {
-            link.patchValue(`${baseUrl}/${greatGrandParentCategory.slug}/${grandParentCategory!.slug}/${parentCategory!.slug}/${childSlug}`);
-          } else {
-            link.patchValue(`${baseUrl}/${grandParentCategory!.slug}/${parentCategory!.slug}/${childSlug}`);
-          }
-        } else {
-          link.patchValue(`${baseUrl}/${parentCategory!.slug}/${childSlug}`);
-        }
+        this.createLink();
       });
+  }
+
+  createLink() {
+    const baseUrl = 'https://www.gideonlabs.com/posts/category';
+    const childSlug = this.form.get('slug')!.value;
+    const parentSlug = this.form.get('parent')!.value;
+    const link = this.form.get('link')!;
+
+    if (!parentSlug) {
+      link.patchValue(`${baseUrl}/${childSlug}`);
+    } else {
+      const parentCategory = this.hierarchyCategories.find(category => {
+        return category.slug === parentSlug;
+      });
+      const grandParentCategory = this.hierarchyCategories.find(category => {
+        return category.slug === parentCategory!.parent;
+      });
+      if (grandParentCategory) {
+        const greatGrandParentCategory = this.hierarchyCategories.find(category => {
+          return category.slug === grandParentCategory.parent;
+        });
+        if (greatGrandParentCategory) {
+          link.patchValue(`${baseUrl}/${greatGrandParentCategory.slug}/${grandParentCategory!.slug}/${parentCategory!.slug}/${childSlug}`);
+        } else {
+          link.patchValue(`${baseUrl}/${grandParentCategory!.slug}/${parentCategory!.slug}/${childSlug}`);
+        }
+      } else {
+        link.patchValue(`${baseUrl}/${parentCategory!.slug}/${childSlug}`);
+      }
+    }    
   }
 
   createForm() {
     this.form = this.fb.group({
       name: ['', Validators.required],
       slug: ['', Validators.required, [this.validateCategory.bind(this)]],
-      parent: null,
+      parent: '',
       link: ['', Validators.required],
       description: null,
     })
