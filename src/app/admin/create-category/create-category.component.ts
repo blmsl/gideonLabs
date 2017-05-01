@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormArray, FormGroup, Validators, AbstractControl } from "@angular/forms";
+import { FormBuilder, FormGroup, Validators, AbstractControl } from "@angular/forms";
 import { AngularFireDatabase } from 'angularfire2/database';
 import { Category } from "../../taxonomy/category/category";
 
@@ -17,6 +17,7 @@ export class CreateCategoryComponent implements OnInit {
 
   public form: FormGroup;
   hierarchyCategories: Category[];
+  parentControlName = "parent";
 
   constructor(private fb: FormBuilder, 
               private db: AngularFireDatabase) { }
@@ -25,10 +26,38 @@ export class CreateCategoryComponent implements OnInit {
     this.createForm();
     this.getCategories();
 
-    this.form.get('name').valueChanges
+    this.form.get('name')!.valueChanges
       .debounceTime(350)
       .subscribe(name => {
-        this.form.get('slug').patchValue(this.createSlug(name))
+        this.form.get('slug')!.patchValue(this.createSlug(name))
+      });
+
+    this.form.get('parent')!.valueChanges
+      .subscribe(slug => {
+        const baseUrl = 'https://www.gideonlabs.com/posts/category';
+        const childSlug = this.form.get('slug')!.value;
+        const link = this.form.get('link')!;
+
+        const parentCategory = this.hierarchyCategories.find(category => {
+          return category.slug === slug;
+        });
+
+        const grandParentCategory = this.hierarchyCategories.find(category => {
+          return category.slug === parentCategory!.parent;
+        });
+
+        if (grandParentCategory) {
+          const greatGrandParentCategory = this.hierarchyCategories.find(category => {
+            return category.slug === grandParentCategory.parent;
+          });
+          if (greatGrandParentCategory) {
+            link.patchValue(`${baseUrl}/${greatGrandParentCategory.slug}/${grandParentCategory!.slug}/${parentCategory!.slug}/${childSlug}`);
+          } else {
+            link.patchValue(`${baseUrl}/${grandParentCategory!.slug}/${parentCategory!.slug}/${childSlug}`);
+          }
+        } else {
+          link.patchValue(`${baseUrl}/${parentCategory!.slug}/${childSlug}`);
+        }
       });
   }
 
@@ -36,7 +65,8 @@ export class CreateCategoryComponent implements OnInit {
     this.form = this.fb.group({
       name: ['', Validators.required],
       slug: ['', Validators.required, [this.validateCategory.bind(this)]],
-      category: null,
+      parent: null,
+      link: ['', Validators.required],
       description: null,
     })
   }
@@ -49,26 +79,28 @@ export class CreateCategoryComponent implements OnInit {
           if (category.parent === undefined) {
             return true;
           }
+          return;
         });
 
         const children: Category[] = categories.filter(category => {
           if (category.parent !== undefined) {
             return true;
           }
+          return;
         });
 
         const hierarchy: Category[] = [];
 
         for (let hierarchyCategory of parents) {
-          hierarchy['level'] = 0;
+          hierarchyCategory.level = 0;
           hierarchy.push(hierarchyCategory);
           for (let child of children) {
             if (child.parent === hierarchyCategory.slug) {
-              child['level'] = 1;
+              child.level = 1;
               hierarchy.push(child);
               for (let grandChild of children) {
                 if (grandChild.parent === child.slug) {
-                  grandChild['level'] = 2;
+                  grandChild.level = 2;
                   hierarchy.push(grandChild);
                 } 
               }
@@ -81,7 +113,7 @@ export class CreateCategoryComponent implements OnInit {
       });
   }
 
-  findCategory(category): Observable<boolean> {
+  findCategory(category: Category): Observable<boolean> {
     return this.db.object(`/categories/${category}`)
       .map(category => category.$exists());
   }
@@ -104,19 +136,21 @@ export class CreateCategoryComponent implements OnInit {
 
   get categoryExists() {
     return (
-      this.form.get('slug').hasError('categoryExists')
+      this.form.get('slug')!.hasError('categoryExists')
     )
   }
 
   onSubmit() {
-    
-    const {slug, name, description, category} = this.form.value;
+        
+    const {slug, name, description, parent, link} = this.form.value;
 
-    const newCategory = {
-      slug, 
-      name, 
+    const newCategory: Category = {
+      count: 0,
       description, 
-      parent: category
+      link,
+      name, 
+      slug, 
+      parent
     }
 
     this.db.object(`/categories/${slug}`).set(newCategory);

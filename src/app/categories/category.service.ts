@@ -1,8 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Http, Response } from '@angular/http';
 
-import { Observable } from 'rxjs/Observable';
-
 import 'rxjs/add/operator/map';
 
 @Injectable()
@@ -14,7 +12,7 @@ export class CategoryService {
       .map((res: Response) => res.json());
   }
 
-  getCategory(id) {
+  getCategory(id: number) {
     return this.http.get(`${this.categoriesUrl}/${id}`)
       .map((res: Response) => res.json());
   }

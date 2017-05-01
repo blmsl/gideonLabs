@@ -7,9 +7,8 @@ import { Category } from "../../../taxonomy/category/category";
   styleUrls: ['./select-categories.component.scss'],
   template: `
     <div [formGroup]="parent">
-
       <select
-        formControlName="category">
+        [formControlName]="controlName">
         <option value="">Select Category</option>
         <option
           *ngFor="let parent of categories" 
@@ -17,9 +16,6 @@ import { Category } from "../../../taxonomy/category/category";
           {{space.repeat(parent.level)}}{{parent.name}}
         </option>
       </select>
-
-      
-
     </div>
   `
 })
@@ -29,6 +25,9 @@ export class SelectCategoriesComponent {
 
   @Input()
   categories: Category[];
+
+  @Input()
+  controlName: string;
 
   space = "\u00A0\u00A0\u00A0";
   

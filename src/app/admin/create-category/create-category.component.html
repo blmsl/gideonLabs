@@ -17,9 +17,13 @@
 
     <label for="category">Parent</label>
     <app-select-categories
-      [parent]="form" 
+      [parent]="form"
+      [controlName]="parentControlName"
       [categories]="hierarchyCategories">
     </app-select-categories>
+
+    <label for="link">URL</label>
+    <input type="text" readonly formControlName="link">
 
     <label for="description">Description</label>
     <p-editor

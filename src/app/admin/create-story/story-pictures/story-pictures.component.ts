@@ -37,8 +37,8 @@ export class StoryPicturesComponent {
     return (this.parent.get('pictures') as FormArray).controls;
   }
 
-  onRemove(picture, index) {
-    this.removed.emit({picture, index});
+  onRemove(index: number) {
+    this.removed.emit(index);
   }
 
 }

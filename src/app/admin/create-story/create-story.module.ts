@@ -13,9 +13,6 @@ import { StoryPicturesComponent } from './story-pictures/story-pictures.componen
 import { StoryPictureComponent } from './story-picture/story-picture.component';
 import { AdminSharedModule } from "../shared/admin-shared.module";
 
-
-
-
 @NgModule({
   imports: [
     CommonModule,

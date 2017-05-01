@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from "../auth/auth.service";
-import { UserInfo } from "firebase";
 import { Router } from "@angular/router";
 import { MdSnackBar, MdIconRegistry } from '@angular/material';
 import { DomSanitizer } from "@angular/platform-browser";
@@ -36,7 +35,7 @@ export class AdminComponent implements OnInit {
         this.auth.signOut();
         this.router.navigate(['admin', 'sign-in']);
 
-        this.snackBar.open(message, null, {
+        this.snackBar.open(message, undefined, {
             duration: 1000
         });
     }

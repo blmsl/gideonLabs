@@ -1,7 +1,10 @@
 export interface Category {
+  count: number;
+  description?: string;
+  link: string;
   name: string;
   slug: string;
-  description?: string;
   parent?: string;
   children?: Category[];
+  level?: number;
 }

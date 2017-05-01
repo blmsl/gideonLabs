@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormArray, FormGroup, Validators, AbstractControl } from "@angular/forms";
-import { AngularFireDatabase, FirebaseListObservable } from 'angularfire2/database';
+import { AngularFireDatabase } from 'angularfire2/database';
 import { Category } from "../../taxonomy/category/category";
 
 import 'rxjs/add/operator/debounceTime';
@@ -10,6 +10,7 @@ import { Observable } from "rxjs/Observable";
 import { AuthService } from "../../auth/auth.service";
 import { Post } from "../../shared/post";
 import { User } from "../shared/user";
+import { Picture } from "../../shared/picture";
 
 @Component({
   selector: 'app-create-story',
@@ -20,6 +21,7 @@ export class CreateStoryComponent implements OnInit {
   public form: FormGroup;
   hierarchyCategories: Category[];
   users: User[];
+  categoryControlName = 'category';
   
   createForm() {
     let currentDate = new Date();
@@ -47,10 +49,10 @@ export class CreateStoryComponent implements OnInit {
     this.createForm();
     this.getCategories();
     this.getUsers();
-    this.form.get('title').valueChanges
+    this.form.get('title')!.valueChanges
       .debounceTime(350)
       .subscribe(name => {
-        this.form.get('slug').patchValue(this.createSlug(name))
+        this.form.get('slug')!.patchValue(this.createSlug(name))
       });
     
   }
@@ -68,26 +70,28 @@ export class CreateStoryComponent implements OnInit {
           if (category.parent === undefined) {
             return true;
           }
+          return;
         });
 
         const children: Category[] = categories.filter(category => {
           if (category.parent !== undefined) {
             return true;
           }
+          return;
         });
 
         const hierarchy: Category[] = [];
 
         for (let hierarchyCategory of parents) {
-          hierarchy['level'] = 0;
+          hierarchyCategory.level = 0;
           hierarchy.push(hierarchyCategory);
           for (let child of children) {
             if (child.parent === hierarchyCategory.slug) {
-              child['level'] = 1;
+              child.level = 1;
               hierarchy.push(child);
               for (let grandChild of children) {
                 if (grandChild.parent === child.slug) {
-                  grandChild['level'] = 2;
+                  grandChild.level = 2;
                   hierarchy.push(grandChild);
                 } 
               }
@@ -100,7 +104,7 @@ export class CreateStoryComponent implements OnInit {
       });
   }
 
-  findStory(story): Observable<boolean> {
+  findStory(story: any): Observable<boolean> {
     return this.db.object(`/stories/${story}`)
       .map(story => story.$exists());
   }
@@ -111,7 +115,7 @@ export class CreateStoryComponent implements OnInit {
       .map((response: boolean) => response ? { storyExists: true } : null);
   }
 
-  initPicture(pic) {
+  initPicture(pic: any) {
     return this.fb.group({
       title: [pic.title || '', Validators.required],
       caption: [pic.caption || '', Validators.required],
@@ -142,11 +146,11 @@ export class CreateStoryComponent implements OnInit {
   //   }
   // }
 
-  addPicture(picture) {
+  addPicture(picture: any) {
     this._pictures.push(this.initPicture(picture));
   }
 
-  removePicture({picture, index}: {picture: FormGroup, index: number}) {
+  removePicture(index: number) {
     this._pictures.removeAt(index);
   }
 
@@ -184,7 +188,7 @@ export class CreateStoryComponent implements OnInit {
 
   // Push each picture reference to database
   pushPictures(titleSlug: string) {
-    this.form.get('pictures').value.forEach(picture => {
+    this.form.get('pictures')!.value.forEach((picture: Picture) => {
       picture.slug = this.createSlug(picture.title);
       this.db.object(`/stories/${titleSlug}/pictures/${picture.slug}`).set(picture);
     });      

@@ -61,7 +61,7 @@ export class StoryPictureComponent {
   @Output()
   added = new EventEmitter<any>();
 
-  onUploadPicture(event) {
+  onUploadPicture(event: any) {
     let target: HTMLInputElement = <HTMLInputElement> event.target;
     let files: FileList = target.files;
 
@@ -70,7 +70,7 @@ export class StoryPictureComponent {
     }
   }
 
-  upload(file) {
+  upload(file: any) {
     let storageRef = firebase.storage().ref();
     let slug = this.createSlug(this.parent.get('title').value);
     let path = `/stories/${slug}/${file.name}`;
@@ -88,7 +88,7 @@ export class StoryPictureComponent {
 
     pictureTask
       .on('state_changed',
-        snapshot => {
+        (snapshot: any) => {
           let percentage = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
           this.progressValue = percentage;
         }, 

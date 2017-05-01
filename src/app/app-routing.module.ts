@@ -5,13 +5,6 @@ import { PostSingleComponent } from './posts/post-single/post-single.component';
 import { CategoryListComponent } from './categories/category-list/category-list.component';
 import { CategorySingleComponent } from './categories/category-single/category-single.component';
 
-
-import { ComponentsComponent } from './components/components.component';
-import { HistoryComponent } from './history/history.component';
-import { ForSaleComponent } from './for-sale/for-sale.component';
-import { SpecificationsComponent } from './specifications/specifications.component';
-import { ContactComponent } from './contact/contact.component';
-import { ForSaleDetailComponent } from './for-sale/for-sale-detail/for-sale-detail.component';
 import { BaseComponent } from "./base/base.component";
 
 const routes: Routes = [
