@@ -1,6 +1,6 @@
 .story-info-container {
   display: grid;
-  grid-template-columns: min-content 50em;
+  grid-template-columns: min-content 1fr;
   grid-template-rows: auto;
   grid-gap: 1em;
   grid-template-areas:
@@ -11,9 +11,12 @@
     grid-area: header;
   }
 
-  input {
-    width: 100%;
-  }
+}
 
+.error {
+  grid-column: 1/3;
+}
 
+.async {
+  grid-column: 2/3;
 }

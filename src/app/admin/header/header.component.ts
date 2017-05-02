@@ -1,4 +1,5 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
+import * as firebase from 'firebase/app';
 
 @Component({
   selector: 'app-header',

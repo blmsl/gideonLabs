@@ -1,7 +1,7 @@
 <div class="create-story-container">
   <form [formGroup]="form" (ngSubmit)="onSubmit()">
 
-    <app-story-info [parent]="form"></app-story-info>
+    <app-story-info [parent]="form" [async]="asyncTest"></app-story-info>
 
     <div class="publish-box">
       <h2>Publish</h2>
@@ -68,10 +68,8 @@
       [parent]="form"
       (removed)="removePicture($event)">
     </app-story-pictures>
-
-<pre class="form-value">
+<pre>
 {{form.value | json}}
 </pre>
-
   </form>
 </div>

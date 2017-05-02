@@ -3,7 +3,6 @@ import { FormBuilder, FormArray, FormGroup, Validators, AbstractControl } from "
 import { AngularFireDatabase } from 'angularfire2/database';
 import { Category } from "../../taxonomy/category/category";
 
-import 'rxjs/add/operator/debounceTime';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/first';
 import { Observable } from "rxjs/Observable";
@@ -22,6 +21,8 @@ export class CreateStoryComponent implements OnInit {
   hierarchyCategories: Category[];
   users: User[];
   categoryControlName = 'category';
+  asyncTest: boolean = false;
+  author: string;
   
   
   constructor(private fb: FormBuilder, 
@@ -33,7 +34,6 @@ export class CreateStoryComponent implements OnInit {
     this.getCategories();
     this.getUsers();
     this.form.get('title')!.valueChanges
-      .debounceTime(350)
       .subscribe(name => {
         let slug = this.createSlug(name);
         this.form.get('slug')!.patchValue(slug);
@@ -43,6 +43,8 @@ export class CreateStoryComponent implements OnInit {
       .subscribe(slug => {
         this.form.get('link')!.patchValue(`https://www.gideonlabs.com/posts/${slug}`);
       });
+
+    this.author = this.auth.user.uid;
     
   }
 
@@ -50,15 +52,13 @@ export class CreateStoryComponent implements OnInit {
     let currentDate = new Date();
     let dateString = currentDate.toLocaleDateString();
 
-    let author = this.auth.user.uid;
-
     this.form = this.fb.group({
       date: [dateString, Validators.required],
       title: ['', Validators.required],
-      slug: ['', Validators.required, [this.validateStory.bind(this)]],
+      slug: ['', [Validators.required, Validators.pattern(/^[0-9A-Za-z\s\-]+$/)], [this.validateStory.bind(this)]],
       content: ['', Validators.required],
       category: ['', Validators.required],
-      author: [author, Validators.required],
+      author: [this.author, Validators.required],
       picture: this.initPicture({}),
       pictures: this.fb.array([]),
       link: ['', Validators.required]
@@ -114,20 +114,34 @@ export class CreateStoryComponent implements OnInit {
 
   findStory(story: any): Observable<boolean> {
     return this.db.object(`/stories/${story}`)
-      .map(story => story.$exists());
+      .map(story => {
+        console.log('Does', this.form.get('slug')!.value, 'match', story.slug, '?', story.$exists());
+        return story.$exists();
+      });
   }
 
   validateStory(control: AbstractControl) {
+    this.asyncTest = true;
     return this.findStory(control.value)
       .first()
-      .map((response: boolean) => response ? { storyExists: true } : null);
+      .map((response: boolean) => {
+        this.asyncTest = false;
+        console.log(response);
+        return response ? { storyExists: true } : null;
+      });
   }
 
   initPicture(pic: any) {
+    const date = new Date();
     return this.fb.group({
+      date: [pic.date || date, Validators.required],
+      slug: [pic.slug || ''],
       title: [pic.title || '', Validators.required],
+      author: [pic.author || this.author, Validators.required],
       caption: [pic.caption || '', Validators.required],
-      storageLink: [pic.storageLink || '', Validators.required]
+      altText: [pic.altText || ''],
+      mimeType: [pic.mimeType || ''],
+      storageUrl: [pic.storageUrl || '', Validators.required],
     })
   }
 
@@ -154,7 +168,7 @@ export class CreateStoryComponent implements OnInit {
   //   }
   // }
 
-  addPicture(picture: any) {
+  addPicture(picture: Picture) {
     this._pictures.push(this.initPicture(picture));
   }
 

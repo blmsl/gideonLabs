@@ -17,7 +17,7 @@ export class StoryPictureComponent {
   added = new EventEmitter<any>();
 
   onUploadPicture(event: any) {
-    let target: HTMLInputElement = <HTMLInputElement> event.target;
+    let target: HTMLInputElement = event.target as HTMLInputElement;
     let files: FileList = target.files;
 
     if (files && files[0]) {

@@ -1,20 +1,24 @@
 <div [formGroup]="parent">
   <h2>Add a Picture</h2>
   <div formGroupName="picture" class="picture">
+    <label for="title">Title</label>
     <input 
+      id="title"
       class="picture-title"
       type="text" 
       placeholder="Title" 
       formControlName="title">
+    <label for="title">Caption</label>
     <input 
       class="picture-caption"
       type="text" 
       placeholder="Caption" 
       formControlName="caption">
+    <label for="storageUrl"></label>
     <input
       type="text" 
-      placeholder="Storage Link" 
-      formControlName="storageLink"
+      placeholder="Storage URL" 
+      formControlName="storageUrl"
       readonly>
     <input
       id="picture-input"

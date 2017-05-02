@@ -12,13 +12,16 @@ import { FormGroup } from "@angular/forms";
         id="title"
         formControlName="title"
         type="text" 
-        placeholder="Enter title here">
+        placeholder="Enter title here" />
       <label for="slug">Slug</label>
       <input
         id="slug"
         formControlName="slug"
         type="text"
-        placeholder="A slug will be generated automatically">
+        placeholder="A slug will be generated automatically" />
+      <div class="async">Checking story slug: {{async}}</div>
+      <span>Errors</span>
+      {{parent.get('slug').errors | json}}
       <div 
         class="error"
         *ngIf="storyExists">
@@ -30,7 +33,7 @@ import { FormGroup } from "@angular/forms";
         formControlName="link"
         type="text"
         placeholder="This field will be created automatically"
-        readonly>
+        readonly />
     </div>
   `
 })
@@ -38,6 +41,9 @@ export class StoryInfoComponent {
 
   @Input()
   parent: FormGroup;
+
+  @Input()
+  async: boolean;
 
   get storyExists() {
     return (

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { AngularFireAuth } from 'angularfire2/auth';
-import { GoogleAuthProvider } from 'firebase/auth';
 import { AngularFireDatabase } from 'angularfire2/database';
+import * as firebase from 'firebase/app';
 
 @Injectable()
 export class AuthService {
@@ -35,7 +35,7 @@ export class AuthService {
   }
 
   signInWithGoogle() {
-    return this.afAuth.auth.signInWithPopup(new GoogleAuthProvider())
+    return this.afAuth.auth.signInWithPopup(new firebase.auth.GoogleAuthProvider())
       .then(response => {
         this.db.object(`/users/${response.user.uid}`)
           .subscribe(user => {
