@@ -1,4 +1,19 @@
-input[type="text"] {
-  width: 100%;
-  margin-bottom: 1em;
+.story-info-container {
+  display: grid;
+  grid-template-columns: min-content 50em;
+  grid-template-rows: auto;
+  grid-gap: 1em;
+  grid-template-areas:
+    "header header";
+  align-items: center;
+  
+  h2 {
+    grid-area: header;
+  }
+
+  input {
+    width: 100%;
+  }
+
+
 }

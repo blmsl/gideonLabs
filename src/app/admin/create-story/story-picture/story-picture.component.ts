@@ -1,56 +1,11 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { FormGroup } from "@angular/forms";
-import * as firebase from 'firebase';
-import { AngularFireDatabase } from 'angularfire2/database';
+import * as firebase from 'firebase/app';
 
 @Component({
   selector: 'app-story-picture',
   styleUrls: ['./story-picture.component.scss'],
-  template: `
-    <div [formGroup]="parent">
-      <h2>Add a Picture</h2>
-      <div formGroupName="picture" class="picture">
-        <input 
-          class="picture-title"
-          type="text" 
-          placeholder="Title" 
-          formControlName="title">
-        <input 
-          class="picture-caption"
-          type="text" 
-          placeholder="Caption" 
-          formControlName="caption">
-        <input
-          type="text" 
-          placeholder="Storage Link" 
-          formControlName="storageLink"
-          readonly>
-        <input
-          id="picture-input"
-          class="upload"
-          type="file"
-          accept="image/*"
-          (change)="onUploadPicture($event)"
-          [disabled]="parent.get('title').invalid || parent.get('content').invalid">
-        <div class="progress">
-          <progress [attr.value]="progressValue" max="100" id="uploader"></progress>
-        </div>
-        <div class="add-reset-picture">
-          <button
-            type="button"
-            (click)="onAddPicture()">
-            Add Picture
-          </button>
-          <button
-            type="button"
-            (click)="onResetPicture()">
-            Reset
-          </button>
-        </div>
-      </div>
-
-    </div>
-  `
+  templateUrl: './story-picture.component.html'
 })
 export class StoryPictureComponent {
   progressValue: number = 0;
@@ -72,15 +27,15 @@ export class StoryPictureComponent {
 
   upload(file: any) {
     let storageRef = firebase.storage().ref();
-    let slug = this.createSlug(this.parent.get('title').value);
+    let slug = this.createSlug(this.parent.get('title')!.value);
     let path = `/stories/${slug}/${file.name}`;
     let picturePath = storageRef.child(path);
 
     const metadata: firebase.storage.UploadMetadata = {
       contentType: file.type,
       customMetadata: {
-        title: this.parent.get(['picture', 'title']).value,
-        caption: this.parent.get(['picture', 'caption']).value
+        title: this.parent.get(['picture', 'title'])!.value,
+        caption: this.parent.get(['picture', 'caption'])!.value
       }
     }
 
@@ -99,21 +54,22 @@ export class StoryPictureComponent {
         // Called on complete
         () => {
           let url = pictureTask.snapshot.downloadURL;
-          this.parent.get('picture').patchValue({ storageLink: url });
+          this.parent.get('picture')!.patchValue({ storageLink: url });
         }
       );
   }
 
   onAddPicture() {
-    this.added.emit(this.parent.get('picture').value);
+    this.added.emit(this.parent.get('picture')!.value);
     this.onResetPicture();
   }
 
   onResetPicture() {
-    this.parent.get('picture').reset({
+    this.parent.get('picture')!.reset({
       title: '',
       caption: '',
-      storageLink: ''
+      storageUrl: '',
+      link: ''
     });
     this.progressValue = 0;
   }

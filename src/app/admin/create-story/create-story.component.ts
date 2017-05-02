@@ -23,6 +23,29 @@ export class CreateStoryComponent implements OnInit {
   users: User[];
   categoryControlName = 'category';
   
+  
+  constructor(private fb: FormBuilder, 
+              private db: AngularFireDatabase,
+              private auth: AuthService) { }
+
+  ngOnInit() {
+    this.createForm();
+    this.getCategories();
+    this.getUsers();
+    this.form.get('title')!.valueChanges
+      .debounceTime(350)
+      .subscribe(name => {
+        let slug = this.createSlug(name);
+        this.form.get('slug')!.patchValue(slug);
+      });
+
+    this.form.get('slug')!.valueChanges
+      .subscribe(slug => {
+        this.form.get('link')!.patchValue(`https://www.gideonlabs.com/posts/${slug}`);
+      });
+    
+  }
+
   createForm() {
     let currentDate = new Date();
     let dateString = currentDate.toLocaleDateString();
@@ -37,24 +60,9 @@ export class CreateStoryComponent implements OnInit {
       category: ['', Validators.required],
       author: [author, Validators.required],
       picture: this.initPicture({}),
-      pictures: this.fb.array([])
+      pictures: this.fb.array([]),
+      link: ['', Validators.required]
     })
-  }
-  
-  constructor(private fb: FormBuilder, 
-              private db: AngularFireDatabase,
-              private auth: AuthService) { }
-
-  ngOnInit() {
-    this.createForm();
-    this.getCategories();
-    this.getUsers();
-    this.form.get('title')!.valueChanges
-      .debounceTime(350)
-      .subscribe(name => {
-        this.form.get('slug')!.patchValue(this.createSlug(name))
-      });
-    
   }
 
   getUsers() {
@@ -162,12 +170,11 @@ export class CreateStoryComponent implements OnInit {
     // let slug = this.form.get('slug').value;
     // let content = this.form.get('content').value;
     
-    let {date, title, slug, content, category, author} = this.form.value;
+    let {date, title, slug, content, category, author, link} = this.form.value;
 
     let excerpt = this.generateDescription(content);
     let published = Date.now();
     let created = Date.parse(date);
-    let link = `/posts/${slug}`;
 
     const story: Post = {
       published,

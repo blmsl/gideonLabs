@@ -1,0 +1,43 @@
+<div [formGroup]="parent">
+  <h2>Add a Picture</h2>
+  <div formGroupName="picture" class="picture">
+    <input 
+      class="picture-title"
+      type="text" 
+      placeholder="Title" 
+      formControlName="title">
+    <input 
+      class="picture-caption"
+      type="text" 
+      placeholder="Caption" 
+      formControlName="caption">
+    <input
+      type="text" 
+      placeholder="Storage Link" 
+      formControlName="storageLink"
+      readonly>
+    <input
+      id="picture-input"
+      class="upload"
+      type="file"
+      accept="image/*"
+      (change)="onUploadPicture($event)"
+      [disabled]="parent.get('title').invalid || parent.get('content').invalid">
+    <div class="progress">
+      <progress [attr.value]="progressValue" max="100" id="uploader"></progress>
+    </div>
+    <div class="add-reset-picture">
+      <button
+        type="button"
+        (click)="onAddPicture()">
+        Add Picture
+      </button>
+      <button
+        type="button"
+        (click)="onResetPicture()">
+        Reset
+      </button>
+    </div>
+  </div>
+
+</div>
