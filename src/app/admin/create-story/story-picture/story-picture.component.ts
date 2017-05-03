@@ -1,6 +1,6 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { FormGroup } from "@angular/forms";
-import * as firebase from 'firebase/app';
+import * as firebase from 'firebase';
 
 @Component({
   selector: 'app-story-picture',
@@ -16,6 +16,9 @@ export class StoryPictureComponent {
   @Output()
   added = new EventEmitter<any>();
 
+  @Output()
+  pictureReset = new EventEmitter();
+
   onUploadPicture(event: any) {
     let target: HTMLInputElement = event.target as HTMLInputElement;
     let files: FileList = target.files;
@@ -30,6 +33,8 @@ export class StoryPictureComponent {
     let slug = this.createSlug(this.parent.get('title')!.value);
     let path = `/stories/${slug}/${file.name}`;
     let picturePath = storageRef.child(path);
+
+    this.parent.get('picture.type')!.patchValue(file.type);
 
     const metadata: firebase.storage.UploadMetadata = {
       contentType: file.type,
@@ -54,7 +59,7 @@ export class StoryPictureComponent {
         // Called on complete
         () => {
           let url = pictureTask.snapshot.downloadURL;
-          this.parent.get('picture')!.patchValue({ storageLink: url });
+          this.parent.get('picture')!.patchValue({ storageUrl: url });
         }
       );
   }
@@ -65,12 +70,7 @@ export class StoryPictureComponent {
   }
 
   onResetPicture() {
-    this.parent.get('picture')!.reset({
-      title: '',
-      caption: '',
-      storageUrl: '',
-      link: ''
-    });
+    this.pictureReset.emit();
     this.progressValue = 0;
   }
 

@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { FormGroup, FormArray } from "@angular/forms";
 
 @Component({
@@ -10,7 +10,7 @@ import { FormGroup, FormArray } from "@angular/forms";
       <div formArrayName="pictures">
         <div *ngFor="let picture of pictureArray; let i = index;">
           <div [formGroupName]="i">
-            <img [src]="picture.value.storageLink" style="width: 150px;">
+            <img [src]="picture.value.storageUrl" style="width: 150px;">
             <div>Title: {{ picture.value.title }}</div>
             <div>Caption: {{ picture.value.caption }}</div>
             <button 

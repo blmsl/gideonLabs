@@ -6,7 +6,7 @@ export interface Picture {
   author: string;
   caption: string;
   altText: string;
-  mimeType: string;
+  type: string;
   storageUrl: string;
   mediaDetails?: {
     width: number;
@@ -43,5 +43,3 @@ export interface Picture {
     };
   };
 }
-
-

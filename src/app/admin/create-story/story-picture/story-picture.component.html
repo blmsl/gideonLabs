@@ -1,34 +1,47 @@
 <div [formGroup]="parent">
   <h2>Add a Picture</h2>
   <div formGroupName="picture" class="picture">
-    <label for="title">Title</label>
-    <input 
-      id="title"
-      class="picture-title"
-      type="text" 
-      placeholder="Title" 
-      formControlName="title">
-    <label for="title">Caption</label>
-    <input 
-      class="picture-caption"
-      type="text" 
-      placeholder="Caption" 
-      formControlName="caption">
-    <label for="storageUrl"></label>
-    <input
-      type="text" 
-      placeholder="Storage URL" 
-      formControlName="storageUrl"
-      readonly>
-    <input
-      id="picture-input"
-      class="upload"
-      type="file"
-      accept="image/*"
-      (change)="onUploadPicture($event)"
-      [disabled]="parent.get('title').invalid || parent.get('content').invalid">
-    <div class="progress">
-      <progress [attr.value]="progressValue" max="100" id="uploader"></progress>
+    <md-input-container>
+      <input
+        mdInput
+        id="title"
+        class="picture-title"
+        type="text" 
+        placeholder="This will be used to create the URL link of the photo" 
+        formControlName="title">
+    </md-input-container>
+    <md-input-container>
+      <input
+        mdInput
+        class="picture-caption"
+        type="text" 
+        placeholder="This text will appear along with the photo" 
+        formControlName="caption">
+    </md-input-container>
+    <md-input-container>
+      <input
+        mdInput
+        type="text" 
+        placeholder="This text describes the photo for accessibility"
+        formControlName="altText">  
+    </md-input-container>
+    <md-input-container>
+      <input
+        mdInput
+        type="text" 
+        placeholder="This field is set automatically after uploading"
+        formControlName="storageUrl"
+        readonly>
+    </md-input-container>
+    <div class="picture-input">
+      <input
+        id="picture-input"
+        class="upload"
+        type="file"
+        accept="image/*"
+        (change)="onUploadPicture($event)"
+        [disabled]="parent.get('title').invalid || parent.get('content').invalid">
+      <md-progress-bar mode="determinate" [value]="progressValue"></md-progress-bar>
     </div>
     <div class="add-reset-picture">
       <button

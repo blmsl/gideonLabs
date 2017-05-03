@@ -22,6 +22,12 @@
           form.get('pictures').value.length === 0">
         Create Story
       </button>
+      <button
+        (click)="formReset()"
+        type="button">Reset Story</button>
+      <button 
+        (click)="resetPictureArray()" 
+        type="button">Reset Picture Array</button>
     </div>
 
     <div>
@@ -61,7 +67,8 @@
 
     <app-story-picture
       [parent]="form"
-      (added)="addPicture($event)">
+      (added)="addPicture($event)"
+      (pictureReset)="resetPicture()">
     </app-story-picture>
 
     <app-story-pictures

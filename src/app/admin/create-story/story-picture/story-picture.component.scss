@@ -1,45 +1,10 @@
 .picture {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: auto;
+  grid-gap: 1em;
+}
+
+.picture-input {
   display: flex;
-  flex-direction: column;
-  // grid-template-columns: 1fr max-content;
-  // grid-template-rows: min-content min-content min-content;
-  // grid-gap: 1em;
-  // grid-template-areas:
-  //   "title title"
-  //   "caption caption"
-  //   "link upload"
-  //   "progress progress"
-  //   "submit submit"
-}
-
-// .picture-title,
-// .picture-caption {
-//   max-width: 100%;
-// }
-
-.picture-title {
-  grid-area: title;
-}
-
-.picture-caption {
-  grid-area: caption;
-}
-
-.storage-link {
-  grid-area: link;
-}
-
-.add-reset-picture {
-  grid-area: submit;
-  display: flex;
-  justify-content: center;
-}
-
-.progress {
-  grid-area: progress;
-  width: 100%;
-}
-
-.upload {
-  grid-area: upload;
 }

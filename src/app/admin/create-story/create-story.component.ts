@@ -58,7 +58,7 @@ export class CreateStoryComponent implements OnInit {
       slug: ['', [Validators.required, Validators.pattern(/^[0-9A-Za-z\s\-]+$/)], [this.validateStory.bind(this)]],
       content: ['', Validators.required],
       category: ['', Validators.required],
-      author: [this.author, Validators.required],
+      author: [this.auth.user.uid, Validators.required],
       picture: this.initPicture({}),
       pictures: this.fb.array([]),
       link: ['', Validators.required]
@@ -115,7 +115,6 @@ export class CreateStoryComponent implements OnInit {
   findStory(story: any): Observable<boolean> {
     return this.db.object(`/stories/${story}`)
       .map(story => {
-        console.log('Does', this.form.get('slug')!.value, 'match', story.slug, '?', story.$exists());
         return story.$exists();
       });
   }
@@ -126,21 +125,20 @@ export class CreateStoryComponent implements OnInit {
       .first()
       .map((response: boolean) => {
         this.asyncTest = false;
-        console.log(response);
         return response ? { storyExists: true } : null;
       });
   }
 
   initPicture(pic: any) {
-    const date = new Date();
+    const date = Date.now();
     return this.fb.group({
       date: [pic.date || date, Validators.required],
       slug: [pic.slug || ''],
       title: [pic.title || '', Validators.required],
-      author: [pic.author || this.author, Validators.required],
+      author: [pic.author || this.auth.user.uid, Validators.required],
       caption: [pic.caption || '', Validators.required],
-      altText: [pic.altText || ''],
-      mimeType: [pic.mimeType || ''],
+      altText: [pic.altText || '', Validators.required],
+      type: [pic.type || ''],
       storageUrl: [pic.storageUrl || '', Validators.required],
     })
   }
@@ -169,21 +167,50 @@ export class CreateStoryComponent implements OnInit {
   // }
 
   addPicture(picture: Picture) {
+    picture.slug = this.createSlug(picture.title);
     this._pictures.push(this.initPicture(picture));
+    this.resetPicture();
   }
 
   removePicture(index: number) {
     this._pictures.removeAt(index);
   }
 
+  formReset() {
+    let currentDate = new Date();
+    let dateString = currentDate.toLocaleDateString();
 
-  onSubmit() {
+    this.form.reset({
+      title: '',
+      slug: '',
+      date: dateString,      
+      author: this.auth.user.uid,
+      picture: {
+        date: Date.now(),
+        author: this.auth.user.uid,
+      }
+    });
+    this.resetPictureArray();
+  }
 
-    // Pull form values out
-    // let title = this.form.get('title').value;
-    // let slug = this.form.get('slug').value;
-    // let content = this.form.get('content').value;
-    
+  resetPicture() {
+    this.form.get('picture')!.reset({
+      date: Date.now(),
+      slug: '',
+      title: '',
+      author: this.auth.user.uid,
+      caption: '',
+      altText: '',
+      type: '',
+      storageUrl: ''
+    });
+  }
+
+  resetPictureArray() {
+    this._pictures.value.forEach(picture => this._pictures.removeAt(0));
+  }
+
+  onSubmit() {   
     let {date, title, slug, content, category, author, link} = this.form.value;
 
     let excerpt = this.generateDescription(content);
@@ -202,15 +229,13 @@ export class CreateStoryComponent implements OnInit {
       category
     };
 
-    this.db.object(`/stories/${slug}`).update(story);
-    this.pushPictures(slug);
-    this.form.reset();
+    // this.db.object(`/stories/${slug}`).update(story);
+    // this.pushPictures(slug);
   }
 
   // Push each picture reference to database
   pushPictures(titleSlug: string) {
     this.form.get('pictures')!.value.forEach((picture: Picture) => {
-      picture.slug = this.createSlug(picture.title);
       this.db.object(`/stories/${titleSlug}/pictures/${picture.slug}`).set(picture);
     });      
   }
