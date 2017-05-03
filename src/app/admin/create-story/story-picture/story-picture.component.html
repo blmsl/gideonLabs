@@ -2,38 +2,34 @@
   <div [formGroup]="parent" class="form-container">
     <h2>Add a Picture</h2>
     <div formGroupName="picture" class="picture">
-      <md-input-container>
-        <input
-          mdInput
-          id="title"
-          class="picture-title"
-          type="text" 
-          placeholder="This will be used to create the URL link of the photo" 
-          formControlName="title">
-      </md-input-container>
-      <md-input-container>
-        <input
-          mdInput
-          class="picture-caption"
-          type="text" 
-          placeholder="This text will appear along with the photo" 
-          formControlName="caption">
-      </md-input-container>
-      <md-input-container>
-        <input
-          mdInput
-          type="text" 
-          placeholder="This text describes the photo for accessibility"
-          formControlName="altText">  
-      </md-input-container>
-      <md-input-container>
-        <input
-          mdInput
-          type="text" 
-          placeholder="This field is set automatically after uploading"
-          formControlName="storageUrl"
-          readonly>
-      </md-input-container>
+
+      <input
+        mdInput
+        id="title"
+        class="picture-title"
+        type="text" 
+        placeholder="This will be used to create the URL link of the photo" 
+        formControlName="title">
+
+      <input
+        mdInput
+        class="picture-caption"
+        type="text" 
+        placeholder="This text will appear along with the photo">
+
+      <input
+        mdInput
+        type="text" 
+        placeholder="This text describes the photo for accessibility"
+        formControlName="altText">  
+
+      <input
+        mdInput
+        type="text" 
+        placeholder="This field is set automatically after uploading"
+        formControlName="storageUrl"
+        readonly>
+
       <div class="picture-input">
         <input
           id="picture-input"
@@ -41,9 +37,8 @@
           type="file"
           accept="image/*"
           (change)="onUploadPicture($event)">
-        <md-progress-bar 
-          mode="determinate" 
-          [value]="progressValue"></md-progress-bar>
+        <progress 
+          [attr.value]="progressValue"></progress>
       </div>
       <div class="add-reset-picture">
         <button

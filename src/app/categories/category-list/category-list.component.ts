@@ -1,10 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { Router } from '@angular/router';
-import { WpQueryArgs, WpEndpoint, WpService, CollectionResponse } from 'ng2-wp-api';
-
-import { Observable } from 'rxjs/Rx';
-
-import 'rxjs/Rx';
+import { WpQueryArgs, WpService, CollectionResponse } from 'ng2-wp-api';
 
 @Component({
   selector: 'app-category-list',

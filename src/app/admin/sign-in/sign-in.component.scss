@@ -1,44 +1,30 @@
 .sign-in {
   margin: 90px auto 0;
   max-width: 248px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 
   h1 {
     margin-bottom: 36px;
     font-size: 24px;
-    font-weight: 300;
+    //font-weight: 300;
     text-align: center;
     color: rgba(0, 0, 0, .54);
   }
 
-  button {
-    margin-bottom: 10px;
-    padding: 6px 24px;
-    width: 100%;
-    text-align: left;
-    font-weight: 600;
+  svg {
+    height: 3em;
+    margin-right: 1em;
+  }
 
-    &.auth-google {
-      background-color: #ffffff;
-      color: #727272;
-    }
+  .auth-google {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 1em;
+    
 
-    &.auth-facebook {
-      background-color: #3b5998;
-      color: #ffffff;
-    }
-
-    &.auth-twitter {
-      background-color: #55acee;
-      color: #ffffff;
-    }
-
-    &.auth-github {
-      background-color: #333333;
-      color: #ffffff;
-    }
-
-    md-icon {
-      margin-right: 12px;
-    }
   }
 }

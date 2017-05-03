@@ -4,7 +4,6 @@ import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from "@angular/forms";
 import {EditorModule,SharedModule} from 'primeng/primeng';
 import { AngularFireDatabaseModule } from 'angularfire2/database';
-import { MdCardModule, MdInputModule, MdProgressBarModule } from "@angular/material";
 
 import { CreateStoryRoutingModule } from './create-story-routing.module';
 import { CreateStoryComponent } from './create-story.component';
@@ -17,9 +16,6 @@ import { AdminSharedModule } from "../shared/admin-shared.module";
   imports: [
     CommonModule,
     CreateStoryRoutingModule,
-    MdCardModule,
-    MdInputModule,
-    MdProgressBarModule,
     ReactiveFormsModule,
     EditorModule,
     SharedModule,

@@ -20,8 +20,7 @@ export class HeaderComponent {
   }
 
   triggerSignOut() {
-    let msg: string = `${this.userInfo.displayName} signed out`;
-    this.signOut.emit(msg);
+    this.signOut.emit();
   }
 
 }

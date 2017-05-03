@@ -1,12 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormArray, FormGroup, Validators, AbstractControl } from "@angular/forms";
 import { AngularFireDatabase } from 'angularfire2/database';
-import { Category } from "../../taxonomy/category/category";
 
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/first';
 import { Observable } from "rxjs/Observable";
+
 import { AuthService } from "../../auth/auth.service";
+import { Category } from "../../taxonomy/category/category";
 import { Post } from "../../shared/post";
 import { User } from "../shared/user";
 import { Picture } from "../../shared/picture";

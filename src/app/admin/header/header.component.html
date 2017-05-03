@@ -1,32 +1,18 @@
-<md-toolbar>
-  <div>
-    <a [routerLink]="['']">
-        Gideon Analytical Labs
-    </a>
-  </div>
+<div class="navbar">
 
-  <span class="example-spacer"></span>
+  <a [routerLink]="['']">Gideon Analytical Labs</a>
 
-  <span>
-    <a routerLink="create-story">
-      <button md-button>Create Story</button>
-    </a>
-  </span>
-
-  <span>
-    <a routerLink="create-category">
-      <button md-button>Create Category</button>
-    </a>
-  </span>
-
+  
   <div class="app-user" *ngIf="authenticated">
-
-      <img 
-        class="user-image" 
-        [src]="userInfo.photoURL" 
-        [mdTooltip]="userInfo.displayName" 
-        mdTooltipPosition="below" />
-      <button class="user-action" md-button (click)="triggerSignOut($event)">Sign Out</button>
-
+    <a routerLink="create-story">Create Story</a>
+    <a routerLink="create-category">Create Category</a>
+    <img 
+      class="user-image" 
+      [src]="userInfo.photoURL"/>
+    <button
+      class="user-action"
+      type="button"
+      (click)="triggerSignOut()">Sign Out</button>
   </div>
-</md-toolbar>
+
+</div>
