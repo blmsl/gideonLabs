@@ -52,7 +52,8 @@
     "ts-node": "~2.0.0",
     "tslint": "^5.1.0",
     "typescript": "^2.2.2",
-    "uglify-js": "github:mishoo/UglifyJS2#harmony"
+    "uglify-js": "github:mishoo/UglifyJS2#harmony",
+    "webpack-bundle-analyzer": "^2.4.0"
   },
   "browserslist": [
     "last 2 versions",
