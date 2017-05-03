@@ -10,7 +10,6 @@ export class AuthService {
 
   
   constructor(public afAuth: AngularFireAuth, private db: AngularFireDatabase) {
-    this.user = null;
 
     afAuth.authState.subscribe(user => {
       this.user = user;
@@ -39,9 +38,7 @@ export class AuthService {
       .then(response => {
         this.db.object(`/users/${response.user.uid}`)
           .subscribe(user => {
-            if (user.$exists()) {
-              console.log(user.displayName, "exists in the database.");
-            } else {
+            if (!user.$exists()) {
               let {displayName, email, emailVerified, photoURL, uid} = response.user;
               this.db.object(`/users/${response.user.uid}`).set({
                 displayName,
