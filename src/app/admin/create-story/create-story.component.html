@@ -1,7 +1,7 @@
 <div class="create-story-container">
   <form [formGroup]="form" (ngSubmit)="onSubmit()">
 
-    <app-story-info [parent]="form" [async]="asyncTest"></app-story-info>
+    <app-story-info [parent]="form"></app-story-info>
 
     <div class="publish-box">
       <h2>Publish</h2>
@@ -25,9 +25,6 @@
       <button
         (click)="formReset()"
         type="button">Reset Story</button>
-      <button 
-        (click)="resetPictureArray()" 
-        type="button">Reset Picture Array</button>
     </div>
 
     <div>
@@ -65,18 +62,28 @@
       </p-header>
     </p-editor>
 
-    <app-story-picture
-      [parent]="form"
-      (added)="addPicture($event)"
-      (pictureReset)="resetPicture()">
-    </app-story-picture>
+    
 
     <app-story-pictures
       [parent]="form"
       (removed)="removePicture($event)">
+      <button
+        [disabled]="form.get('title').invalid || form.get('content').invalid"
+        (click)="toggleAddPicture()"
+        type="button">Add Picture</button>
+      <button 
+        [disabled]="_pictures.length === 0"
+        (click)="resetPictureArray()"
+        type="button">Remove all</button>
     </app-story-pictures>
-<pre>
-{{form.value | json}}
-</pre>
   </form>
+  <app-story-picture
+    *ngIf="addingPicture"
+    [parent]="form"
+    (added)="addPicture($event)"
+    (pictureReset)="resetPicture()">
+    <button
+      (click)="toggleAddPicture()"
+      type="button">Cancel</button>
+  </app-story-picture>
 </div>

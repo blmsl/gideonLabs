@@ -21,8 +21,8 @@ export class CreateStoryComponent implements OnInit {
   hierarchyCategories: Category[];
   users: User[];
   categoryControlName = 'category';
-  asyncTest: boolean = false;
   author: string;
+  addingPicture: boolean = false;
   
   
   constructor(private fb: FormBuilder, 
@@ -63,6 +63,10 @@ export class CreateStoryComponent implements OnInit {
       pictures: this.fb.array([]),
       link: ['', Validators.required]
     })
+  }
+
+  toggleAddPicture() {
+    this.addingPicture = !this.addingPicture;
   }
 
   getUsers() {
@@ -120,11 +124,9 @@ export class CreateStoryComponent implements OnInit {
   }
 
   validateStory(control: AbstractControl) {
-    this.asyncTest = true;
     return this.findStory(control.value)
       .first()
       .map((response: boolean) => {
-        this.asyncTest = false;
         return response ? { storyExists: true } : null;
       });
   }
@@ -170,6 +172,7 @@ export class CreateStoryComponent implements OnInit {
     picture.slug = this.createSlug(picture.title);
     this._pictures.push(this.initPicture(picture));
     this.resetPicture();
+    this.addingPicture = false;
   }
 
   removePicture(index: number) {
@@ -185,6 +188,7 @@ export class CreateStoryComponent implements OnInit {
       slug: '',
       date: dateString,      
       author: this.auth.user.uid,
+      category: '',
       picture: {
         date: Date.now(),
         author: this.auth.user.uid,
@@ -207,7 +211,7 @@ export class CreateStoryComponent implements OnInit {
   }
 
   resetPictureArray() {
-    this._pictures.value.forEach(picture => this._pictures.removeAt(0));
+    this._pictures.value.forEach((picture: any) => this._pictures.removeAt(0));
   }
 
   onSubmit() {   
@@ -229,8 +233,9 @@ export class CreateStoryComponent implements OnInit {
       category
     };
 
-    // this.db.object(`/stories/${slug}`).update(story);
-    // this.pushPictures(slug);
+    this.db.object(`/stories/${slug}`).update(story);
+    this.pushPictures(slug);
+    this.formReset();
   }
 
   // Push each picture reference to database

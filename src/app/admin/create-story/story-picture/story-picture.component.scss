@@ -1,3 +1,22 @@
+.story-picture-container {
+  background-color: rgba(0, 0, 0, 0.8);
+  width: 100vw;
+  height: 100vh;
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.form-container {
+  width: 40vw;
+  padding: 1em;
+  background-color: white;
+  border: 2px solid rgba(0,0,0, 0.5);
+}
+
 .picture {
   display: grid;
   grid-template-columns: 1fr;

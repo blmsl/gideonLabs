@@ -5,18 +5,15 @@
 }
 
 form {
-  width: 90vw;
+  width: 75vw;
   margin: 3em 0;
   display: grid;
-  grid-template-columns: 1fr max-content;
+  grid-template-columns: 1fr max-content max-content;
   grid-template-rows: auto;
   grid-gap: 1em;
   grid-template-areas:
-    "story-info publish"
-    "editor category"
-    "add-picture picture-list"
-    "submit picture-list"
-    "value ."
+    "story-info picture-list publish"
+    "editor picture-list category"
 }
 
 app-story-info {
@@ -34,7 +31,6 @@ app-story-picture {
 
 app-story-pictures {
   grid-area: picture-list;
-  border: 1px solid red;
 }
 
 .publish-box {
