@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Router, ActivatedRoute, Params } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { WpPost, WpQueryArgs, WpService, CollectionResponse } from 'ng2-wp-api';
 
 // import { Post } from '../post';
@@ -31,6 +31,11 @@ export class PostSingleComponent implements OnInit {
           this.post = new WpPost(res.data[0]);
         }
       });
+
+    this.route.url.subscribe(url => {
+      let lastPath = url.length - 1;
+      console.log(url[lastPath].path);
+    });
   }
 
 }

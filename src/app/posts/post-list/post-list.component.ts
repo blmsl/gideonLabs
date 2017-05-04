@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { WpQueryArgs, WpEndpoint, WpService, CollectionResponse } from 'ng2-wp-api';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-post-list',
@@ -18,6 +18,7 @@ export class PostListComponent implements OnInit {
 
   ngOnInit() {
     this.get();
+    
   }
 
   get() {

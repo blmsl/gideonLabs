@@ -55,8 +55,11 @@ const routes: Routes = [
         path: 'specifications',
         loadChildren: 'app/specifications/specifications.module#SpecificationsModule'
       },
-    ]
+    ],
   },
+  {
+    path: '**', redirectTo: ''
+  }
   
 ];
 
