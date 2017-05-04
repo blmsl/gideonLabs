@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { WpPost, WpQueryArgs, WpService, CollectionResponse } from 'ng2-wp-api';
+import { WpPost, WpService, CollectionResponse } from 'ng2-wp-api';
 
 // import { Post } from '../post';
 
@@ -19,9 +19,6 @@ export class PostSingleComponent implements OnInit {
   }
 
   ngOnInit() {
-    let args = new WpQueryArgs({
-      _embed: true
-    });
 
     this.wpService.collection().posts().get({ slug: this.slug })
       .subscribe((res: CollectionResponse) => {

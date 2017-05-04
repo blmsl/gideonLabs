@@ -5,8 +5,9 @@
 }
 
 form {
+  width: 75vw;
   display: grid;
-  grid-template-columns: repeat(3, max-content);
+  grid-template-columns: 1fr 2fr max-content;
   grid-template-rows: auto;
   grid-gap: 1em;
   grid-template-areas:
