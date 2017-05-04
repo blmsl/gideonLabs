@@ -19,9 +19,6 @@ import { FormGroup } from "@angular/forms";
         formControlName="slug"
         type="text"
         placeholder="A slug will be generated automatically" />
-      <div class="async">Checking story slug: {{async}}</div>
-      <span>Errors</span>
-      {{parent.get('slug').errors | json}}
       <div 
         class="error"
         *ngIf="storyExists">

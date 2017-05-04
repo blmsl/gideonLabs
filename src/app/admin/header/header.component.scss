@@ -1,15 +1,33 @@
 .navbar {
   display: grid;
-  grid-template-columns: 1fr repeat(3, max-content);
-  grid-template-rows: 4em;
-  background-color: lightgrey;
+  grid-template-columns: 1fr max-content;
+  grid-template-rows: 3.5em;
+  background-color: black;
+  color: white;
+  align-items: center;
 }
 
+.user-action {
+  appearance: none;
+  background-color: black;
+}
+
+a, .user-action {
+  color: white;
+  border-radius: 3px;
+  text-decoration: none;
+  padding: 0.5em;
+}
+
+.app-user {
+  display: flex;
+  align-items: center;
+}
 
 .user-image {
   border-radius: 50%;
   height: 34px;
   width: 34px;
   margin: 0 12px;
-  border: 1px solid rgba(0,0,0,.1);
+  border: 1px solid rgba(255,255,255,0.1);
 }
