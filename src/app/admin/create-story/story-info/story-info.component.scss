@@ -11,12 +11,8 @@
     grid-area: header;
   }
 
-}
+  .ng-invalid.ng-touched {
+    border: 2px solid red;
+  }
 
-.error {
-  grid-column: 1/3;
-}
-
-.async {
-  grid-column: 2/3;
 }
