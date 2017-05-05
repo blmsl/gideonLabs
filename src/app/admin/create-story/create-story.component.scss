@@ -5,31 +5,32 @@
 }
 
 form {
-  width: 75vw;
+  width: 95vw;
   display: grid;
-  grid-template-columns: 1fr 2fr max-content;
+  grid-template-columns: 1fr max-content max-content;
   grid-template-rows: auto;
-  grid-gap: 1em;
+  grid-gap: 2em;
   grid-template-areas:
-    "story-info story-info publish"
-    "editor editor category"
-    "picture-list picture-list picture-list";
+    "story-info publish picture-list"
+    "editor category picture-list";
 }
 
-app-story-info {
+form > div {
+  background-color: rgb(245,245,245);
+  border: 3px solid rgb(215,215,215);
+  border-radius: 5px;
+  padding: 1em;
+}
+
+.story-info-box {
   grid-area: story-info;
 }
 
-p-editor {
+.content-box {
   grid-area: editor;
 }
 
-app-story-picture {
-  grid-area: add-picture;
-
-}
-
-app-story-pictures {
+.story-pictures-box {
   grid-area: picture-list;
 }
 
@@ -47,6 +48,14 @@ app-story-pictures {
 
 .categories-box {
   height: 25em;
-  overflow-y: scroll;
+  overflow-y: auto;
 }
 
+p-editor {
+  background-color: white;
+}
+
+.editor {
+  background-color: white;
+  height: 25em;
+}

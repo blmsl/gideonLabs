@@ -1,7 +1,10 @@
 <div class="create-story-container">
   <form [formGroup]="form" (ngSubmit)="onSubmit()">
 
-    <app-story-info [parent]="form"></app-story-info>
+    <div class="story-info-box">
+      <h2>Add New Post</h2>
+      <app-story-info [parent]="form"></app-story-info>
+    </div>
 
     <div class="publish-box">
       <h2>Publish</h2>
@@ -39,57 +42,63 @@
       </div>
     </div>
 
-    <p-editor
-      tabindex="2"
-      [style]="{'height': '25em'}"
-      formControlName="content"
-      placeholder="Story">
-      <p-header>
-        <span class="ql-formats">
-          <button class="ql-bold" type="button" type="button"></button>
-          <button class="ql-italic" type="button"></button>
-          <button class="ql-underline" type="button"></button>
-        </span>
-        <span class="ql-formats">
-          <button class="ql-script" value="sub" type="button"></button>
-          <button class="ql-script" value="super" type="button"></button>
-        </span>
-        <span class="ql-formats">
-          <button class="ql-header" value="2" type="button"></button>
-          <button class="ql-list" value="ordered" type="button"></button>
-          <button class="ql-list" value="bullet" type="button"></button>
-        </span>
-        <span class="ql-formats">
-          <button class="ql-link" type="button"></button>
-        </span>
-      </p-header>
-    </p-editor>
+    <div class="content-box">
+      <h2>Story Content</h2>
+      <p-editor
+        [style]="{'background-color': 'white', 'height': '25em'}"
+        formControlName="content"
+        placeholder="Story">
+        <p-header>
+          <span class="ql-formats">
+            <button class="ql-bold" type="button" type="button"></button>
+            <button class="ql-italic" type="button"></button>
+            <button class="ql-underline" type="button"></button>
+          </span>
+          <span class="ql-formats">
+            <button class="ql-script" value="sub" type="button"></button>
+            <button class="ql-script" value="super" type="button"></button>
+          </span>
+          <span class="ql-formats">
+            <button class="ql-header" value="2" type="button"></button>
+            <button class="ql-list" value="ordered" type="button"></button>
+            <button class="ql-list" value="bullet" type="button"></button>
+          </span>
+          <span class="ql-formats">
+            <button class="ql-link" type="button"></button>
+          </span>
+        </p-header>
+      </p-editor>
+    </div>
 
     
-
-    <app-story-pictures
-      [parent]="form"
-      (removed)="removePicture($event)">
-      <button
-        [disabled]="form.get('title').invalid || form.get('content').invalid"
-        (click)="toggleAddPicture()"
-        type="button">Add Picture</button>
-      <button 
-        [disabled]="_pictures.length === 0"
-        (click)="resetPictureArray()"
-        type="button">Remove all</button>
-    </app-story-pictures>
-    <pre>
+    <div class="story-pictures-box">
+      <h2>Added Pictures</h2>
+      <app-story-pictures
+        [parent]="form"
+        (removed)="removePicture($event)">
+        <button
+          [disabled]="form.get('title').invalid || form.get('content').invalid"
+          (click)="toggleAddPicture()"
+          type="button">Add Picture</button>
+        <button 
+          [disabled]="_pictures.length === 0"
+          (click)="resetPictureArray()"
+          type="button">Remove all</button>
+      </app-story-pictures>
+    </div>
+    <!--<pre>
 {{form.value | json}}
-    </pre>
+    </pre>-->
   </form>
-  <app-story-picture
-    *ngIf="addingPicture"
-    [parent]="form"
-    (added)="addPicture($event)"
-    (pictureReset)="resetPicture()">
-    <button
-      (click)="toggleAddPicture()"
-      type="button">Cancel</button>
-  </app-story-picture>
+  <div class="picture-box" *ngIf="addingPicture">
+    <h2>Add Picture</h2>
+    <app-story-picture
+      [parent]="form"
+      (added)="addPicture($event)"
+      (pictureReset)="resetPicture()">
+      <button
+        (click)="toggleAddPicture()"
+        type="button">Cancel</button>
+    </app-story-picture>
+  </div>
 </div>

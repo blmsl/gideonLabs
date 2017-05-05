@@ -1,4 +1,21 @@
 .picture-array-container {
-  display: flex;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: max-content;
+  //overflow-y: auto;
+}
+
+img {
+  width: 100%;
+}
+
+.picture-block {
+  position: relative;
+  width: 150px;
+}
+
+.remove-picture {
+  position: absolute;
+  bottom: 0;
+  right: 0;
 }

@@ -24,6 +24,29 @@ export class CreateStoryComponent implements OnInit {
   categoryControlName = 'category';
   author: string;
   addingPicture: boolean = false;
+
+    // Test picture array for styling
+
+  testPicArray = [ 
+    this.fb.group({
+      storageUrl: 'https://firebasestorage.googleapis.com/v0/b/gideonlabs-b4b71.appspot.com/o/stories%2Fas%2Fzombie-949916_640.jpg?alt=media&token=61c7ab7c-4ff8-4205-b94d-df8cd3d747a1'
+    }),
+    this.fb.group({
+      storageUrl: 'https://firebasestorage.googleapis.com/v0/b/gideonlabs-b4b71.appspot.com/o/stories%2Fas%2Fzombie-949916_640.jpg?alt=media&token=61c7ab7c-4ff8-4205-b94d-df8cd3d747a1'
+    }),
+    this.fb.group({
+      storageUrl: 'https://firebasestorage.googleapis.com/v0/b/gideonlabs-b4b71.appspot.com/o/stories%2Fas%2Fzombie-949916_640.jpg?alt=media&token=61c7ab7c-4ff8-4205-b94d-df8cd3d747a1'
+    }),
+    this.fb.group({
+      storageUrl: 'https://firebasestorage.googleapis.com/v0/b/gideonlabs-b4b71.appspot.com/o/stories%2Fas%2Fzombie-949916_640.jpg?alt=media&token=61c7ab7c-4ff8-4205-b94d-df8cd3d747a1'
+    }),
+    this.fb.group({
+      storageUrl: 'https://firebasestorage.googleapis.com/v0/b/gideonlabs-b4b71.appspot.com/o/stories%2Fas%2Fzombie-949916_640.jpg?alt=media&token=61c7ab7c-4ff8-4205-b94d-df8cd3d747a1'
+    }),
+    this.fb.group({
+      storageUrl: 'https://firebasestorage.googleapis.com/v0/b/gideonlabs-b4b71.appspot.com/o/stories%2Fas%2Fzombie-949916_640.jpg?alt=media&token=61c7ab7c-4ff8-4205-b94d-df8cd3d747a1'
+    }),
+  ];
   
   
   constructor(private fb: FormBuilder, 
@@ -61,8 +84,22 @@ export class CreateStoryComponent implements OnInit {
       categories: [[]],
       author: [this.auth.user.uid, Validators.required],
       picture: this.initPicture({}),
-      pictures: this.fb.array([]),
+      pictures: this.fb.array(this.testPicArray),
       link: ['', Validators.required]
+    })
+  }
+
+  initPicture(pic: any) {
+    const date = Date.now();
+    return this.fb.group({
+      date: [pic.date || date, Validators.required],
+      slug: [pic.slug || ''],
+      title: [pic.title || '', Validators.required],
+      author: [pic.author || this.auth.user.uid, Validators.required],
+      caption: [pic.caption || '', Validators.required],
+      altText: [pic.altText || '', Validators.required],
+      type: [pic.type || ''],
+      storageUrl: [pic.storageUrl || '', Validators.required],
     })
   }
 
@@ -132,19 +169,6 @@ export class CreateStoryComponent implements OnInit {
       });
   }
 
-  initPicture(pic: any) {
-    const date = Date.now();
-    return this.fb.group({
-      date: [pic.date || date, Validators.required],
-      slug: [pic.slug || ''],
-      title: [pic.title || '', Validators.required],
-      author: [pic.author || this.auth.user.uid, Validators.required],
-      caption: [pic.caption || '', Validators.required],
-      altText: [pic.altText || '', Validators.required],
-      type: [pic.type || ''],
-      storageUrl: [pic.storageUrl || '', Validators.required],
-    })
-  }
 
   // getParentStructure() {
   //   //Parent based array where children categories are properties of parents

@@ -6,20 +6,20 @@ import { FormGroup, FormArray } from "@angular/forms";
   styleUrls: ['./story-pictures.component.scss'],
   template: `
     <div [formGroup]="parent">
-      <h2>Added Pictures</h2>
       <ng-content></ng-content>
       <div formArrayName="pictures" class="picture-array-container">
-        <div class="picture-block" *ngFor="let picture of pictureArray; let i = index;">
-          <div [formGroupName]="i">
-            <img [src]="picture.value.storageUrl" style="width: 150px;">
-            <div>Title: {{ picture.value.title }}</div>
-            <div>Caption: {{ picture.value.caption }}</div>
-            <button 
-              type="button" 
-              (click)="onRemove(picture, i)">
-              Remove Picture
-            </button>
-          </div>
+        <div *ngFor="let picture of pictureArray; let i = index;" [formGroupName]="i">
+ 
+            <div class="picture-block">
+              <img [src]="picture.value.storageUrl">
+              <button
+                class="remove-picture"
+                type="button" 
+                (click)="onRemove(picture, i)">
+                X
+              </button>
+            </div>
+
         </div>
       </div>
 
@@ -37,6 +37,8 @@ export class StoryPicturesComponent {
   get pictureArray() {
     return (this.parent.get('pictures') as FormArray).controls;
   }
+
+ 
 
   onRemove(index: number) {
     this.removed.emit(index);

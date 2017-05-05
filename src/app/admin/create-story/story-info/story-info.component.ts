@@ -6,7 +6,6 @@ import { FormGroup } from "@angular/forms";
   styleUrls: ['./story-info.component.scss'],
   template: `
     <div [formGroup]="parent" class="story-info-container">
-      <h2>Add New Post</h2>
       <label for="title">Title</label>
       <input
         id="title"
