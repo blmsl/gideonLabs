@@ -27,13 +27,16 @@
         type="button">Reset Story</button>
     </div>
 
-    <div>
+    <div class="categories">
       <h2>Categories</h2>
-      <app-select-categories
-      [parent]="form"
-      [controlName]="categoryControlName"
-      [categories]="hierarchyCategories">
-      </app-select-categories>
+      <div class="categories-box">
+        <app-checkbox-categories
+          [parent]="form"
+          [controlName]="categoryControlName"
+          [categories]="hierarchyCategories"
+          (checkedCategory)="categorySelection($event)">
+        </app-checkbox-categories>
+      </div>
     </div>
 
     <p-editor
@@ -76,9 +79,9 @@
         (click)="resetPictureArray()"
         type="button">Remove all</button>
     </app-story-pictures>
-    <!--<pre>
+    <pre>
 {{form.value | json}}
-    </pre>-->
+    </pre>
   </form>
   <app-story-picture
     *ngIf="addingPicture"

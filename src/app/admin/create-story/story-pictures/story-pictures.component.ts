@@ -8,8 +8,8 @@ import { FormGroup, FormArray } from "@angular/forms";
     <div [formGroup]="parent">
       <h2>Added Pictures</h2>
       <ng-content></ng-content>
-      <div formArrayName="pictures">
-        <div *ngFor="let picture of pictureArray; let i = index;">
+      <div formArrayName="pictures" class="picture-array-container">
+        <div class="picture-block" *ngFor="let picture of pictureArray; let i = index;">
           <div [formGroupName]="i">
             <img [src]="picture.value.storageUrl" style="width: 150px;">
             <div>Title: {{ picture.value.title }}</div>

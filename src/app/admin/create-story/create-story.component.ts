@@ -58,7 +58,7 @@ export class CreateStoryComponent implements OnInit {
       title: ['', Validators.required],
       slug: ['', [Validators.required, Validators.pattern(/^[0-9A-Za-z\s\-]+$/)], [this.validateStory.bind(this)]],
       content: ['', Validators.required],
-      category: ['', Validators.required],
+      categories: [[]],
       author: [this.auth.user.uid, Validators.required],
       picture: this.initPicture({}),
       pictures: this.fb.array([]),
@@ -216,7 +216,7 @@ export class CreateStoryComponent implements OnInit {
   }
 
   onSubmit() {   
-    let {date, title, slug, content, category, author, link} = this.form.value;
+    let {date, title, slug, content, categories, author, link, pictures} = this.form.value;
 
     let excerpt = this.generateDescription(content);
     let published = Date.now();
@@ -230,20 +230,37 @@ export class CreateStoryComponent implements OnInit {
       title,
       content,
       excerpt,
-      author,
-      category
+      author
     };
 
-    this.db.object(`/stories/${slug}`).update(story);
-    this.pushPictures(slug);
+    this.db.object(`/stories/${slug}`).update(story).then(() => {
+      this.pushPictures(slug, pictures);
+      this.pushCategories(slug, categories);
+      this.pushCategoryStories(slug, categories);
+    }).catch(err => console.log(err));
+    
     this.formReset();
   }
 
   // Push each picture reference to database
-  pushPictures(titleSlug: string) {
-    this.form.get('pictures')!.value.forEach((picture: Picture) => {
+  pushPictures(titleSlug: string, pictures: Picture[]) {
+    pictures.forEach((picture: Picture) => {
       this.db.object(`/stories/${titleSlug}/pictures/${picture.slug}`).set(picture);
     });      
+  }
+
+  pushCategories(title: string, categories: string[]) {
+    let categoryList: any = {};
+    categories.forEach(category => categoryList[category] = true);
+    this.db.object(`/stories/${title}/categories`).set(categoryList);
+  }
+
+  pushCategoryStories(title: string, categories: string[]) {
+    categories.forEach(category => {
+      let story: any = {};
+      story[title] = true;
+      this.db.object(`/categories/${category}/stories`).update(story);
+    })
   }
 
 
@@ -267,6 +284,22 @@ export class CreateStoryComponent implements OnInit {
     // Second, limit the string 155 characters breaking on spaces
     // cf. http://stackoverflow.com/questions/5454235/javascript-shorten-string-without-cutting-words
     return content.replace(/<(?:.|\n)*?>/gm, '').replace(/^(.{155}[^\s]*).*/, "$1");
+  }
+
+  categorySelection(event: any) {
+
+    const categories = this.form.get('categories')!.value as Array<string>;
+
+    if (event.checked) { // if a box just got checked
+      // check if it's already in the array
+      if (!categories.includes(event.value)) {
+        categories.push(event.value);
+      }
+    } else {
+      const index = categories.indexOf(event.value);
+      categories.splice(index, 1);
+    }
+
   }
 
 }

@@ -13,5 +13,5 @@ export interface Post {
   featured_media?: string;
   comment_status?: string;
   sticky?: boolean;
-  category: string;
+  categories?: string[];
 }

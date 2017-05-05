@@ -14,7 +14,7 @@
     "noUnusedParameters": true,
     "noImplicitReturns": true,
     "noFallthroughCasesInSwitch": true,
-    "target": "es5",
+    "target": "es6",
     "lib": [
       "es2016"
     ]

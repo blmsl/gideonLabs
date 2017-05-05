@@ -1,6 +1,7 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { FormGroup } from "@angular/forms";
-import * as firebase from 'firebase';
+import * as firebase from 'firebase/app'; // for typings
+import { FirebaseApp } from 'angularfire2'; // for methods
 
 @Component({
   selector: 'app-story-picture',
@@ -19,6 +20,8 @@ export class StoryPictureComponent {
   @Output()
   pictureReset = new EventEmitter();
 
+  constructor(private fb: FirebaseApp) { }
+
   onUploadPicture(event: any) {
     let target: HTMLInputElement = event.target as HTMLInputElement;
     let files: FileList = target.files;
@@ -29,7 +32,7 @@ export class StoryPictureComponent {
   }
 
   upload(file: any) {
-    let storageRef = firebase.storage().ref();
+    let storageRef = this.fb.storage().ref();
     let slug = this.createSlug(this.parent.get('title')!.value);
     let path = `/stories/${slug}/${file.name}`;
     let picturePath = storageRef.child(path);

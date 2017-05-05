@@ -11,9 +11,9 @@ form {
   grid-template-rows: auto;
   grid-gap: 1em;
   grid-template-areas:
-    "publish category picture-list"
-    "story-info story-info picture-list"
-    "editor editor picture-list"
+    "story-info story-info publish"
+    "editor editor category"
+    "picture-list picture-list picture-list";
 }
 
 app-story-info {
@@ -41,7 +41,12 @@ app-story-pictures {
   grid-area: value;
 }
 
-app-category-list {
+.categories {
   grid-area: category;
+}
+
+.categories-box {
+  height: 25em;
+  overflow-y: scroll;
 }
 
