@@ -17,11 +17,8 @@ import { AuthService } from "./auth/auth.service";
 import { AppComponent } from './app.component';
 import { PostListComponent } from './posts/post-list/post-list.component';
 import { PostSingleComponent } from './posts/post-single/post-single.component';
-import { NavbarComponent } from './navbar/navbar.component';
 import { CategorySingleComponent } from './categories/category-single/category-single.component';
 import { CategoryListComponent } from './categories/category-list/category-list.component';
-import { FooterComponent } from './footer/footer.component';
-import { BaseComponent } from './base/base.component';
 
 import 'rxjs/add/operator/do';
 import 'rxjs/add/operator/map';
@@ -29,22 +26,21 @@ import 'rxjs/add/operator/take';
 import { AuthGuard } from "./auth/auth.guard";
 import { ChildGuard } from "./auth/child-guard.guard";
 import { TaxonomyService } from "./taxonomy/taxonomy.service";
+import { BaseModule } from "./base/base.module";
 
 @NgModule({
   declarations: [
     AppComponent,
     PostListComponent,
     PostSingleComponent,
-    NavbarComponent,
     CategorySingleComponent,
     CategoryListComponent,
-    FooterComponent,
-    BaseComponent,
   ],
   imports: [
     BrowserModule,
     FormsModule,
     HttpModule,
+    BaseModule,
     WordPressModule,
     AppRoutingModule,
     NgbModule.forRoot(),
