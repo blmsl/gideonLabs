@@ -8,21 +8,22 @@ import { FormGroup, FormArray } from "@angular/forms";
     <div [formGroup]="parent">
       <ng-content></ng-content>
       <div formArrayName="pictures" class="picture-array-container">
-        <div *ngFor="let picture of pictureArray; let i = index;" [formGroupName]="i">
+        <div
+          *ngFor="let picture of pictureArray; let i = index;"
+          [formGroupName]="i">
  
             <div class="picture-block">
               <img [src]="picture.value.storageUrl">
               <button
                 class="remove-picture"
                 type="button" 
-                (click)="onRemove(picture, i)">
+                (click)="onRemove(i)">
                 X
               </button>
             </div>
 
         </div>
       </div>
-
     </div>
   `
 })
