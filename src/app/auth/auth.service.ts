@@ -8,13 +8,8 @@ export class AuthService {
 
   private _user: firebase.User;
 
-  
   constructor(public afAuth: AngularFireAuth, private db: AngularFireDatabase) {
-
-    afAuth.authState.subscribe(user => {
-      this.user = user;
-    });
-    
+    afAuth.authState.subscribe(user => this.user = user);  
   }
 
   get user(): firebase.User {
@@ -33,7 +28,7 @@ export class AuthService {
     return this.authenticated ? this.user.uid : '';
   }
 
-  signInWithGoogle() {
+  signInWithGoogle(): firebase.Promise<any> {
     return this.afAuth.auth.signInWithPopup(new firebase.auth.GoogleAuthProvider())
       .then(response => {
         this.db.object(`/users/${response.user.uid}`)

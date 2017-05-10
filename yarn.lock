@@ -3258,11 +3258,11 @@ oauth-sign@~0.8.1:
   version "0.8.2"
   resolved "https://registry.yarnpkg.com/oauth-sign/-/oauth-sign-0.8.2.tgz#46a6ab7f0aead8deae9ec0565780b7d4efeb9d43"
 
-object-assign@4.1.0:
+object-assign@4.1.0, object-assign@^4.0.1:
   version "4.1.0"
   resolved "https://registry.yarnpkg.com/object-assign/-/object-assign-4.1.0.tgz#7a3b3d0e98063d43f4c03f2e8ae6cd51a86883a0"
 
-object-assign@^4.0.1, object-assign@^4.1.0, object-assign@^4.1.1:
+object-assign@^4.1.0, object-assign@^4.1.1:
   version "4.1.1"
   resolved "https://registry.yarnpkg.com/object-assign/-/object-assign-4.1.1.tgz#2109adc7965887cfc05cbbd442cac8bfbb360863"
 
@@ -4187,8 +4187,8 @@ rx@^4.1.0:
   resolved "https://registry.yarnpkg.com/rx/-/rx-4.1.0.tgz#a5f13ff79ef3b740fe30aa803fb09f98805d4782"
 
 rxjs@^5.0.1, rxjs@^5.3.0:
-  version "5.3.3"
-  resolved "https://registry.yarnpkg.com/rxjs/-/rxjs-5.3.3.tgz#dd2f95105f713d95f25b894cbe5f68a5f32c926c"
+  version "5.4.0"
+  resolved "https://registry.yarnpkg.com/rxjs/-/rxjs-5.4.0.tgz#a7db14ab157f9d7aac6a56e655e7a3860d39bf26"
   dependencies:
     symbol-observable "^1.0.1"
 
@@ -4206,8 +4206,8 @@ sass-graph@^2.1.1:
     yargs "^6.6.0"
 
 sass-loader@^6.0.3:
-  version "6.0.4"
-  resolved "https://registry.yarnpkg.com/sass-loader/-/sass-loader-6.0.4.tgz#e1f20f534e8514445b9362deb566a4c40440d98d"
+  version "6.0.5"
+  resolved "https://registry.yarnpkg.com/sass-loader/-/sass-loader-6.0.5.tgz#a847910f36442aa56c5985879d54eb519e24a328"
   dependencies:
     async "^2.1.5"
     clone-deep "^0.2.4"
@@ -4874,8 +4874,8 @@ uglify-js@^2.6, uglify-js@^2.7.5, uglify-js@~2.8.22:
     uglify-to-browserify "~1.0.0"
 
 "uglify-js@github:mishoo/UglifyJS2#harmony":
-  version "3.0.2"
-  resolved "https://codeload.github.com/mishoo/UglifyJS2/tar.gz/eda49605c59a14abd83813e2b208ca90b6dbcb3d"
+  version "3.0.3"
+  resolved "https://codeload.github.com/mishoo/UglifyJS2/tar.gz/e2888bdc437142e95695220ac3b53511ef6edc53"
   dependencies:
     commander "~2.9.0"
     source-map "~0.5.1"
@@ -5079,8 +5079,8 @@ webdriver-manager@^12.0.1:
     xml2js "^0.4.17"
 
 webpack-bundle-analyzer@^2.4.0:
-  version "2.6.0"
-  resolved "https://registry.yarnpkg.com/webpack-bundle-analyzer/-/webpack-bundle-analyzer-2.6.0.tgz#9b8052d6aa26004f49ab76e88c45445ecd03f15a"
+  version "2.7.0"
+  resolved "https://registry.yarnpkg.com/webpack-bundle-analyzer/-/webpack-bundle-analyzer-2.7.0.tgz#9a8320a9e33917ade47aa1369013bbf4d4a9f5af"
   dependencies:
     acorn "^5.0.3"
     chalk "^1.1.3"
