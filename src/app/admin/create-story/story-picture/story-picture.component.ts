@@ -33,7 +33,7 @@ export class StoryPictureComponent {
 
   upload(file: any) {
     let storageRef = this.fb.storage().ref();
-    let slug = this.createSlug(this.parent.get('title')!.value);
+    let slug = this.parent.get('slug')!.value;
     let path = `/stories/${slug}/${file.name}`;
     let picturePath = storageRef.child(path);
 
@@ -41,10 +41,6 @@ export class StoryPictureComponent {
 
     const metadata: firebase.storage.UploadMetadata = {
       contentType: file.type,
-      customMetadata: {
-        title: this.parent.get(['picture', 'title'])!.value,
-        caption: this.parent.get(['picture', 'caption'])!.value
-      }
     }
 
     let pictureTask = picturePath.put(file, metadata);
