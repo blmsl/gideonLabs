@@ -8,6 +8,7 @@ export interface Picture {
   altText: string;
   type: string;
   storageUrl: string;
+  featured: boolean;
   mediaDetails?: {
     width: number;
     height: number;

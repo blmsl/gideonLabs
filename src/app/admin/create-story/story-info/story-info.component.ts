@@ -38,9 +38,6 @@ export class StoryInfoComponent {
   @Input()
   parent: FormGroup;
 
-  @Input()
-  async: boolean;
-
   get storyExists() {
     return (
       this.parent.get('slug')!.hasError('storyExists')

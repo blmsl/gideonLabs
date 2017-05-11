@@ -32,7 +32,8 @@ export class CreateStoryComponent implements OnInit {
       storageUrl: 'https://firebasestorage.googleapis.com/v0/b/gideonlabs-b4b71.appspot.com/o/stories%2Fas%2Fzombie-949916_640.jpg?alt=media&token=61c7ab7c-4ff8-4205-b94d-df8cd3d747a1'
     }),
     this.fb.group({
-      storageUrl: 'https://firebasestorage.googleapis.com/v0/b/gideonlabs-b4b71.appspot.com/o/stories%2Fas%2Fzombie-949916_640.jpg?alt=media&token=61c7ab7c-4ff8-4205-b94d-df8cd3d747a1'
+      storageUrl: 'https://firebasestorage.googleapis.com/v0/b/gideonlabs-b4b71.appspot.com/o/stories%2Fas%2Fzombie-949916_640.jpg?alt=media&token=61c7ab7c-4ff8-4205-b94d-df8cd3d747a1',
+      featured: true
     }),
     this.fb.group({
       storageUrl: 'https://firebasestorage.googleapis.com/v0/b/gideonlabs-b4b71.appspot.com/o/stories%2Fas%2Fzombie-949916_640.jpg?alt=media&token=61c7ab7c-4ff8-4205-b94d-df8cd3d747a1'
