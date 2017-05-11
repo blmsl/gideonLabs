@@ -1,10 +1,16 @@
 <div class="story-picture-container">
   <div [formGroup]="parent" class="form-container">
     <h2>Add a Picture</h2>
+ 
     <div formGroupName="picture" class="picture">
-
+      <label for="featured-image">Featured?
+        <input
+          id="featured-image" 
+          formControlName="featured" 
+          type="checkbox"
+          (change)="changeFeatured($event)">
+      </label>
       <input
-        mdInput
         id="title"
         class="picture-title"
         type="text" 
@@ -12,20 +18,17 @@
         formControlName="title">
 
       <input
-        mdInput
         class="picture-caption"
         type="text" 
         placeholder="This text will appear along with the photo"
         formControlName="caption">
 
       <input
-        mdInput
         type="text" 
         placeholder="This text describes the photo for accessibility"
         formControlName="altText">  
 
       <input
-        mdInput
         type="text" 
         placeholder="This field is set automatically after uploading"
         formControlName="storageUrl"

@@ -12,7 +12,7 @@ import { FormGroup, FormArray } from "@angular/forms";
           *ngFor="let picture of pictureArray; let i = index;"
           [formGroupName]="i">
  
-            <div class="picture-block">
+            <div class="picture-block" [ngClass]="{featured: picture.value.featured}">
               <img [src]="picture.value.storageUrl">
               <button
                 class="remove-picture"

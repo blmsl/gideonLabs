@@ -100,6 +100,7 @@ export class CreateStoryComponent implements OnInit {
       caption: [pic.caption || '', Validators.required],
       altText: [pic.altText || '', Validators.required],
       type: [pic.type || ''],
+      featured: [pic.featured || false],
       storageUrl: [pic.storageUrl || '', Validators.required],
     })
   }
@@ -107,7 +108,7 @@ export class CreateStoryComponent implements OnInit {
   toggleAddPicture() {
     this.addingPicture = !this.addingPicture;
   }
-
+  
   getUsers() {
     this.db.list('/users')
       .subscribe(users => this.users = users)
@@ -218,6 +219,7 @@ export class CreateStoryComponent implements OnInit {
       picture: {
         date: Date.now(),
         author: this.auth.user.uid,
+        featured: false,
       }
     });
     this.resetPictureArray();
@@ -232,6 +234,7 @@ export class CreateStoryComponent implements OnInit {
       caption: '',
       altText: '',
       type: '',
+      featured: false,
       storageUrl: ''
     });
   }

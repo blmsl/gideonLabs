@@ -18,6 +18,9 @@ export class StoryPictureComponent {
   added = new EventEmitter<any>();
 
   @Output()
+  featured = new EventEmitter<boolean>();
+
+  @Output()
   pictureReset = new EventEmitter();
 
   constructor(private fb: FirebaseApp) { }
@@ -29,6 +32,10 @@ export class StoryPictureComponent {
     if (files && files[0]) {
       this.upload(files[0]);
     }
+  }
+
+  changeFeatured(event: any) {
+    this.parent.get('picture.featured')!.patchValue(event.target.checked);
   }
 
   upload(file: any) {

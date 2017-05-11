@@ -86,12 +86,11 @@
           type="button">Remove all</button>
       </app-story-pictures>
     </div>
-    <!--<pre>
+    <pre>
 {{form.value | json}}
-    </pre>-->
+    </pre>
   </form>
   <div class="picture-box" *ngIf="addingPicture">
-    <h2>Add Picture</h2>
     <app-story-picture
       [parent]="form"
       (added)="addPicture($event)"
