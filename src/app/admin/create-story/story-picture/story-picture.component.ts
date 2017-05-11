@@ -65,7 +65,11 @@ export class StoryPictureComponent {
         // Called on complete
         () => {
           let url = pictureTask.snapshot.downloadURL;
+          let featured = this.parent.get('picture.featured')!.value;
           this.parent.get('picture')!.patchValue({ storageUrl: url });
+          if (featured) {
+            this.parent.get('featuredImage')!.patchValue(url);
+          }
         }
       );
   }

@@ -11,6 +11,7 @@ import { StoryInfoComponent } from './story-info/story-info.component';
 import { StoryPicturesComponent } from './story-pictures/story-pictures.component';
 import { StoryPictureComponent } from './story-picture/story-picture.component';
 import { AdminSharedModule } from "../shared/admin-shared.module";
+import { FeaturedImageComponent } from './featured-image/featured-image.component';
 
 @NgModule({
   imports: [
@@ -26,7 +27,7 @@ import { AdminSharedModule } from "../shared/admin-shared.module";
     CreateStoryComponent, 
     StoryInfoComponent, 
     StoryPicturesComponent, 
-    StoryPictureComponent
+    StoryPictureComponent, FeaturedImageComponent
   ]
 })
 export class CreateStoryModule { }

@@ -83,6 +83,7 @@ export class CreateStoryComponent implements OnInit {
       slug: ['', [Validators.required, Validators.pattern(/^[0-9A-Za-z\s\-]+$/)], [this.validateStory.bind(this)]],
       content: ['', Validators.required],
       categories: [[]],
+      featuredImage: [null, Validators.required],
       author: [this.auth.user.uid, Validators.required],
       picture: this.initPicture({}),
       pictures: this.fb.array(this.testPicArray),
@@ -203,6 +204,9 @@ export class CreateStoryComponent implements OnInit {
   }
 
   removePicture(index: number) {
+    if (this._pictures.value[index].featured) {
+      this.form.get('featuredImage')!.patchValue(null);
+    }
     this._pictures.removeAt(index);
   }
 
@@ -244,13 +248,14 @@ export class CreateStoryComponent implements OnInit {
   }
 
   onSubmit() {   
-    let {date, title, slug, content, categories, author, link, pictures} = this.form.value;
+    let {date, title, slug, content, categories, author, link, pictures, featuredImage} = this.form.value;
 
     let excerpt = this.generateDescription(content);
     let published = Date.now();
     let created = Date.parse(date);
 
     const story: Post = {
+      featuredImage,
       published,
       created,
       slug,

@@ -86,10 +86,12 @@
           type="button">Remove all</button>
       </app-story-pictures>
     </div>
-    <pre>
+    <!--<pre>
 {{form.value | json}}
-    </pre>
+    </pre>-->
+    <app-featured-image [imageUrl]="form.get('featuredImage').value"></app-featured-image>
   </form>
+  
   <div class="picture-box" *ngIf="addingPicture">
     <app-story-picture
       [parent]="form"
@@ -100,4 +102,5 @@
         type="button">Cancel</button>
     </app-story-picture>
   </div>
+  
 </div>

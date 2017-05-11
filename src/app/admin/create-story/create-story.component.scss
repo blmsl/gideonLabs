@@ -7,16 +7,16 @@
 form {
   width: 95vw;
   display: grid;
-  grid-template-columns: 1fr max-content max-content;
-  grid-template-rows: auto;
+  grid-template-columns: 1fr 20vw max-content;
+  grid-template-rows: repeat(3, min-content);
   grid-gap: 2em;
   grid-template-areas:
     "story-info publish picture-list"
     "editor category picture-list"
-    ". . picture-list";
+    ". featured-image picture-list";
 }
 
-form > div {
+form > * {
   background-color: rgb(245,245,245);
   border: 3px solid rgb(215,215,215);
   border-radius: 5px;
@@ -52,11 +52,10 @@ form > div {
   overflow-y: auto;
 }
 
-p-editor {
+.editor {
   background-color: white;
 }
 
-.editor {
-  background-color: white;
-  height: 25em;
+app-featured-image {
+  grid-area: featured-image;
 }
