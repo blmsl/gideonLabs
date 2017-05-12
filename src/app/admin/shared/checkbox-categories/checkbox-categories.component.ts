@@ -6,7 +6,7 @@ import { Category } from "../../../taxonomy/category/category";
   selector: 'app-checkbox-categories',
   styleUrls: ['./checkbox-categories.component.scss'],
   template: `
-
+    <h2>Categories</h2>
     <div class="category-checkbox-list">
       <div *ngFor="let parentCat of categories">
         {{space.repeat(parentCat.level)}}<input

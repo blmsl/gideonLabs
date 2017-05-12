@@ -5,6 +5,7 @@ import { FormGroup, FormArray } from "@angular/forms";
   selector: 'app-story-pictures',
   styleUrls: ['./story-pictures.component.scss'],
   template: `
+    <h2>Added Pictures</h2>
     <div [formGroup]="parent">
       <ng-content></ng-content>
       <div formArrayName="pictures" class="picture-array-container">
@@ -38,8 +39,6 @@ export class StoryPicturesComponent {
   get pictureArray() {
     return (this.parent.get('pictures') as FormArray).controls;
   }
-
- 
 
   onRemove(index: number) {
     this.removed.emit(index);

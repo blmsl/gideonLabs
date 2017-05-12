@@ -48,7 +48,8 @@
       <div class="add-reset-picture">
         <button
           type="button"
-          (click)="onAddPicture()">
+          (click)="onAddPicture()"
+          [disabled]="!parent.get('picture.storageUrl').valid">
           Add Picture
         </button>
         <button

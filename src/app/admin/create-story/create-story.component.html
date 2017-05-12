@@ -1,10 +1,7 @@
 <div class="create-story-container">
   <form [formGroup]="form" (ngSubmit)="onSubmit()">
 
-    <div class="story-info-box">
-      <h2>Add New Post</h2>
-      <app-story-info [parent]="form"></app-story-info>
-    </div>
+    <app-story-info [parent]="form"></app-story-info>
 
     <div class="publish-box">
       <h2>Publish</h2>
@@ -30,17 +27,13 @@
         type="button">Reset Story</button>
     </div>
 
-    <div class="categories">
-      <h2>Categories</h2>
-      <div class="categories-box">
-        <app-checkbox-categories
-          [parent]="form"
-          [controlName]="categoryControlName"
-          [categories]="hierarchyCategories"
-          (checkedCategory)="categorySelection($event)">
-        </app-checkbox-categories>
-      </div>
-    </div>
+    <app-checkbox-categories
+      [parent]="form"
+      [controlName]="categoryControlName"
+      [categories]="hierarchyCategories"
+      (checkedCategory)="categorySelection($event)">
+    </app-checkbox-categories>
+
 
     <div class="content-box">
       <h2>Story Content</h2>
@@ -70,26 +63,27 @@
       </p-editor>
     </div>
 
-    
-    <div class="story-pictures-box">
-      <h2>Added Pictures</h2>
-      <app-story-pictures
-        [parent]="form"
-        (removed)="removePicture($event)">
-        <button
-          [disabled]="form.get('title').invalid || form.get('content').invalid"
-          (click)="toggleAddPicture()"
-          type="button">Add Picture</button>
-        <button 
-          [disabled]="_pictures.length === 0"
-          (click)="resetPictureArray()"
-          type="button">Remove all</button>
-      </app-story-pictures>
-    </div>
+    <app-story-pictures
+      [parent]="form"
+      (removed)="removePicture($event)">
+      <button
+        [disabled]="form.get('title').invalid || form.get('content').invalid"
+        (click)="toggleAddPicture()"
+        type="button">Add Picture</button>
+      <button 
+        [disabled]="_pictures.length === 0"
+        (click)="resetPictureArray()"
+        type="button">Remove all</button>
+    </app-story-pictures>
+     
+
     <!--<pre>
 {{form.value | json}}
     </pre>-->
-    <app-featured-image [imageUrl]="form.get('featuredImage').value"></app-featured-image>
+
+    <app-featured-image 
+      [imageUrl]="form.get('featuredImage').value">
+    </app-featured-image>
   </form>
   
   <div class="picture-box" *ngIf="addingPicture">

@@ -531,10 +531,6 @@ binary-extensions@^1.0.0:
   version "1.8.0"
   resolved "https://registry.yarnpkg.com/binary-extensions/-/binary-extensions-1.8.0.tgz#48ec8d16df4377eae5fa5884682480af4d95c774"
 
-bindings@1.2.x:
-  version "1.2.1"
-  resolved "https://registry.yarnpkg.com/bindings/-/bindings-1.2.1.tgz#14ad6113812d2d37d72e67b4cacb4bb726505f11"
-
 blob@0.0.4:
   version "0.0.4"
   resolved "https://registry.yarnpkg.com/blob/-/blob-0.0.4.tgz#bcf13052ca54463f30f9fc7e95b9a47630a94921"
@@ -750,8 +746,8 @@ caniuse-api@^1.5.2:
     lodash.uniq "^4.5.0"
 
 caniuse-db@^1.0.30000529, caniuse-db@^1.0.30000634, caniuse-db@^1.0.30000639:
-  version "1.0.30000666"
-  resolved "https://registry.yarnpkg.com/caniuse-db/-/caniuse-db-1.0.30000666.tgz#951ed9f3d3bfaa08a06dafbb5089ab07cce6ab90"
+  version "1.0.30000667"
+  resolved "https://registry.yarnpkg.com/caniuse-db/-/caniuse-db-1.0.30000667.tgz#fb6060dbf349c101df26f421442419802fc6dab1"
 
 caseless@~0.12.0:
   version "0.12.0"
@@ -1730,7 +1726,7 @@ fileset@^2.0.2:
     glob "^7.0.3"
     minimatch "^3.0.3"
 
-filesize@^3.5.6:
+filesize@^3.5.9:
   version "3.5.9"
   resolved "https://registry.yarnpkg.com/filesize/-/filesize-3.5.9.tgz#9e3dd8a9b124f5b2f1fb2ee9cd13a86c707bb222"
 
@@ -3005,13 +3001,6 @@ micromatch@^2.1.5, micromatch@^2.3.11:
     parse-glob "^3.0.4"
     regex-cache "^0.4.2"
 
-microtime@^2.1.3:
-  version "2.1.3"
-  resolved "https://registry.yarnpkg.com/microtime/-/microtime-2.1.3.tgz#0d1307f25da0ca7fde4ab791edc8c91dd7b4e3be"
-  dependencies:
-    bindings "1.2.x"
-    nan "2.6.x"
-
 miller-rabin@^4.0.0:
   version "4.0.0"
   resolved "https://registry.yarnpkg.com/miller-rabin/-/miller-rabin-4.0.0.tgz#4a62fb1d42933c05583982f4c716f6fb9e6c6d3d"
@@ -3029,9 +3018,13 @@ mime-types@^2.1.12, mime-types@~2.1.11, mime-types@~2.1.15, mime-types@~2.1.7:
   dependencies:
     mime-db "~1.27.0"
 
-mime@1.3.4, mime@1.3.x, mime@^1.2.11, mime@^1.3.4:
+mime@1.3.4:
   version "1.3.4"
   resolved "https://registry.yarnpkg.com/mime/-/mime-1.3.4.tgz#115f9e3b6b3daf2959983cb38f149a2d40eb5d53"
+
+mime@1.3.x, mime@^1.2.11, mime@^1.3.4:
+  version "1.3.6"
+  resolved "https://registry.yarnpkg.com/mime/-/mime-1.3.6.tgz#591d84d3653a6b0b4a3b9df8de5aa8108e72e5e0"
 
 mimic-fn@^1.0.0:
   version "1.1.0"
@@ -3096,7 +3089,7 @@ mute-stream@0.0.7:
   version "0.0.7"
   resolved "https://registry.yarnpkg.com/mute-stream/-/mute-stream-0.0.7.tgz#3075ce93bc21b8fab43e1bc4da7e8115ed1e7bab"
 
-nan@2.6.x, nan@^2.3.0, nan@^2.3.2:
+nan@^2.3.0, nan@^2.3.2:
   version "2.6.2"
   resolved "https://registry.yarnpkg.com/nan/-/nan-2.6.2.tgz#e4ff34e6c95fdfb5aecc08de6596f43605a7db45"
 
@@ -3485,16 +3478,14 @@ path-type@^1.0.0:
     pinkie-promise "^2.0.0"
 
 pbkdf2@^3.0.3:
-  version "3.0.11"
-  resolved "https://registry.yarnpkg.com/pbkdf2/-/pbkdf2-3.0.11.tgz#791b7414e50c848438976e12ea2651003037ca6b"
+  version "3.0.12"
+  resolved "https://registry.yarnpkg.com/pbkdf2/-/pbkdf2-3.0.12.tgz#be36785c5067ea48d806ff923288c5f750b6b8a2"
   dependencies:
     create-hash "^1.1.2"
     create-hmac "^1.1.4"
     ripemd160 "^2.0.1"
     safe-buffer "^5.0.1"
     sha.js "^2.4.8"
-  optionalDependencies:
-    microtime "^2.1.3"
 
 performance-now@^0.2.0:
   version "0.2.0"
@@ -4222,7 +4213,7 @@ rxjs@^5.0.1, rxjs@^5.3.0:
   dependencies:
     symbol-observable "^1.0.1"
 
-safe-buffer@^5.0.1:
+safe-buffer@^5.0.1, safe-buffer@~5.0.1:
   version "5.0.1"
   resolved "https://registry.yarnpkg.com/safe-buffer/-/safe-buffer-5.0.1.tgz#d263ca54696cd8a306b5ca6551e92de57918fbe7"
 
@@ -4270,8 +4261,8 @@ script-loader@^0.7.0:
     raw-loader "~0.5.1"
 
 scss-tokenizer@^0.2.1:
-  version "0.2.1"
-  resolved "https://registry.yarnpkg.com/scss-tokenizer/-/scss-tokenizer-0.2.1.tgz#07c0cc577bb7ab4d08fd900185adbf4bc844141d"
+  version "0.2.3"
+  resolved "https://registry.yarnpkg.com/scss-tokenizer/-/scss-tokenizer-0.2.3.tgz#8eb06db9a9723333824d3f5530641149847ce5d1"
   dependencies:
     js-base64 "^2.1.8"
     source-map "^0.4.2"
@@ -4904,8 +4895,8 @@ uglify-js@^2.6, uglify-js@^2.7.5, uglify-js@~2.8.22:
     uglify-to-browserify "~1.0.0"
 
 "uglify-js@github:mishoo/UglifyJS2#harmony":
-  version "3.0.3"
-  resolved "https://codeload.github.com/mishoo/UglifyJS2/tar.gz/fcd90db30d9af157a4a8e36490bcbb861a3a5884"
+  version "3.0.4"
+  resolved "https://codeload.github.com/mishoo/UglifyJS2/tar.gz/945ba641609cea5c97bf8aa05d9afb00cd69471c"
   dependencies:
     commander "~2.9.0"
     source-map "~0.5.1"
@@ -4931,6 +4922,10 @@ uid-number@^0.0.6:
 ultron@1.0.x:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/ultron/-/ultron-1.0.2.tgz#ace116ab557cd197386a4e88f4685378c8b2e4fa"
+
+ultron@~1.1.0:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/ultron/-/ultron-1.1.0.tgz#b07a2e6a541a815fc6a34ccd4533baec307ca864"
 
 uniq@^1.0.1:
   version "1.0.1"
@@ -5109,19 +5104,20 @@ webdriver-manager@^12.0.1:
     xml2js "^0.4.17"
 
 webpack-bundle-analyzer@^2.4.0:
-  version "2.7.0"
-  resolved "https://registry.yarnpkg.com/webpack-bundle-analyzer/-/webpack-bundle-analyzer-2.7.0.tgz#9a8320a9e33917ade47aa1369013bbf4d4a9f5af"
+  version "2.8.1"
+  resolved "https://registry.yarnpkg.com/webpack-bundle-analyzer/-/webpack-bundle-analyzer-2.8.1.tgz#f452a5e4ae0cd8144d8b0347f2c3c644310daedd"
   dependencies:
     acorn "^5.0.3"
     chalk "^1.1.3"
     commander "^2.9.0"
     ejs "^2.5.6"
     express "^4.15.2"
-    filesize "^3.5.6"
+    filesize "^3.5.9"
     gzip-size "^3.0.0"
     lodash "^4.17.4"
     mkdirp "^0.5.1"
     opener "^1.4.3"
+    ws "^2.3.1"
 
 webpack-dev-middleware@^1.0.11, webpack-dev-middleware@^1.10.2:
   version "1.10.2"
@@ -5221,10 +5217,10 @@ which@1, which@^1.2.1, which@^1.2.9:
     isexe "^2.0.0"
 
 wide-align@^1.1.0:
-  version "1.1.1"
-  resolved "https://registry.yarnpkg.com/wide-align/-/wide-align-1.1.1.tgz#d2ea8aa2db2e66467e8b60cc3e897de3bc4429e6"
+  version "1.1.2"
+  resolved "https://registry.yarnpkg.com/wide-align/-/wide-align-1.1.2.tgz#571e0f1b0604636ebc0dfc21b0339bbe31341710"
   dependencies:
-    string-width "^2.0.0"
+    string-width "^1.0.2"
 
 window-size@0.1.0:
   version "0.1.0"
@@ -5262,6 +5258,13 @@ ws@^1.0.1:
   dependencies:
     options ">=0.0.5"
     ultron "1.0.x"
+
+ws@^2.3.1:
+  version "2.3.1"
+  resolved "https://registry.yarnpkg.com/ws/-/ws-2.3.1.tgz#6b94b3e447cb6a363f785eaf94af6359e8e81c80"
+  dependencies:
+    safe-buffer "~5.0.1"
+    ultron "~1.1.0"
 
 wtf-8@1.0.0:
   version "1.0.0"

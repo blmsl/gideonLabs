@@ -25,29 +25,27 @@ export class CreateStoryComponent implements OnInit {
   author: string;
   addingPicture: boolean = false;
 
-    // Test picture array for styling
-
-  testPicArray = [ 
-    this.fb.group({
-      storageUrl: 'https://firebasestorage.googleapis.com/v0/b/gideonlabs-b4b71.appspot.com/o/stories%2Fas%2Fzombie-949916_640.jpg?alt=media&token=61c7ab7c-4ff8-4205-b94d-df8cd3d747a1'
-    }),
-    this.fb.group({
-      storageUrl: 'https://firebasestorage.googleapis.com/v0/b/gideonlabs-b4b71.appspot.com/o/stories%2Fas%2Fzombie-949916_640.jpg?alt=media&token=61c7ab7c-4ff8-4205-b94d-df8cd3d747a1',
-      featured: true
-    }),
-    this.fb.group({
-      storageUrl: 'https://firebasestorage.googleapis.com/v0/b/gideonlabs-b4b71.appspot.com/o/stories%2Fas%2Fzombie-949916_640.jpg?alt=media&token=61c7ab7c-4ff8-4205-b94d-df8cd3d747a1'
-    }),
-    this.fb.group({
-      storageUrl: 'https://firebasestorage.googleapis.com/v0/b/gideonlabs-b4b71.appspot.com/o/stories%2Fas%2Fzombie-949916_640.jpg?alt=media&token=61c7ab7c-4ff8-4205-b94d-df8cd3d747a1'
-    }),
-    this.fb.group({
-      storageUrl: 'https://firebasestorage.googleapis.com/v0/b/gideonlabs-b4b71.appspot.com/o/stories%2Fas%2Fzombie-949916_640.jpg?alt=media&token=61c7ab7c-4ff8-4205-b94d-df8cd3d747a1'
-    }),
-    this.fb.group({
-      storageUrl: 'https://firebasestorage.googleapis.com/v0/b/gideonlabs-b4b71.appspot.com/o/stories%2Fas%2Fzombie-949916_640.jpg?alt=media&token=61c7ab7c-4ff8-4205-b94d-df8cd3d747a1'
-    }),
-  ];
+  // testPicArray = [ 
+  //   this.fb.group({
+  //     storageUrl: 'https://firebasestorage.googleapis.com/v0/b/gideonlabs-b4b71.appspot.com/o/stories%2Fas%2Fzombie-949916_640.jpg?alt=media&token=61c7ab7c-4ff8-4205-b94d-df8cd3d747a1'
+  //   }),
+  //   this.fb.group({
+  //     storageUrl: 'https://firebasestorage.googleapis.com/v0/b/gideonlabs-b4b71.appspot.com/o/stories%2Fas%2Fzombie-949916_640.jpg?alt=media&token=61c7ab7c-4ff8-4205-b94d-df8cd3d747a1',
+  //     featured: true
+  //   }),
+  //   this.fb.group({
+  //     storageUrl: 'https://firebasestorage.googleapis.com/v0/b/gideonlabs-b4b71.appspot.com/o/stories%2Fas%2Fzombie-949916_640.jpg?alt=media&token=61c7ab7c-4ff8-4205-b94d-df8cd3d747a1'
+  //   }),
+  //   this.fb.group({
+  //     storageUrl: 'https://firebasestorage.googleapis.com/v0/b/gideonlabs-b4b71.appspot.com/o/stories%2Fas%2Fzombie-949916_640.jpg?alt=media&token=61c7ab7c-4ff8-4205-b94d-df8cd3d747a1'
+  //   }),
+  //   this.fb.group({
+  //     storageUrl: 'https://firebasestorage.googleapis.com/v0/b/gideonlabs-b4b71.appspot.com/o/stories%2Fas%2Fzombie-949916_640.jpg?alt=media&token=61c7ab7c-4ff8-4205-b94d-df8cd3d747a1'
+  //   }),
+  //   this.fb.group({
+  //     storageUrl: 'https://firebasestorage.googleapis.com/v0/b/gideonlabs-b4b71.appspot.com/o/stories%2Fas%2Fzombie-949916_640.jpg?alt=media&token=61c7ab7c-4ff8-4205-b94d-df8cd3d747a1'
+  //   }),
+  // ];
   
   
   constructor(private fb: FormBuilder, 
@@ -69,6 +67,12 @@ export class CreateStoryComponent implements OnInit {
         this.form.get('link')!.patchValue(`https://www.gideonlabs.com/posts/${slug}`);
       });
 
+    this.form.get('picture.title')!.valueChanges
+      .subscribe(title => {
+        this.form.get('picture.caption')!.patchValue(title);
+        this.form.get('picture.altText')!.patchValue(title);
+      });
+
     this.author = this.auth.user.uid;
     
   }
@@ -86,7 +90,7 @@ export class CreateStoryComponent implements OnInit {
       featuredImage: [null, Validators.required],
       author: [this.auth.user.uid, Validators.required],
       picture: this.initPicture({}),
-      pictures: this.fb.array(this.testPicArray),
+      pictures: this.fb.array([]),
       link: ['', Validators.required]
     })
   }
@@ -269,7 +273,7 @@ export class CreateStoryComponent implements OnInit {
     this.db.object(`/stories/${slug}`).update(story).then(() => {
       this.pushPictures(slug, pictures);
       this.pushCategories(slug, categories);
-      this.pushCategoryStories(slug, categories);
+      this.pushCategoryStories(story, categories);
     }).catch(err => console.log(err));
     
     this.formReset();
@@ -288,11 +292,11 @@ export class CreateStoryComponent implements OnInit {
     this.db.object(`/stories/${title}/categories`).set(categoryList);
   }
 
-  pushCategoryStories(title: string, categories: string[]) {
+  pushCategoryStories(story: Post, categories: string[]) {
     categories.forEach(category => {
-      let story: any = {};
-      story[title] = true;
-      this.db.object(`/categories/${category}/stories`).update(story);
+      let { slug, title, excerpt, featuredImage } = story;
+      const storySynopsis = { slug, title, excerpt, featuredImage };
+      this.db.list(`/categories/${category}/stories`).push(storySynopsis);
     })
   }
 

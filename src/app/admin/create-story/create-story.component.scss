@@ -23,27 +23,28 @@ form > * {
   padding: 1em;
 }
 
-.story-info-box {
+app-story-info {
   grid-area: story-info;
-}
-
-.content-box {
-  grid-area: editor;
-}
-
-.story-pictures-box {
-  grid-area: picture-list;
 }
 
 .publish-box {
   grid-area: publish;
 }
 
+.content-box {
+  grid-area: editor;
+}
+
+app-story-pictures {
+  grid-area: picture-list;
+}
+
+
 .form-value {
   grid-area: value;
 }
 
-.categories {
+app-checkbox-categories {
   grid-area: category;
 }
 
