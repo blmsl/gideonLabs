@@ -1,0 +1,67 @@
+.box {
+  font-size: 1.25rem;
+  background-color: #c8dadf;
+  position: relative;
+  padding: 100px 2px;
+  width: 70vw;
+}
+
+.box__dragndrop,
+.box__uploading,
+.box__success,
+.box__error {
+  display: none;
+}
+
+.box.has-advanced-upload {
+  outline: 2px dashed #92b0b3;
+  outline-offset: -10px;
+}
+.box.has-advanced-upload .box__dragndrop {
+  display: inline;
+}
+
+.box.is-dragover {
+  background-color: grey;
+}
+
+.box__file {
+  width: 0.1px;
+	height: 0.1px;
+	opacity: 0;
+	overflow: hidden;
+	position: absolute;
+	z-index: -1;
+}
+
+label {
+  cursor: pointer;
+  max-width: 80%;
+  white-space: nowrap;
+  display: inline-block;
+  overflow: hidden;
+}
+
+label:hover strong {
+  color: #39bfd3;
+}
+
+:host {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.drag-highlight {
+  background-color: white;
+}
+
+.uploaded {
+  width: 85%;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr max-content max-content;
+  grid-template-rows: auto;
+  align-items: center;
+  grid-gap: 1em;
+}

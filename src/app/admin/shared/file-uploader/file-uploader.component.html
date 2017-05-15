@@ -1,0 +1,25 @@
+<div
+  [ngClass]="{'has-advanced-upload': isAdvancedUpload, 'drag-highlight': dragHighlight}"
+  class="box"
+  (drop)="onDrop($event)"
+  (dragover)="onDragover($event)"
+  (dragenter)="onDragenter($event)"
+  (dragleave)="onDragleave($event)">
+  <div class="box__input">
+    <div *ngIf="files.length > 0">
+      <div class="uploaded">
+        <div>Name</div><div>Size</div><div>Thumbnail</div>
+        
+        <ng-template ngFor [ngForOf]="files" let-file>
+          <div>{{file.name}}</div>
+          <div>{{file.size / 1024 | number:'.0-0' }}<small>kb</small></div>
+          <img [src]="file.objectURL" [width]="thumbnailWidth">
+        </ng-template>
+        
+      </div>
+    </div>
+  </div>
+  <div class="box__uploading">Uploading&hellip;</div>
+  <div class="box__success">Done!</div>
+  <div class="box__error">Error! <span></span>.</div>
+</div>

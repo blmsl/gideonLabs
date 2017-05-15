@@ -26,8 +26,8 @@ export class StoryPictureComponent {
   constructor(private fb: FirebaseApp) { }
 
   onUploadPicture(event: any) {
-    let target: HTMLInputElement = event.target as HTMLInputElement;
-    let files: FileList = target.files;
+    let target = event.target as HTMLInputElement;
+    let files = target.files as FileList;
 
     if (files && files[0]) {
       this.upload(files[0]);

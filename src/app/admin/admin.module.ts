@@ -8,12 +8,14 @@ import { AdminComponent } from './admin.component';
 import { HeaderComponent } from './header/header.component';
 import { SignInComponent } from './sign-in/sign-in.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
+import { AdminSharedModule } from "./shared/admin-shared.module";
 
 @NgModule({
   imports: [
     CommonModule,
     AdminRoutingModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    AdminSharedModule
   ],
   declarations: [
     AdminComponent, 
