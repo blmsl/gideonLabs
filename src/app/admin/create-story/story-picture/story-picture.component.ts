@@ -50,18 +50,12 @@ export class StoryPictureComponent {
       contentType: file.type,
     }
 
-    let pictureTask = picturePath.put(file, metadata);
+    let pictureTask: firebase.storage.UploadTask = picturePath.put(file, metadata);
 
     pictureTask
       .on('state_changed',
-        (snapshot: any) => {
-          let percentage = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-          this.progressValue = percentage;
-        }, 
-        // Called on errors
-        error => {
-          console.error('There was an error uploading', error)
-        },
+        (snapshot: any) => this.progressValue = (snapshot.bytesTransferred / snapshot.totalBytes) * 100, 
+        error => console.error('There was an error uploading', error),
         // Called on complete
         () => {
           let url = pictureTask.snapshot.downloadURL;
