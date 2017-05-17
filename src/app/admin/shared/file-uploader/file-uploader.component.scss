@@ -3,7 +3,6 @@
   background-color: #c8dadf;
   position: relative;
   padding: 100px 2px;
-  width: 70vw;
 }
 
 .box__dragndrop,
@@ -44,12 +43,6 @@ label {
 
 label:hover strong {
   color: #39bfd3;
-}
-
-:host {
-  display: flex;
-  justify-content: center;
-  align-items: center;
 }
 
 .drag-highlight {

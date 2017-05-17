@@ -247,6 +247,10 @@ export class CreateStoryComponent implements OnInit {
     });
   }
 
+  filesToUpload(fileList: File[]) {
+    console.log(fileList);
+  }
+
   resetPictureArray() {
     this._pictures.value.forEach((picture: any) => this._pictures.removeAt(0));
   }

@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from "@angular/forms";
+import { Component, EventEmitter, Output, Input } from '@angular/core';
+import { FormGroup, FormArray } from "@angular/forms";
 import { DomSanitizer } from "@angular/platform-browser";
 
 @Component({
@@ -7,26 +7,30 @@ import { DomSanitizer } from "@angular/platform-browser";
   templateUrl: './file-uploader.component.html',
   styleUrls: ['./file-uploader.component.scss']
 })
-export class FileUploaderComponent implements OnInit {
+export class FileUploaderComponent {
 
-  form: FormGroup;
   dragHighlight: boolean;
   public files: File[] = [];
-  thumbnailWidth = 150;
-  pi: number = 3.141592;
-  e: number = 2.718281828459045;
+  thumbnailWidth = 100;
+  
+  @Input()
+  parent: FormGroup;
 
-  constructor(private fb: FormBuilder, private sanitizer: DomSanitizer) { }
+  @Output()
+  removed = new EventEmitter<any>();
 
-  ngOnInit() {
-    this.createForm();
+  get pictureArray() {
+    return (this.parent.get('pictures') as FormArray).controls;
   }
 
-  createForm() {
-    this.form = this.fb.group({
-      file: ''
-    }) 
+  onRemove(index: number) {
+    this.removed.emit(index);
   }
+  
+  @Output()
+  filesToUpload = new EventEmitter<File[]>();
+
+  constructor(private sanitizer: DomSanitizer) { }
 
   get isAdvancedUpload() {
     const div = document.createElement('div');
@@ -46,6 +50,8 @@ export class FileUploaderComponent implements OnInit {
       file.objectURL = this.sanitizer.bypassSecurityTrustUrl((window.URL.createObjectURL(files[i])));
       this.files.push(files[i]);
     }
+
+    this.filesToUpload.emit(this.files);
   }
 
   onDragover(event: DragEvent) {
@@ -65,10 +71,6 @@ export class FileUploaderComponent implements OnInit {
   preventAndStop(event: DragEvent): void {
     event.preventDefault();
     event.stopPropagation();
-  }
-
-  onSubmit() {
-    console.log(this.form.value);
   }
 
 }
