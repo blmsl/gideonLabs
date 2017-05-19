@@ -1,15 +1,23 @@
+.story-picture-container {
+  background-color: rgba(0, 0, 0, 0.8);
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 .box {
   font-size: 1.25rem;
   background-color: #c8dadf;
-  position: relative;
-  padding: 100px 2px;
-}
-
-.box__dragndrop,
-.box__uploading,
-.box__success,
-.box__error {
-  display: none;
+  padding: 1em;
+  width: 50vw;
+  min-height: 25vh;
+  max-height: 75vh;
+  overflow-y: scroll;
 }
 
 .box.has-advanced-upload {
@@ -18,31 +26,6 @@
 }
 .box.has-advanced-upload .box__dragndrop {
   display: inline;
-}
-
-.box.is-dragover {
-  background-color: grey;
-}
-
-.box__file {
-  width: 0.1px;
-	height: 0.1px;
-	opacity: 0;
-	overflow: hidden;
-	position: absolute;
-	z-index: -1;
-}
-
-label {
-  cursor: pointer;
-  max-width: 80%;
-  white-space: nowrap;
-  display: inline-block;
-  overflow: hidden;
-}
-
-label:hover strong {
-  color: #39bfd3;
 }
 
 .drag-highlight {

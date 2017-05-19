@@ -42,3 +42,4 @@ functions/node_modules
 Thumbs.db
 *.log
 .vscode/settings.json
+yarn.lock
