@@ -1,12 +1,16 @@
-<div class="story-picture-container">
-  <h2>Add Pictures</h2>
-  <div
-    [ngClass]="{'has-advanced-upload': isAdvancedUpload, 'drag-highlight': dragHighlight}"
-    class="box"
-    (drop)="onDrop($event)"
-    (dragover)="onDragover($event)"
-    (dragenter)="onDragenter($event)"
-    (dragleave)="onDragleave($event)">
+<div class="add-pictures-container">
+  <div class="add-pictures--modal">
+    <h2>Add Pictures</h2>
+    <ng-content></ng-content>
+    <div
+      [ngClass]="{'has-advanced-upload': isAdvancedUpload, 'drag-highlight': dragHighlight}"
+      class="drop-box"
+      (drop)="onDrop($event)"
+      (dragover)="onDragover($event)"
+      (dragenter)="onDragenter($event)"
+      (dragleave)="onDragleave($event)">
+    </div>
+    
     <div class="box__input">
       <div *ngIf="files.length > 0">
         <div class="uploaded">
@@ -21,5 +25,6 @@
         </div>
       </div>
     </div>
+  
   </div>
 </div>

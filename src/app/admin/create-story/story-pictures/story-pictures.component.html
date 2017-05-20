@@ -9,9 +9,9 @@
       [formGroupName]="i">
 
         <div 
-          class="picture-block" 
-          [ngClass]="{'featured': picture.value.featured}">
-          <img [src]="picture.value.storageUrl">
+          class="picture-block">
+          ObjectURL: {{picture.name}}
+          <img [src]="picture.objectURL">
           <button
             class="remove-picture"
             type="button" 

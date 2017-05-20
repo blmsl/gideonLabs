@@ -1,5 +1,6 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 //import { FormGroup, FormArray } from "@angular/forms";
+import { FileItem } from "../../shared/file-item";
 
 @Component({
   selector: 'app-story-pictures',
@@ -12,10 +13,10 @@ export class StoryPicturesComponent {
   // parent: FormGroup;
 
   @Input()
-  fileList: File[];
+  fileList: FileItem[];
 
   @Output()
-  removed = new EventEmitter<any>();
+  removed = new EventEmitter<number>();
 
   // get pictureArray() {
   //   return (this.parent.get('pictures') as FormArray).controls;
