@@ -18,7 +18,8 @@
         type="submit"
         [disabled]="
           form.get('title').invalid || 
-          form.get('content').invalid">
+          form.get('content').invalid ||
+          form.get('pictures').value.length === 0">
         Create Story
       </button>
       <button
@@ -63,12 +64,14 @@
     </div>
 
     <app-story-pictures
-      [fileList]="fileList"
+      [parent]="form"
       (removed)="removePicture($event)">
       <button
+        [disabled]="form.get('title').invalid || form.get('content').invalid"
         (click)="toggleAddPicture()"
         type="button">Add Picture</button>
       <button 
+        [disabled]="_pictures.length === 0"
         (click)="resetPictureArray()"
         type="button">Remove all</button>
     </app-story-pictures>
@@ -81,17 +84,8 @@
       [imageUrl]="form.get('featuredImage').value">
     </app-featured-image>
   </form>
-
-  <app-file-uploader 
-    (filesToUpload)="filesToUpload($event)"
-    *ngIf="addingPicture">
-
-    <button
-        (click)="toggleAddPicture()"
-        type="button">Cancel</button>
-  </app-file-uploader>
-
-  <!--<div class="picture-box" *ngIf="addingPicture">
+  
+  <div class="picture-box" *ngIf="addingPicture">
     <app-story-picture
       [parent]="form"
       (added)="addPicture($event)"
@@ -100,6 +94,6 @@
         (click)="toggleAddPicture()"
         type="button">Cancel</button>
     </app-story-picture>
-  </div>-->
+  </div>
   
 </div>

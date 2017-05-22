@@ -1,4 +1,5 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, Output, Input } from '@angular/core';
+import { FormGroup, FormArray } from "@angular/forms";
 import { DomSanitizer } from "@angular/platform-browser";
 
 @Component({
@@ -11,7 +12,21 @@ export class FileUploaderComponent {
   dragHighlight: boolean;
   public files: File[] = [];
   thumbnailWidth = 100;
-   
+  
+  @Input()
+  parent: FormGroup;
+
+  @Output()
+  removed = new EventEmitter<any>();
+
+  get pictureArray() {
+    return (this.parent.get('pictures') as FormArray).controls;
+  }
+
+  onRemove(index: number) {
+    this.removed.emit(index);
+  }
+  
   @Output()
   filesToUpload = new EventEmitter<File[]>();
 

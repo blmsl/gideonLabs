@@ -24,7 +24,6 @@ export class CreateStoryComponent implements OnInit {
   categoryControlName = 'category';
   author: string;
   addingPicture: boolean = false;
-  fileList: File[];
 
   // testPicArray = [ 
   //   this.fb.group({
@@ -68,11 +67,11 @@ export class CreateStoryComponent implements OnInit {
         this.form.get('link')!.patchValue(`https://www.gideonlabs.com/posts/${slug}`);
       });
 
-    // this.form.get('picture.title')!.valueChanges
-    //   .subscribe(title => {
-    //     this.form.get('picture.caption')!.patchValue(title);
-    //     this.form.get('picture.altText')!.patchValue(title);
-    //   });
+    this.form.get('picture.title')!.valueChanges
+      .subscribe(title => {
+        this.form.get('picture.caption')!.patchValue(title);
+        this.form.get('picture.altText')!.patchValue(title);
+      });
 
     this.author = this.auth.user.uid;
     
@@ -90,26 +89,26 @@ export class CreateStoryComponent implements OnInit {
       categories: [[]],
       featuredImage: [null, Validators.required],
       author: [this.auth.user.uid, Validators.required],
-      // picture: this.initPicture({}),
-      // pictures: this.fb.array([]),
+      picture: this.initPicture({}),
+      pictures: this.fb.array([]),
       link: ['', Validators.required]
     })
   }
 
-  // initPicture(pic: any) {
-  //   const date = Date.now();
-  //   return this.fb.group({
-  //     date: [pic.date || date, Validators.required],
-  //     slug: [pic.slug || ''],
-  //     title: [pic.title || '', Validators.required],
-  //     author: [pic.author || this.auth.user.uid, Validators.required],
-  //     caption: [pic.caption || '', Validators.required],
-  //     altText: [pic.altText || '', Validators.required],
-  //     type: [pic.type || ''],
-  //     featured: [pic.featured || false],
-  //     storageUrl: [pic.storageUrl || '', Validators.required],
-  //   })
-  // }
+  initPicture(pic: any) {
+    const date = Date.now();
+    return this.fb.group({
+      date: [pic.date || date, Validators.required],
+      slug: [pic.slug || ''],
+      title: [pic.title || '', Validators.required],
+      author: [pic.author || this.auth.user.uid, Validators.required],
+      caption: [pic.caption || '', Validators.required],
+      altText: [pic.altText || '', Validators.required],
+      type: [pic.type || ''],
+      featured: [pic.featured || false],
+      storageUrl: [pic.storageUrl || '', Validators.required],
+    })
+  }
 
   toggleAddPicture() {
     this.addingPicture = !this.addingPicture;
@@ -201,12 +200,12 @@ export class CreateStoryComponent implements OnInit {
   //   }
   // }
 
-  // addPicture(picture: Picture) {
-  //   picture.slug = this.createSlug(picture.title);
-  //   this._pictures.push(this.initPicture(picture));
-  //   this.resetPicture();
-  //   this.addingPicture = false;
-  // }
+  addPicture(picture: Picture) {
+    picture.slug = this.createSlug(picture.title);
+    this._pictures.push(this.initPicture(picture));
+    this.resetPicture();
+    this.addingPicture = false;
+  }
 
   removePicture(index: number) {
     if (this._pictures.value[index].featured) {
@@ -249,7 +248,7 @@ export class CreateStoryComponent implements OnInit {
   }
 
   filesToUpload(fileList: File[]) {
-    this.fileList = fileList;
+    console.log(fileList);
   }
 
   resetPictureArray() {
