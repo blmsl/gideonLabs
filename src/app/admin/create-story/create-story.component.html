@@ -63,10 +63,8 @@
     </div>
 
     <app-story-pictures
-      [parent]="form"
-      [fileList]="_pictures.value"
-      (removed)="removePicture($event)"
-      (edit)="editPicture($event)">
+      [fileList]="fileList"
+      (removed)="removePicture($event)">
       <button
         (click)="toggleAddPicture()"
         type="button">Add Picture</button>
@@ -82,35 +80,6 @@
     <app-featured-image 
       [imageUrl]="form.get('featuredImage').value">
     </app-featured-image>
-
-
-    <div *ngIf="editArray" class="edit-array__container">
-      <div class="edit-array" formArrayName="pictures">
-        <div *ngFor="let picture of _pictures.controls; let i = index;" [formGroupName]="i">
-          <h4>Index: {{i}}</h4>
-          <input
-            id="title"
-            class="picture-title"
-            type="text" 
-            placeholder="This will be used to create the URL link of the photo" 
-            formControlName="title">
-
-          <input
-            class="picture-caption"
-            type="text" 
-            placeholder="This text will appear along with the photo"
-            formControlName="caption">
-
-          <input
-            type="text" 
-            placeholder="This text describes the photo for accessibility"
-            formControlName="altText">
-        </div>
-        <button type="button" (click)="editArray = false">Close</button>
-      </div>
-      
-    </div>
-
   </form>
 
   <app-file-uploader 
@@ -121,8 +90,6 @@
       (click)="toggleAddPicture()"
       type="button">Finished</button>
   </app-file-uploader>
-
- 
 
   <!--<div class="picture-box" *ngIf="addingPicture">
     <app-story-picture

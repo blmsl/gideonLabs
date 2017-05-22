@@ -1,7 +1,6 @@
-import { Component, EventEmitter, Output, Input } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 import { DomSanitizer } from "@angular/platform-browser";
 import { FileItem } from "../file-item";
-import { FormGroup } from "@angular/forms";
 
 @Component({
   selector: 'app-file-uploader',
@@ -9,13 +8,13 @@ import { FormGroup } from "@angular/forms";
   styleUrls: ['./file-uploader.component.scss']
 })
 export class FileUploaderComponent {
-  
+
   dragHighlight: boolean;
   public files: FileItem[] = [];
   thumbnailWidth = 100;
    
   @Output()
-  filesToUpload = new EventEmitter<FileItem>();
+  filesToUpload = new EventEmitter<FileItem[]>();
 
   constructor(private sanitizer: DomSanitizer) { }
 
@@ -43,10 +42,9 @@ export class FileUploaderComponent {
       }
       file.objectURL = this.sanitizer.bypassSecurityTrustUrl((window.URL.createObjectURL(files[i])));
       this.files.push(file);
-      this.filesToUpload.emit(file);
     }
 
-    // this.filesToUpload.emit(this.files);
+    this.filesToUpload.emit(this.files);
     this.dragHighlight = false;
   }
 
