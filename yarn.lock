@@ -1722,8 +1722,8 @@ fileset@^2.0.2:
     minimatch "^3.0.3"
 
 filesize@^3.5.9:
-  version "3.5.10"
-  resolved "https://registry.yarnpkg.com/filesize/-/filesize-3.5.10.tgz#fc8fa23ddb4ef9e5e0ab6e1e64f679a24a56761f"
+  version "3.5.9"
+  resolved "https://registry.yarnpkg.com/filesize/-/filesize-3.5.9.tgz#9e3dd8a9b124f5b2f1fb2ee9cd13a86c707bb222"
 
 fill-range@^2.1.0:
   version "2.2.3"
@@ -1920,13 +1920,13 @@ glob@7.0.x:
     path-is-absolute "^1.0.0"
 
 glob@^7.0.0, glob@^7.0.3, glob@^7.0.5, glob@^7.0.6, glob@^7.1.1, glob@~7.1.1:
-  version "7.1.2"
-  resolved "https://registry.yarnpkg.com/glob/-/glob-7.1.2.tgz#c19c9df9a028702d678612384a6552404c636d15"
+  version "7.1.1"
+  resolved "https://registry.yarnpkg.com/glob/-/glob-7.1.1.tgz#805211df04faaf1c63a3600306cdf5ade50b2ec8"
   dependencies:
     fs.realpath "^1.0.0"
     inflight "^1.0.4"
     inherits "2"
-    minimatch "^3.0.4"
+    minimatch "^3.0.2"
     once "^1.3.0"
     path-is-absolute "^1.0.0"
 
@@ -3033,7 +3033,7 @@ minimalistic-crypto-utils@^1.0.0, minimalistic-crypto-utils@^1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/minimalistic-crypto-utils/-/minimalistic-crypto-utils-1.0.1.tgz#f6c00c1c0b082246e5c4d99dfb8c7c083b2b582a"
 
-"minimatch@2 || 3", minimatch@^3.0.0, minimatch@^3.0.2, minimatch@^3.0.3, minimatch@^3.0.4, minimatch@~3.0.2:
+"minimatch@2 || 3", minimatch@^3.0.0, minimatch@^3.0.2, minimatch@^3.0.3, minimatch@~3.0.2:
   version "3.0.4"
   resolved "https://registry.yarnpkg.com/minimatch/-/minimatch-3.0.4.tgz#5166e286457f03306064be5497e8dbb0c3d32083"
   dependencies:
@@ -4882,6 +4882,7 @@ typescript@^2.2.2:
 
 <<<<<<< HEAD
 uglify-js@3.0.x, "uglify-js@github:mishoo/UglifyJS2#harmony":
+<<<<<<< HEAD
   version "3.0.10"
   resolved "https://codeload.github.com/mishoo/UglifyJS2/tar.gz/5b22334f3b935f8b68a240d2a71093132f58ddf1"
 =======
@@ -4892,6 +4893,10 @@ uglify-js@^2.6, uglify-js@^2.7.5, uglify-js@~2.8.22:
 >>>>>>> parent of 5d23818... Working on drag and drop file uploader
 =======
 >>>>>>> parent of 5d23818... Working on drag and drop file uploader
+=======
+  version "3.0.9"
+  resolved "https://codeload.github.com/mishoo/UglifyJS2/tar.gz/9a074c26373cdfef974bf9d1397a5a20c3113e4d"
+>>>>>>> parent of d711bc5... Working with image drop
   dependencies:
     commander "~2.9.0"
     source-map "~0.5.1"
@@ -5411,5 +5416,5 @@ zone.js@^0.7.6:
   resolved "https://registry.yarnpkg.com/zone.js/-/zone.js-0.7.8.tgz#4f3fe8834d44597f2639053a0fa438df34fffded"
 
 zone.js@^0.8.4:
-  version "0.8.11"
-  resolved "https://registry.yarnpkg.com/zone.js/-/zone.js-0.8.11.tgz#742befb17fbc49a571712b8c7d87e58ca26fd886"
+  version "0.8.10"
+  resolved "https://registry.yarnpkg.com/zone.js/-/zone.js-0.8.10.tgz#6d1b696492c029cdbe808e59e87bbd9491b98aa8"

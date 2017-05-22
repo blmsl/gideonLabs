@@ -1,4 +1,4 @@
-.add-pictures-container {
+.story-picture-container {
   background-color: rgba(0, 0, 0, 0.8);
   width: 100%;
   height: 100%;
@@ -10,24 +10,22 @@
   align-items: center;
 }
 
-.add-pictures--modal {
-  background-color: rgb(245,245,245);
-  border: 3px solid rgb(215,215,215);
-  border-radius: 5px;
-  padding: 1em;
-}
-
-.drop-box {
+.box {
   font-size: 1.25rem;
   background-color: #c8dadf;
   padding: 1em;
   width: 50vw;
   min-height: 25vh;
+  max-height: 75vh;
+  overflow-y: scroll;
 }
 
-.drop-box.has-advanced-upload {
+.box.has-advanced-upload {
   outline: 2px dashed #92b0b3;
   outline-offset: -10px;
+}
+.box.has-advanced-upload .box__dragndrop {
+  display: inline;
 }
 
 .drag-highlight {

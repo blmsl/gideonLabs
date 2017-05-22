@@ -1,6 +1,5 @@
 import { Component, EventEmitter, Output } from '@angular/core';
 import { DomSanitizer } from "@angular/platform-browser";
-import { FileItem } from "../file-item";
 
 @Component({
   selector: 'app-file-uploader',
@@ -10,11 +9,11 @@ import { FileItem } from "../file-item";
 export class FileUploaderComponent {
 
   dragHighlight: boolean;
-  public files: FileItem[] = [];
+  public files: File[] = [];
   thumbnailWidth = 100;
    
   @Output()
-  filesToUpload = new EventEmitter<FileItem[]>();
+  filesToUpload = new EventEmitter<File[]>();
 
   constructor(private sanitizer: DomSanitizer) { }
 
@@ -32,20 +31,12 @@ export class FileUploaderComponent {
     let files = event.dataTransfer.files;
     
     for(let i = 0; i < files.length; i++) {
-      let { lastModifiedDate, name, size, type } = files[i];
-      let file: FileItem = {
-        lastModifiedDate,
-        name,
-        size,
-        type,
-        objectURL: ''
-      }
+      let file: any = files[i];
       file.objectURL = this.sanitizer.bypassSecurityTrustUrl((window.URL.createObjectURL(files[i])));
-      this.files.push(file);
+      this.files.push(files[i]);
     }
 
     this.filesToUpload.emit(this.files);
-    this.dragHighlight = false;
   }
 
   onDragover(event: DragEvent) {

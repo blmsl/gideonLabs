@@ -11,7 +11,6 @@ import { Category } from "../../taxonomy/category/category";
 import { Post } from "../../shared/post";
 import { User } from "../shared/user";
 import { Picture } from "../../shared/picture";
-import { FileItem } from "../shared/file-item";
 
 @Component({
   selector: 'app-create-story',
@@ -25,7 +24,30 @@ export class CreateStoryComponent implements OnInit {
   categoryControlName = 'category';
   author: string;
   addingPicture: boolean = false;
-  fileList: FileItem[]; 
+  fileList: File[];
+
+  // testPicArray = [ 
+  //   this.fb.group({
+  //     storageUrl: 'https://firebasestorage.googleapis.com/v0/b/gideonlabs-b4b71.appspot.com/o/stories%2Fas%2Fzombie-949916_640.jpg?alt=media&token=61c7ab7c-4ff8-4205-b94d-df8cd3d747a1'
+  //   }),
+  //   this.fb.group({
+  //     storageUrl: 'https://firebasestorage.googleapis.com/v0/b/gideonlabs-b4b71.appspot.com/o/stories%2Fas%2Fzombie-949916_640.jpg?alt=media&token=61c7ab7c-4ff8-4205-b94d-df8cd3d747a1',
+  //     featured: true
+  //   }),
+  //   this.fb.group({
+  //     storageUrl: 'https://firebasestorage.googleapis.com/v0/b/gideonlabs-b4b71.appspot.com/o/stories%2Fas%2Fzombie-949916_640.jpg?alt=media&token=61c7ab7c-4ff8-4205-b94d-df8cd3d747a1'
+  //   }),
+  //   this.fb.group({
+  //     storageUrl: 'https://firebasestorage.googleapis.com/v0/b/gideonlabs-b4b71.appspot.com/o/stories%2Fas%2Fzombie-949916_640.jpg?alt=media&token=61c7ab7c-4ff8-4205-b94d-df8cd3d747a1'
+  //   }),
+  //   this.fb.group({
+  //     storageUrl: 'https://firebasestorage.googleapis.com/v0/b/gideonlabs-b4b71.appspot.com/o/stories%2Fas%2Fzombie-949916_640.jpg?alt=media&token=61c7ab7c-4ff8-4205-b94d-df8cd3d747a1'
+  //   }),
+  //   this.fb.group({
+  //     storageUrl: 'https://firebasestorage.googleapis.com/v0/b/gideonlabs-b4b71.appspot.com/o/stories%2Fas%2Fzombie-949916_640.jpg?alt=media&token=61c7ab7c-4ff8-4205-b94d-df8cd3d747a1'
+  //   }),
+  // ];
+  
   
   constructor(private fb: FormBuilder, 
               private db: AngularFireDatabase,
@@ -46,6 +68,12 @@ export class CreateStoryComponent implements OnInit {
         this.form.get('link')!.patchValue(`https://www.gideonlabs.com/posts/${slug}`);
       });
 
+    // this.form.get('picture.title')!.valueChanges
+    //   .subscribe(title => {
+    //     this.form.get('picture.caption')!.patchValue(title);
+    //     this.form.get('picture.altText')!.patchValue(title);
+    //   });
+
     this.author = this.auth.user.uid;
     
   }
@@ -62,41 +90,26 @@ export class CreateStoryComponent implements OnInit {
       categories: [[]],
       featuredImage: [null, Validators.required],
       author: [this.auth.user.uid, Validators.required],
-      pictures: this.fb.array([]),
+      // picture: this.initPicture({}),
+      // pictures: this.fb.array([]),
       link: ['', Validators.required]
     })
   }
 
-  initPicture(pic: any) {
-    const date = Date.now();
-    return this.fb.group({
-      date: [pic.date || date, Validators.required],
-      slug: [pic.name || ''],
-      title: [pic.name || '', Validators.required],
-      author: [pic.author || this.auth.user.uid, Validators.required],
-      //caption: [pic.caption || '', Validators.required],
-      //altText: [pic.altText || '', Validators.required],
-      type: [pic.type || ''],
-      size: [pic.size || ''],
-      featured: [pic.featured || false],
-      objectURL: [pic.objectURL || '']
-    })
-  }
-
-  filesToUpload(files: FileItem[]) {
-    this.fileList = files;
-  }
-
-  addPicture(picture: Picture) {
-    picture.slug = this.createSlug(picture.title);
-    this._pictures.push(this.initPicture(picture));
-    this.resetPicture();
-    this.addingPicture = false;
-  }
-
-  removePicture(index: number) {
-    this.fileList.splice(index, 1);
-  }
+  // initPicture(pic: any) {
+  //   const date = Date.now();
+  //   return this.fb.group({
+  //     date: [pic.date || date, Validators.required],
+  //     slug: [pic.slug || ''],
+  //     title: [pic.title || '', Validators.required],
+  //     author: [pic.author || this.auth.user.uid, Validators.required],
+  //     caption: [pic.caption || '', Validators.required],
+  //     altText: [pic.altText || '', Validators.required],
+  //     type: [pic.type || ''],
+  //     featured: [pic.featured || false],
+  //     storageUrl: [pic.storageUrl || '', Validators.required],
+  //   })
+  // }
 
   toggleAddPicture() {
     this.addingPicture = !this.addingPicture;
@@ -164,7 +177,43 @@ export class CreateStoryComponent implements OnInit {
       });
   }
 
-  
+
+  // getParentStructure() {
+  //   //Parent based array where children categories are properties of parents
+  //   const children = [...this.testChildren];
+  //   const parentCats = [...this.testParents];
+    
+  //   for (let parentCategory of parentCats) {
+  //     const kids = [];
+  //     for (let child of children) {
+  //       let grandChildren: Category[] = [];
+  //       if (child.parent === parentCategory.slug) {
+  //         kids.push(child);
+  //         for (let kid of children) {
+  //           if (kid.parent === child.slug) {
+  //             grandChildren.push(kid);
+  //           }
+  //         }
+  //       }
+  //       child['children'] = grandChildren;
+  //     }
+  //     parentCategory['children'] = kids;
+  //   }
+  // }
+
+  // addPicture(picture: Picture) {
+  //   picture.slug = this.createSlug(picture.title);
+  //   this._pictures.push(this.initPicture(picture));
+  //   this.resetPicture();
+  //   this.addingPicture = false;
+  // }
+
+  removePicture(index: number) {
+    if (this._pictures.value[index].featured) {
+      this.form.get('featuredImage')!.patchValue(null);
+    }
+    this._pictures.removeAt(index);
+  }
 
   formReset() {
     let currentDate = new Date();
@@ -199,6 +248,9 @@ export class CreateStoryComponent implements OnInit {
     });
   }
 
+  filesToUpload(fileList: File[]) {
+    this.fileList = fileList;
+  }
 
   resetPictureArray() {
     this._pictures.value.forEach((picture: any) => this._pictures.removeAt(0));
