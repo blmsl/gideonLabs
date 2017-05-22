@@ -4,7 +4,6 @@ import { SelectCategoriesComponent } from "./select-categories/select-categories
 import { ReactiveFormsModule } from "@angular/forms";
 import { SelectUsersComponent } from './select-users/select-users.component';
 import { CheckboxCategoriesComponent } from './checkbox-categories/checkbox-categories.component';
-import { FileUploaderComponent } from './file-uploader/file-uploader.component';
 
 @NgModule({
   imports: [
@@ -14,11 +13,10 @@ import { FileUploaderComponent } from './file-uploader/file-uploader.component';
   declarations: [
     SelectCategoriesComponent, 
     SelectUsersComponent, 
-    CheckboxCategoriesComponent, FileUploaderComponent],
+    CheckboxCategoriesComponent],
   exports: [
     SelectCategoriesComponent,
     SelectUsersComponent,
-    CheckboxCategoriesComponent,
-    FileUploaderComponent]
+    CheckboxCategoriesComponent]
 })
 export class AdminSharedModule { }
