@@ -1,0 +1,11 @@
+<div
+  [ngClass]="{'drag-highlight': dragHighlight}"
+  class="drop-box"
+  (drop)="onDrop($event)"
+  (dragover)="onDragover($event)"
+  (dragenter)="onDragenter($event)"
+  (dragleave)="onDragleave($event)">
+  <div *ngIf="tooManyFiles">
+    <h3>Please upload just <strong>one</strong> file at a time</h3>
+  </div>
+</div>

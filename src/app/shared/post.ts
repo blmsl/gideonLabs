@@ -10,7 +10,7 @@ export interface Post {
   content: string;
   excerpt: string;
   author: string;
-  featuredImage: string;
+  featuredImage?: string;
   comment_status?: string;
   sticky?: boolean;
   categories?: string[];

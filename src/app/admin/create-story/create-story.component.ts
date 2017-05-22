@@ -24,28 +24,6 @@ export class CreateStoryComponent implements OnInit {
   categoryControlName = 'category';
   author: string;
   addingPicture: boolean = false;
-
-  // testPicArray = [ 
-  //   this.fb.group({
-  //     storageUrl: 'https://firebasestorage.googleapis.com/v0/b/gideonlabs-b4b71.appspot.com/o/stories%2Fas%2Fzombie-949916_640.jpg?alt=media&token=61c7ab7c-4ff8-4205-b94d-df8cd3d747a1'
-  //   }),
-  //   this.fb.group({
-  //     storageUrl: 'https://firebasestorage.googleapis.com/v0/b/gideonlabs-b4b71.appspot.com/o/stories%2Fas%2Fzombie-949916_640.jpg?alt=media&token=61c7ab7c-4ff8-4205-b94d-df8cd3d747a1',
-  //     featured: true
-  //   }),
-  //   this.fb.group({
-  //     storageUrl: 'https://firebasestorage.googleapis.com/v0/b/gideonlabs-b4b71.appspot.com/o/stories%2Fas%2Fzombie-949916_640.jpg?alt=media&token=61c7ab7c-4ff8-4205-b94d-df8cd3d747a1'
-  //   }),
-  //   this.fb.group({
-  //     storageUrl: 'https://firebasestorage.googleapis.com/v0/b/gideonlabs-b4b71.appspot.com/o/stories%2Fas%2Fzombie-949916_640.jpg?alt=media&token=61c7ab7c-4ff8-4205-b94d-df8cd3d747a1'
-  //   }),
-  //   this.fb.group({
-  //     storageUrl: 'https://firebasestorage.googleapis.com/v0/b/gideonlabs-b4b71.appspot.com/o/stories%2Fas%2Fzombie-949916_640.jpg?alt=media&token=61c7ab7c-4ff8-4205-b94d-df8cd3d747a1'
-  //   }),
-  //   this.fb.group({
-  //     storageUrl: 'https://firebasestorage.googleapis.com/v0/b/gideonlabs-b4b71.appspot.com/o/stories%2Fas%2Fzombie-949916_640.jpg?alt=media&token=61c7ab7c-4ff8-4205-b94d-df8cd3d747a1'
-  //   }),
-  // ];
   
   
   constructor(private fb: FormBuilder, 
@@ -56,6 +34,7 @@ export class CreateStoryComponent implements OnInit {
     this.createForm();
     this.getCategories();
     this.getUsers();
+    
     this.form.get('title')!.valueChanges
       .subscribe(name => {
         let slug = this.createSlug(name);
@@ -98,15 +77,17 @@ export class CreateStoryComponent implements OnInit {
   initPicture(pic: any) {
     const date = Date.now();
     return this.fb.group({
-      date: [pic.date || date, Validators.required],
+      lastModifiedDate: [pic.lastModifiedDate || date, Validators.required],
+      name: [pic.name || ''],
       slug: [pic.slug || ''],
       title: [pic.title || '', Validators.required],
       author: [pic.author || this.auth.user.uid, Validators.required],
       caption: [pic.caption || '', Validators.required],
       altText: [pic.altText || '', Validators.required],
       type: [pic.type || ''],
+      size: [pic.size || ''],
       featured: [pic.featured || false],
-      storageUrl: [pic.storageUrl || '', Validators.required],
+      objectURL: [pic.objectURL || '', Validators.required],
     })
   }
 
@@ -200,7 +181,10 @@ export class CreateStoryComponent implements OnInit {
   //   }
   // }
 
-  addPicture(picture: Picture) {
+  addPicture(picture: any) {
+    if (picture.featured) {
+      this.form.get('featuredImage')!.patchValue(picture.objectURL);
+    }
     picture.slug = this.createSlug(picture.title);
     this._pictures.push(this.initPicture(picture));
     this.resetPicture();
@@ -228,6 +212,7 @@ export class CreateStoryComponent implements OnInit {
         date: Date.now(),
         author: this.auth.user.uid,
         featured: false,
+        objectURL: ''
       }
     });
     this.resetPictureArray();
@@ -243,12 +228,8 @@ export class CreateStoryComponent implements OnInit {
       altText: '',
       type: '',
       featured: false,
-      storageUrl: ''
+      objectURL: ''
     });
-  }
-
-  filesToUpload(fileList: File[]) {
-    console.log(fileList);
   }
 
   resetPictureArray() {
@@ -256,14 +237,13 @@ export class CreateStoryComponent implements OnInit {
   }
 
   onSubmit() {   
-    let {date, title, slug, content, categories, author, link, pictures, featuredImage} = this.form.value;
+    let {date, title, slug, content, categories, author, link, pictures } = this.form.value;
 
     let excerpt = this.generateDescription(content);
     let published = Date.now();
     let created = Date.parse(date);
 
     const story: Post = {
-      featuredImage,
       published,
       created,
       slug,
@@ -298,8 +278,8 @@ export class CreateStoryComponent implements OnInit {
 
   pushCategoryStories(story: Post, categories: string[]) {
     categories.forEach(category => {
-      let { slug, title, excerpt, featuredImage } = story;
-      const storySynopsis = { slug, title, excerpt, featuredImage };
+      let { slug, title, excerpt } = story;
+      const storySynopsis = { slug, title, excerpt };
       this.db.list(`/categories/${category}/stories`).push(storySynopsis);
     })
   }

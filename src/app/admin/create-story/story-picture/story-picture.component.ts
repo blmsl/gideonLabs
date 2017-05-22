@@ -2,6 +2,7 @@ import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { FormGroup } from "@angular/forms";
 import * as firebase from 'firebase/app'; // for typings
 import { FirebaseApp } from 'angularfire2'; // for methods
+import { SafeUrl } from "@angular/platform-browser/";
 
 @Component({
   selector: 'app-story-picture',
@@ -10,6 +11,7 @@ import { FirebaseApp } from 'angularfire2'; // for methods
 })
 export class StoryPictureComponent {
   progressValue: number = 0;
+  fileUrl: SafeUrl;
 
   @Input()
   parent: FormGroup;
@@ -18,20 +20,29 @@ export class StoryPictureComponent {
   added = new EventEmitter<any>();
 
   @Output()
-  featured = new EventEmitter<boolean>();
-
-  @Output()
   pictureReset = new EventEmitter();
 
   constructor(private fb: FirebaseApp) { }
 
-  onUploadPicture(event: any) {
-    let target: HTMLInputElement = event.target as HTMLInputElement;
-    let files: FileList = target.files;
+  // onUploadPicture(event: any) {
+  //   let target: HTMLInputElement = event.target as HTMLInputElement;
+  //   let files: FileList = target.files;
 
-    if (files && files[0]) {
-      this.upload(files[0]);
-    }
+  //   if (files && files[0]) {
+  //     this.upload(files[0]);
+  //   }
+  // }
+
+  patchFileInfo(file: any) {
+    this.fileUrl = file.objectURL;
+    this.parent.get('picture')!
+      .patchValue({ 
+        lastModifiedDate: file.lastModifiedDate,
+        name: file.name,
+        type: file.type,
+        size: file.size,
+        objectURL: file.objectURL
+      })
   }
 
   changeFeatured(event: any) {
@@ -59,11 +70,7 @@ export class StoryPictureComponent {
         // Called on complete
         () => {
           let url = pictureTask.snapshot.downloadURL;
-          let featured = this.parent.get('picture.featured')!.value;
           this.parent.get('picture')!.patchValue({ storageUrl: url });
-          if (featured) {
-            this.parent.get('featuredImage')!.patchValue(url);
-          }
         }
       );
   }

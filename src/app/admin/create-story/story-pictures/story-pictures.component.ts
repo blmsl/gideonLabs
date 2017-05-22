@@ -16,7 +16,7 @@ import { FormGroup, FormArray } from "@angular/forms";
             <div 
               class="picture-block" 
               [ngClass]="{'featured': picture.value.featured}">
-              <img [src]="picture.value.storageUrl">
+              <img [src]="picture.value.objectURL">
               <button
                 class="remove-picture"
                 type="button" 

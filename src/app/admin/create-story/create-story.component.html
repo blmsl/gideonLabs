@@ -67,7 +67,6 @@
       [parent]="form"
       (removed)="removePicture($event)">
       <button
-        [disabled]="form.get('title').invalid || form.get('content').invalid"
         (click)="toggleAddPicture()"
         type="button">Add Picture</button>
       <button 

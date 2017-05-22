@@ -1,7 +1,10 @@
 <div class="story-picture-container">
   <div [formGroup]="parent" class="form-container">
-    <h2>Add a Picture</h2>
- 
+    <div class="header">
+      <h2>Add a Picture</h2>
+      <img *ngIf="fileUrl" [src]="fileUrl">
+    </div>
+    
     <div formGroupName="picture" class="picture">
       <label for="featured-image">Featured?
         <input
@@ -27,29 +30,17 @@
       <input
         type="text" 
         placeholder="This text describes the photo for accessibility"
-        formControlName="altText">  
+        formControlName="altText">
 
-      <input
-        type="text" 
-        placeholder="This field is set automatically after uploading"
-        formControlName="storageUrl"
-        readonly>
+      <app-file-uploader
+        (file)="patchFileInfo($event)">
+      </app-file-uploader>
 
-      <div class="picture-input">
-        <input
-          id="picture-input"
-          class="upload"
-          type="file"
-          accept="image/*"
-          (change)="onUploadPicture($event)">
-        <progress 
-          [attr.value]="progressValue"></progress>
-      </div>
       <div class="add-reset-picture">
         <button
           type="button"
           (click)="onAddPicture()"
-          [disabled]="!parent.get('picture.storageUrl').valid">
+          [disabled]="!parent.get('picture.objectURL').valid">
           Add Picture
         </button>
         <button
