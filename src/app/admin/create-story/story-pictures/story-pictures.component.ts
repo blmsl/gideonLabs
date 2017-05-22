@@ -1,5 +1,5 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
-//import { FormGroup, FormArray } from "@angular/forms";
+import { FormGroup } from "@angular/forms";
 import { FileItem } from "../../shared/file-item";
 
 @Component({
@@ -9,8 +9,8 @@ import { FileItem } from "../../shared/file-item";
 })
 export class StoryPicturesComponent {
 
-  // @Input()
-  // parent: FormGroup;
+  @Input()
+  parent: FormGroup;
 
   @Input()
   fileList: FileItem[];
@@ -18,12 +18,15 @@ export class StoryPicturesComponent {
   @Output()
   removed = new EventEmitter<number>();
 
-  // get pictureArray() {
-  //   return (this.parent.get('pictures') as FormArray).controls;
-  // }
+  @Output()
+  edit = new EventEmitter<number>();
 
   onRemove(index: number) {
     this.removed.emit(index);
+  }
+
+  onEdit(index: number) {
+    this.edit.emit(index);
   }
 
 }

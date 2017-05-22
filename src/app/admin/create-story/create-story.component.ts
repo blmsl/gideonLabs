@@ -26,6 +26,7 @@ export class CreateStoryComponent implements OnInit {
   author: string;
   addingPicture: boolean = false;
   fileList: FileItem[]; 
+  editArray = false;
   
   constructor(private fb: FormBuilder, 
               private db: AngularFireDatabase,
@@ -70,12 +71,13 @@ export class CreateStoryComponent implements OnInit {
   initPicture(pic: any) {
     const date = Date.now();
     return this.fb.group({
-      date: [pic.date || date, Validators.required],
-      slug: [pic.name || ''],
+      date: [pic.lastModifiedDate || date, Validators.required],
+      name: [pic.name || ''],
+      slug: [pic.slug || ''],
       title: [pic.name || '', Validators.required],
       author: [pic.author || this.auth.user.uid, Validators.required],
-      //caption: [pic.caption || '', Validators.required],
-      //altText: [pic.altText || '', Validators.required],
+      caption: [pic.caption || '', Validators.required],
+      altText: [pic.altText || '', Validators.required],
       type: [pic.type || ''],
       size: [pic.size || ''],
       featured: [pic.featured || false],
@@ -83,10 +85,10 @@ export class CreateStoryComponent implements OnInit {
     })
   }
 
-  filesToUpload(files: FileItem[]) {
-    this.fileList = files;
+  filesToUpload(file: FileItem) {
+    this._pictures.push(this.initPicture(file));
   }
-
+  
   addPicture(picture: Picture) {
     picture.slug = this.createSlug(picture.title);
     this._pictures.push(this.initPicture(picture));
@@ -95,7 +97,11 @@ export class CreateStoryComponent implements OnInit {
   }
 
   removePicture(index: number) {
-    this.fileList.splice(index, 1);
+    this._pictures.removeAt(index);
+  }
+
+  editPicture(index: number) {
+    this.editArray = true;
   }
 
   toggleAddPicture() {

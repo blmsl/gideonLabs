@@ -1,16 +1,15 @@
 <h2>Added Pictures</h2>
 
 <!--Forms Method of showing pictures-->
-<!--<div [formGroup]="parent">
+<div [formGroup]="parent">
   <ng-content></ng-content>
   <div formArrayName="pictures" class="picture-array-container">
     <div
-      *ngFor="let picture of pictureArray; let i = index;"
+      *ngFor="let picture of fileList; let i = index;"
       [formGroupName]="i">
 
         <div 
           class="picture-block">
-          ObjectURL: {{picture.name}}
           <img [src]="picture.objectURL">
           <button
             class="remove-picture"
@@ -18,27 +17,34 @@
             (click)="onRemove(i)">
             X
           </button>
-        </div>
-
-    </div>
-  </div>
-</div>-->
-
-<div>
-  <ng-content></ng-content>
-  <div class="picture-array-container">
-    <div *ngFor="let file of fileList; let i = index">
-
-        <div class="picture-block">
-          <img [src]="file.objectURL">
           <button
-            class="remove-picture"
+            class="edit-picture"
             type="button" 
-            (click)="onRemove(i)">
-            X
+            (click)="onEdit(i)">
+            ✏
           </button>
+
         </div>
 
     </div>
   </div>
 </div>
+
+<!--<div>
+  <ng-content></ng-content>
+  <div class="picture-array-container">
+    <div *ngFor="let file of fileList; let i = index">
+
+      <div class="picture-block">
+        <img [src]="file.objectURL">
+        <button
+          class="remove-picture"
+          type="button" 
+          (click)="onRemove(i)">
+          X
+        </button>
+      </div>
+
+    </div>
+  </div>
+</div>-->
