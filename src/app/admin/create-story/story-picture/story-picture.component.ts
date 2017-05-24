@@ -38,6 +38,12 @@ export class StoryPictureComponent {
   //   }
   // }
 
+  get pictureExists() {
+    return (
+      this.parent.get('picture.slug')!.hasError('pictureExists')
+    )
+  }
+
   patchFileInfo(file: File) {
     const objectURL = this.sanitizer.bypassSecurityTrustUrl((window.URL.createObjectURL(file)));
     this.fileUrl = objectURL;

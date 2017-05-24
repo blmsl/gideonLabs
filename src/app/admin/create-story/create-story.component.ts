@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormArray, FormGroup, Validators, AbstractControl } from "@angular/forms";
 import { AngularFireDatabase } from 'angularfire2/database';
-import * as firebase from 'firebase/app'; // for typings
+// import * as firebase from 'firebase/app'; // for typings
 import { FirebaseApp } from 'angularfire2'; // for methods
 
 import 'rxjs/add/operator/map';
@@ -28,6 +28,7 @@ export class CreateStoryComponent implements OnInit {
   uploading = false;
   filesToUpload: File[] = [];
   emptyPicture = {
+    date: '',
     file: {
       lastModifiedDate: '',
       name: '',
@@ -56,8 +57,7 @@ export class CreateStoryComponent implements OnInit {
     
     this.form.get('title')!.valueChanges
       .subscribe(name => {
-        let slug = this.createSlug(name);
-        this.form.get('slug')!.patchValue(slug);
+        this.form.get('slug')!.patchValue(this.createSlug(name));
       });
 
     this.form.get('slug')!.valueChanges
@@ -69,7 +69,9 @@ export class CreateStoryComponent implements OnInit {
       .subscribe(title => {
         this.form.get('picture.caption')!.patchValue(title);
         this.form.get('picture.altText')!.patchValue(title);
+        this.form.get('picture.slug')!.patchValue(this.createSlug(title));
       });
+      
 
     this.author = this.auth.user.uid;
     
@@ -95,6 +97,7 @@ export class CreateStoryComponent implements OnInit {
 
   initPicture(pic: any) {
     return this.fb.group({
+      date: Date.now(),
       file: this.fb.group({
         lastModifiedDate: [pic.file.lastModifiedDate || ''],
         name: [pic.file.name || ''],
@@ -102,7 +105,7 @@ export class CreateStoryComponent implements OnInit {
         type: [pic.file.type || ''],
         webkitRelativePath: [pic.file.webkitRelativePath || '']
       }),
-      slug: [pic.slug || ''],
+      slug: [pic.slug || '', [Validators.required], [this.validatePicture.bind(this)]],
       title: [pic.title || '', Validators.required],
       author: [pic.author || this.auth.user.uid, Validators.required],
       caption: [pic.caption || '', Validators.required],
@@ -163,7 +166,22 @@ export class CreateStoryComponent implements OnInit {
       });
   }
 
-  findStory(story: any): Observable<boolean> {
+  findPicture(picture: string): Observable<boolean> {
+    return this.db.object(`/pictures/${picture}`)
+      .map(pic => {
+        return pic.$exists();
+      });
+  }
+
+  validatePicture(control: AbstractControl) {
+    return this.findPicture(control.value)
+      .first()
+      .map((response: boolean) => {
+        return response ? { pictureExists: true } : null;
+      });
+    }
+
+  findStory(story: string): Observable<boolean> {
     return this.db.object(`/stories/${story}`)
       .map(story => {
         return story.$exists();
@@ -182,7 +200,6 @@ export class CreateStoryComponent implements OnInit {
     if (picture.featured) {
       this.form.get('featuredImage')!.patchValue(picture.objectURL);
     }
-    picture.slug = this.createSlug(picture.title);
     this._pictures.push(this.initPicture(picture));
     this.resetPicture();
     this.addingPicture = false;
@@ -237,12 +254,10 @@ export class CreateStoryComponent implements OnInit {
 
   addFileToUploads(file: File) {
     this.filesToUpload.push(file);
-    console.log(this.filesToUpload);
-    console.log(this._pictures.value);
   }
 
   onSubmit() {   
-    let {date, title, slug, content, categories, author, link, pictures } = this.form.value;
+    let {date, title, slug, content, categories, author, link } = this.form.value;
 
     let excerpt = this.generateDescription(content);
     let published = Date.now();
@@ -259,79 +274,61 @@ export class CreateStoryComponent implements OnInit {
       author
     };
 
-    this.db.object(`/stories/${slug}`).update(story)
-      .then(() => {
-        this.uploading = true;
-        
-        this.filesToUpload.forEach((file: File, index) => {
-          const picture = this._pictures.value[index];
-          
-          // Try atomic update to set picture details on /storyPictures and /pictures
-          let {altText, author, caption,featured, slug, title} = picture;
-          const pictureDetails = {altText, author, caption,featured, slug, title};
-          const pictureUpdate: any = {};
-          pictureUpdate[`/storyPictures/${story.slug}/${picture.slug}`] = pictureDetails;
-          pictureUpdate[`/pictures/${picture.slug}`] = pictureDetails;
-          this.db.object('/').update(pictureUpdate);
-          
-          // this.db.object(`/storyPictures/${story.slug}/${picture.slug}`)
-          //   .set({
-          //     altText: picture.altText,
-          //     author: picture.author,
-          //     caption: picture.caption,
-          //     featured: picture.featured,
-          //     slug: picture.slug,
-          //     title: picture.title
-          //   });
-          const filePath = `stories/${story.slug}/${picture.file.name}`;
-          return this.fbApp.storage().ref(filePath).put(file)
-            .then((snapshot) => {
-              const fullPath = snapshot.metadata.fullPath;
-              const imageUrl = this.fbApp.storage().ref(fullPath).toString();
-              return this.fbApp.storage().refFromURL(imageUrl).getMetadata();
-            })
-            .then((metadata) => {
-              const storageURL = metadata.downloadURLs[0];
-              if (picture.featured) {
-                this.db.object(`/stories/${story.slug}/featuredImage`).update({ original: storageURL });
-              }
-              this.db.object(`/pictures/${picture.slug}/original`).update({ storageURL });
-              return this.db.object(`/storyPictures/${story.slug}/${picture.slug}/original`).update({ storageURL });
-            });          
-         });
-      })
-      .then(() => {
-        this.uploading = false;
-        this.formReset();
-      })
-      .catch(err => console.log(`Error: ${err}`));
+    this.db.object(`/stories/${slug}`).update(story);
+    
+    this.uploading = true;
 
-    // this.pushCategories(slug, categories);
-    // this.pushCategoryStories(story, categories);
+
+    // Try for async file uploading:
+    // https://stackoverflow.com/questions/18983138/callback-after-all-asynchronous-foreach-callbacks-are-completed
+
+    const uploadFile = (file: File, cb: Function) => {
+      let index = this.filesToUpload.indexOf(file);
+      const picture = this._pictures.value[index];
+      // Try atomic update to set picture details on /storyPictures and /pictures
+      // More details at https://github.com/angular/angularfire2/issues/435
+      let {altText, author, caption,featured, slug, title} = picture;
+      const pictureDetails = {altText, author, caption,featured, slug, title};
+      const pictureUpdate: any = {};
+      pictureUpdate[`/storyPictures/${story.slug}/${picture.slug}`] = pictureDetails;
+      pictureUpdate[`/pictures/${picture.slug}`] = pictureDetails;
+      this.db.object('/').update(pictureUpdate);
+
+      const filePath = `stories/${story.slug}/${picture.file.name}`;
+
+      this.fbApp.storage().ref(filePath).put(file)
+        .then((snapshot) => {
+          const fullPath = snapshot.metadata.fullPath;
+          const imageUrl = this.fbApp.storage().ref(fullPath).toString();
+          return this.fbApp.storage().refFromURL(imageUrl).getMetadata();
+        })
+        .then((metadata) => {
+          const storageURL = metadata.downloadURLs[0];
+          if (picture.featured) {
+            this.db.object(`/stories/${story.slug}/featuredImage`).update({ original: storageURL });
+          }
+          this.db.object(`/pictures/${picture.slug}/original`).update({ storageURL });
+          this.db.object(`/storyPictures/${story.slug}/${picture.slug}/original`).update({ storageURL });
+          return cb();
+        });
+    }
+
+    let requests = this.filesToUpload.map((file: File) => {
+      return new Promise(resolve => {
+        uploadFile(file, resolve);
+      });
+    });
+
+    Promise.all(requests).then(() => {
+      this.uploading = false;
+    });
+      
+    this.pushCategories(slug, categories);
+    this.pushCategoryStories(story, categories);
+
+    this.formReset();
 
   }
-
-
-  // uploadPictures(titleSlug: string) {
-  //   this.uploading = true;
-  //   this.filesToUpload.forEach((file: File) => {
-  //     this.db.object(`/stories/${titleSlug}/${file.name}`).set(file);
-  //     const filePath = `stories/${titleSlug}/${file.name}`;
-  //     return this.fbApp.storage().ref(filePath).put(file)
-  //       .then((snapshot) => {
-  //         const fullPath = snapshot.metadata.fullPath;
-  //         const imageUrl = this.fbApp.storage().ref(fullPath).toString();
-  //         return this.fbApp.storage().refFromURL(imageUrl).getMetadata();
-  //       })
-  //       .then((metadata) => {
-  //         return this.db.object(`/stories/${slug}/${picture.slug}`).update({ storageURL: metadata.downloadURLs[0]});
-  //       })
-  //   });
-
-  //   pictures.forEach((picture: Picture) => {
-  //     this.db.object(`/stories/${titleSlug}/pictures/${picture.slug}`).set(picture);
-  //   });      
-  // }
 
   pushCategories(title: string, categories: string[]) {
     let categoryList: any = {};
@@ -346,7 +343,6 @@ export class CreateStoryComponent implements OnInit {
       this.db.list(`/categories/${category}/stories`).push(storySynopsis);
     })
   }
-
 
   get _pictures() {
     return this.form.get('pictures') as FormArray;

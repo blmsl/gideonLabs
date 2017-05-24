@@ -1,13 +1,10 @@
 .story-picture-container {
   background-color: rgba(0, 0, 0, 0.8);
-  width: 100vw;
-  height: 100vh;
+  width: 100%;
+  height: 100%;
   position: absolute;
   top: 0;
   left: 0;
-  display: flex;
-  justify-content: center;
-  align-items: center;
 }
 
 .header {
@@ -21,11 +18,16 @@
   }
 }
 
+.error {
+  grid-column: 1/-1;
+}
+
 .form-container {
-  width: 60vw;
+  width: 50vw;
   padding: 1em;
   background-color: white;
   border: 2px solid rgba(0,0,0, 0.5);
+  margin: 25vh auto 0 auto;
 }
 
 .picture {
@@ -36,5 +38,8 @@
 }
 
 .picture-input {
-  display: flex;
+  display: grid;
+  grid-template-columns: max-content 1fr;
+  grid-template-rows: auto;
+  grid-gap: 1em;
 }

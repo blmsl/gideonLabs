@@ -13,23 +13,42 @@
           type="checkbox"
           (change)="changeFeatured($event)">
       </label>
-      <input
-        id="title"
-        class="picture-title"
-        type="text" 
-        placeholder="This will be used to create the URL link of the photo" 
-        formControlName="title">
 
-      <input
-        class="picture-caption"
-        type="text" 
-        placeholder="This text will appear along with the photo"
-        formControlName="caption">
+      <div class="picture-input">
+        <label for="title">Title</label>
+        <input
+          id="title"
+          type="text" 
+          placeholder="This will be used to create the slug the photo" 
+          formControlName="title">
 
-      <input
-        type="text" 
-        placeholder="This text describes the photo for accessibility"
-        formControlName="altText">
+        <label for="slug">Slug</label>
+        <input
+          id="slug"
+          type="text" 
+          placeholder="This will be used to create the URL link of the photo" 
+          formControlName="slug">
+        <div 
+          class="error"
+          *ngIf="pictureExists">
+          Picture title already exists. Please change title or just slug.
+        </div>
+
+        <label for="caption">Caption</label>
+        <input
+          id="caption"
+          type="text" 
+          placeholder="This text will appear along with the photo"
+          formControlName="caption">
+
+        <label for="altText">Alt text</label>
+        <input
+          id="altText"
+          type="text" 
+          placeholder="This text describes the photo for accessibility"
+          formControlName="altText">
+      </div>     
+
 
       <app-file-uploader
         (file)="patchFileInfo($event)">
