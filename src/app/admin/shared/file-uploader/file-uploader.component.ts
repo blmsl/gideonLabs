@@ -11,9 +11,9 @@ export class FileUploaderComponent {
   tooManyFiles = false;
    
   @Output()
-  file = new EventEmitter<any>();
+  file = new EventEmitter<File>();
 
-  constructor(private sanitizer: DomSanitizer) { }
+  constructor() { }
 
   get isAdvancedUpload() {
     const div = document.createElement('div');
@@ -34,16 +34,7 @@ export class FileUploaderComponent {
     }
     
     for(let i = 0; i < files.length; i++) {
-      let { lastModifiedDate, name, size, type } = files[i];
-      let file: any = {
-        lastModifiedDate,
-        name,
-        size,
-        type,
-        objectURL: ''
-      }
-      file.objectURL = this.sanitizer.bypassSecurityTrustUrl((window.URL.createObjectURL(files[i])));
-      this.file.emit(file);
+      this.file.emit(files[i]);
     }
 
     // this.filesToUpload.emit(this.files);

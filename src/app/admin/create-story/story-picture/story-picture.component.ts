@@ -3,6 +3,7 @@ import { FormGroup } from "@angular/forms";
 import * as firebase from 'firebase/app'; // for typings
 import { FirebaseApp } from 'angularfire2'; // for methods
 import { SafeUrl } from "@angular/platform-browser/";
+import { DomSanitizer } from "@angular/platform-browser";
 
 @Component({
   selector: 'app-story-picture',
@@ -12,6 +13,7 @@ import { SafeUrl } from "@angular/platform-browser/";
 export class StoryPictureComponent {
   progressValue: number = 0;
   fileUrl: SafeUrl;
+  file: File;
 
   @Input()
   parent: FormGroup;
@@ -22,7 +24,10 @@ export class StoryPictureComponent {
   @Output()
   pictureReset = new EventEmitter();
 
-  constructor(private fb: FirebaseApp) { }
+  @Output()
+  rawFile = new EventEmitter<File>();
+
+  constructor(private fb: FirebaseApp, private sanitizer: DomSanitizer) { }
 
   // onUploadPicture(event: any) {
   //   let target: HTMLInputElement = event.target as HTMLInputElement;
@@ -33,16 +38,21 @@ export class StoryPictureComponent {
   //   }
   // }
 
-  patchFileInfo(file: any) {
-    this.fileUrl = file.objectURL;
+  patchFileInfo(file: File) {
+    const objectURL = this.sanitizer.bypassSecurityTrustUrl((window.URL.createObjectURL(file)));
+    this.fileUrl = objectURL;
     this.parent.get('picture')!
       .patchValue({ 
-        lastModifiedDate: file.lastModifiedDate,
-        name: file.name,
-        type: file.type,
-        size: file.size,
-        objectURL: file.objectURL
-      })
+        file: {
+          lastModifiedDate: file.lastModifiedDate,
+          name: file.name,
+          size: file.size,
+          type: file.type,
+          webkitRelativePath: file.webkitRelativePath
+        }, objectURL
+      });
+
+    this.file = file;
   }
 
   changeFeatured(event: any) {
@@ -76,8 +86,9 @@ export class StoryPictureComponent {
   }
 
   onAddPicture() {
-    this.added.emit(this.parent.get('picture')!.value);
-    this.onResetPicture();
+    const picture = this.parent.get('picture')!.value;
+    this.added.emit(picture);
+    this.rawFile.emit(this.file)
   }
 
   onResetPicture() {

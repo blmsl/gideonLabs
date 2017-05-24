@@ -1,4 +1,10 @@
 <div class="create-story-container">
+  
+  <div *ngIf="uploading" class="uploading-pictures">
+    <h2>Uploading Photos to Storage</h2>
+    <div>Do not refresh. Do not close this tab.</div>
+  </div>
+  
   <form [formGroup]="form" (ngSubmit)="onSubmit()">
 
     <app-story-info [parent]="form"></app-story-info>
@@ -88,6 +94,7 @@
     <app-story-picture
       [parent]="form"
       (added)="addPicture($event)"
+      (rawFile)="addFileToUploads($event)"
       (pictureReset)="resetPicture()">
       <button
         (click)="toggleAddPicture()"

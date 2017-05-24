@@ -6,9 +6,8 @@
     </div>
     
     <div formGroupName="picture" class="picture">
-      <label for="featured-image">Featured?
+      <label *ngIf="parent.get('featuredImage').value === null" for="featured-image">Featured?
         <input
-          *ngIf="parent.get('featuredImage').value === null"
           id="featured-image" 
           formControlName="featured" 
           type="checkbox"
