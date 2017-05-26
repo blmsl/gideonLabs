@@ -1,6 +1,7 @@
-<app-header [authenticated]="auth.authenticated"
-            [userInfo]="auth.user"
-            (signIn)="signIn()"
-            (signOut)="signOut()">
-            </app-header>
+<app-header 
+  [authenticated]="auth.authenticated"
+  [userInfo]="auth.user"
+  (signIn)="signIn()"
+  (signOut)="signOut()">
+  </app-header>
 <router-outlet></router-outlet>

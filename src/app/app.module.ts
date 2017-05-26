@@ -27,6 +27,7 @@ import { AuthGuard } from "./auth/auth.guard";
 import { ChildGuard } from "./auth/child-guard.guard";
 import { TaxonomyService } from "./taxonomy/taxonomy.service";
 import { BaseModule } from "./base/base.module";
+import { FirebaseStorageService } from "./services/firebase-storage.service";
 
 @NgModule({
   declarations: [
@@ -53,7 +54,8 @@ import { BaseModule } from "./base/base.module";
     AuthService,
     AuthGuard,
     ChildGuard,
-    TaxonomyService
+    TaxonomyService,
+    FirebaseStorageService
   ],
   bootstrap: [AppComponent]
 })

@@ -12,6 +12,7 @@ import { AuthService } from "../../auth/auth.service";
 import { Category } from "../../taxonomy/category/category";
 import { Post } from "../../shared/post";
 import { User } from "../shared/user";
+import { FirebaseStorageService } from "../../services/firebase-storage.service";
 
 @Component({
   selector: 'app-create-story',
@@ -48,7 +49,8 @@ export class CreateStoryComponent implements OnInit {
   constructor(private fb: FormBuilder, 
               private db: AngularFireDatabase,
               private auth: AuthService,
-              private fbApp: FirebaseApp) { }
+              private fbApp: FirebaseApp,
+              private fbStorage: FirebaseStorageService) { }
 
   ngOnInit() {
     this.createForm();
@@ -72,7 +74,6 @@ export class CreateStoryComponent implements OnInit {
         this.form.get('picture.slug')!.patchValue(this.createSlug(title));
       });
       
-
     this.author = this.auth.user.uid;
     
   }
@@ -211,7 +212,6 @@ export class CreateStoryComponent implements OnInit {
     }
     this._pictures.removeAt(index);
     this.filesToUpload.splice(index, 1);
-    console.log(this.filesToUpload);
   }
 
   formReset() {
@@ -226,6 +226,7 @@ export class CreateStoryComponent implements OnInit {
       category: '',
       picture: {
         date: Date.now(),
+        title: '',
         author: this.auth.user.uid,
         featured: false,
         objectURL: ''
@@ -250,6 +251,7 @@ export class CreateStoryComponent implements OnInit {
 
   resetPictureArray() {
     this._pictures.value.forEach((picture: any) => this._pictures.removeAt(0));
+    this.filesToUpload.length = 0;
   }
 
   addFileToUploads(file: File) {
@@ -294,21 +296,20 @@ export class CreateStoryComponent implements OnInit {
       pictureUpdate[`/pictures/${picture.slug}`] = pictureDetails;
       this.db.object('/').update(pictureUpdate);
 
-      const filePath = `stories/${story.slug}/${picture.file.name}`;
+      const filePath = `/stories/${story.slug}/${picture.slug}/${picture.file.name}`;
 
       this.fbApp.storage().ref(filePath).put(file)
-        .then((snapshot) => {
+        .then(snapshot => {
           const fullPath = snapshot.metadata.fullPath;
           const imageUrl = this.fbApp.storage().ref(fullPath).toString();
-          return this.fbApp.storage().refFromURL(imageUrl).getMetadata();
+          return this.fbStorage.getDownloadURL(imageUrl);
         })
-        .then((metadata) => {
-          const storageURL = metadata.downloadURLs[0];
+        .then(downloadURL => {
           if (picture.featured) {
-            this.db.object(`/stories/${story.slug}/featuredImage`).update({ original: storageURL });
+            this.db.object(`/stories/${story.slug}/featuredImage`).set(picture.slug);
           }
-          this.db.object(`/pictures/${picture.slug}/original`).update({ storageURL });
-          this.db.object(`/storyPictures/${story.slug}/${picture.slug}/original`).update({ storageURL });
+          this.db.object(`/pictures/${picture.slug}/original`).update({ downloadURL });
+          this.db.object(`/storyPictures/${story.slug}/${picture.slug}/original`).update({ downloadURL });
           return cb();
         });
     }
@@ -323,8 +324,8 @@ export class CreateStoryComponent implements OnInit {
       this.uploading = false;
     });
       
-    this.pushCategories(slug, categories);
-    this.pushCategoryStories(story, categories);
+    //this.pushCategories(slug, categories);
+    //this.pushCategoryStories(story, categories);
 
     this.formReset();
 
