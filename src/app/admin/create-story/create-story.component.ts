@@ -258,8 +258,8 @@ export class CreateStoryComponent implements OnInit {
     this.filesToUpload.push(file);
   }
 
-  onSubmit() {   
-    let {date, title, slug, content, categories, author, link } = this.form.value;
+  async onSubmit() {
+    let { date, title, slug, content, categories, author, link } = this.form.value;
 
     let excerpt = this.generateDescription(content);
     let published = Date.now();
@@ -276,59 +276,49 @@ export class CreateStoryComponent implements OnInit {
       author
     };
 
-    this.db.object(`/stories/${slug}`).update(story);
-    
+    await this.db.object(`/stories/${slug}`).update(story);
+
     this.uploading = true;
 
 
     // Try for async file uploading:
     // https://stackoverflow.com/questions/18983138/callback-after-all-asynchronous-foreach-callbacks-are-completed
 
-    const uploadFile = (file: File, cb: Function) => {
+    for (let file of this.filesToUpload) {
       let index = this.filesToUpload.indexOf(file);
       const picture = this._pictures.value[index];
+      let { altText, author, caption, featured, slug, title } = picture;
+      const pictureDetails = { altText, author, caption, featured, slug, title };
       // Try atomic update to set picture details on /storyPictures and /pictures
       // More details at https://github.com/angular/angularfire2/issues/435
-      let {altText, author, caption,featured, slug, title} = picture;
-      const pictureDetails = {altText, author, caption,featured, slug, title};
       const pictureUpdate: any = {};
       pictureUpdate[`/storyPictures/${story.slug}/${picture.slug}`] = pictureDetails;
       pictureUpdate[`/pictures/${picture.slug}`] = pictureDetails;
       this.db.object('/').update(pictureUpdate);
+      const filePath = `/stories/${story.slug}/${picture.slug}/${picture-slug}.jpg`;
 
-      const filePath = `/stories/${story.slug}/${picture.slug}/${picture.file.name}`;
-
-      this.fbApp.storage().ref(filePath).put(file)
-        .then(snapshot => {
-          const fullPath = snapshot.metadata.fullPath;
-          const imageUrl = this.fbApp.storage().ref(fullPath).toString();
-          return this.fbStorage.getDownloadURL(imageUrl);
-        })
-        .then(downloadURL => {
-          if (picture.featured) {
-            this.db.object(`/stories/${story.slug}/featuredImage`).set(picture.slug);
-          }
-          this.db.object(`/pictures/${picture.slug}/original`).update({ downloadURL });
-          this.db.object(`/storyPictures/${story.slug}/${picture.slug}/original`).update({ downloadURL });
-          return cb();
-        });
+      console.log(`Uploading ${picture.slug}.jpg`)
+      const snapshot = await this.fbApp.storage().ref(filePath).put(file);
+      const fullPath = snapshot.metadata.fullPath;
+      const imageUrl = this.fbApp.storage().ref(fullPath).toString();
+      
+      const storageURL = await this.fbStorage.getDownloadURL(imageUrl);
+      if (picture.featured) {
+        this.db.object(`/stories/${story.slug}/featuredImage`).set(picture.slug);
+      }
+      this.db.object(`/pictures/${picture.slug}/original`).update({ storageURL });
+      this.db.object(`/storyPictures/${story.slug}/${picture.slug}/original`).update({ storageURL });
     }
 
-    let requests = this.filesToUpload.map((file: File) => {
-      return new Promise(resolve => {
-        uploadFile(file, resolve);
-      });
-    });
+    console.log('Uploading is complete!')
+    this.uploading = false;
 
-    Promise.all(requests).then(() => {
-      this.uploading = false;
-    });
-      
     //this.pushCategories(slug, categories);
     //this.pushCategoryStories(story, categories);
 
     this.formReset();
 
+     
   }
 
   pushCategories(title: string, categories: string[]) {
