@@ -4521,8 +4521,8 @@ spdy@^3.4.1:
     spdy-transport "^2.0.18"
 
 sprintf-js@^1.0.3:
-  version "1.1.0"
-  resolved "https://registry.yarnpkg.com/sprintf-js/-/sprintf-js-1.1.0.tgz#cffcaf702daf65ea39bb4e0fa2b299cec1a1be46"
+  version "1.1.1"
+  resolved "https://registry.yarnpkg.com/sprintf-js/-/sprintf-js-1.1.1.tgz#36be78320afe5801f6cea3ee78b6e5aab940ea0c"
 
 sprintf-js@~1.0.2:
   version "1.0.3"

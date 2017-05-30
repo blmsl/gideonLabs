@@ -2,14 +2,6 @@
 # yarn lockfile v1
 
 
-"101@^1.0.0", "101@^1.2.0":
-  version "1.6.2"
-  resolved "https://registry.yarnpkg.com/101/-/101-1.6.2.tgz#43cb51db1a400443de2929ec9c788144d56b57e8"
-  dependencies:
-    clone "^1.0.2"
-    deep-eql "^0.1.3"
-    keypather "^1.10.2"
-
 "@google-cloud/common@^0.13.0":
   version "0.13.3"
   resolved "https://registry.yarnpkg.com/@google-cloud/common/-/common-0.13.3.tgz#d73ee3fa511f29ffbcc44667898685709e9fec8c"
@@ -136,17 +128,6 @@ asn1@~0.2.3:
   version "0.2.3"
   resolved "https://registry.yarnpkg.com/asn1/-/asn1-0.2.3.tgz#dac8787713c9966849fc8180777ebe9c1ddf3b86"
 
-assert-args@^1.0.3:
-  version "1.2.1"
-  resolved "https://registry.yarnpkg.com/assert-args/-/assert-args-1.2.1.tgz#404103a1452a32fe77898811e54e590a8a9373bd"
-  dependencies:
-    "101" "^1.2.0"
-    compound-subject "0.0.1"
-    debug "^2.2.0"
-    get-prototype-of "0.0.0"
-    is-capitalized "^1.0.0"
-    is-class "0.0.4"
-
 assert-plus@1.0.0, assert-plus@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/assert-plus/-/assert-plus-1.0.0.tgz#f12e0f3c5d77b0b1cdd9146942e4e96c1e4dd525"
@@ -235,10 +216,6 @@ child-process-promise@^2.0.0:
     node-version "^1.0.0"
     promise-polyfill "^6.0.1"
 
-clone@^1.0.2:
-  version "1.0.2"
-  resolved "https://registry.yarnpkg.com/clone/-/clone-1.0.2.tgz#260b7a99ebb1edfe247538175f783243cb19d149"
-
 co@^4.6.0:
   version "4.6.0"
   resolved "https://registry.yarnpkg.com/co/-/co-4.6.0.tgz#6ea6bdf3d853ae54ccb8e47bfa0bf3f9031fb184"
@@ -254,10 +231,6 @@ commander@^2.9.0:
   resolved "https://registry.yarnpkg.com/commander/-/commander-2.9.0.tgz#9c99094176e12240cb22d6c5146098400fe0f7d4"
   dependencies:
     graceful-readlink ">= 1.0.0"
-
-compound-subject@0.0.1:
-  version "0.0.1"
-  resolved "https://registry.yarnpkg.com/compound-subject/-/compound-subject-0.0.1.tgz#271554698a15ae608b1dfcafd30b7ba1ea892c4b"
 
 concat-stream@^1.5.0, concat-stream@^1.6.0:
   version "1.6.0"
@@ -331,17 +304,11 @@ dashdash@^1.12.0:
   dependencies:
     assert-plus "^1.0.0"
 
-debug@2.6.7, debug@^2.2.0:
+debug@2.6.7:
   version "2.6.7"
   resolved "https://registry.yarnpkg.com/debug/-/debug-2.6.7.tgz#92bad1f6d05bbb6bba22cca88bcd0ec894c2861e"
   dependencies:
     ms "2.0.0"
-
-deep-eql@^0.1.3:
-  version "0.1.3"
-  resolved "https://registry.yarnpkg.com/deep-eql/-/deep-eql-0.1.3.tgz#ef558acab8de25206cd713906d74e56930eb69f2"
-  dependencies:
-    type-detect "0.1.1"
 
 delayed-stream@~1.0.0:
   version "1.0.0"
@@ -500,13 +467,6 @@ firebase-functions@^0.5.7:
     lodash "^4.6.1"
     sha1 "^1.1.1"
 
-first-event@^1.0.0:
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/first-event/-/first-event-1.0.0.tgz#3d8675b339ea6bd82ff14f7091c6c19ba2b89906"
-  dependencies:
-    "101" "^1.2.0"
-    assert-args "^1.0.3"
-
 forever-agent@~0.6.1:
   version "0.6.1"
   resolved "https://registry.yarnpkg.com/forever-agent/-/forever-agent-0.6.1.tgz#fbc71f0c41adeb37f96c577ad1ed42d8fdacca91"
@@ -555,10 +515,6 @@ generate-object-property@^1.1.0:
   resolved "https://registry.yarnpkg.com/generate-object-property/-/generate-object-property-1.2.0.tgz#9c0e1c40308ce804f4783618b937fa88f99d50d0"
   dependencies:
     is-property "^1.0.0"
-
-get-prototype-of@0.0.0:
-  version "0.0.0"
-  resolved "https://registry.yarnpkg.com/get-prototype-of/-/get-prototype-of-0.0.0.tgz#98772bd10716d16deb4b322516c469efca28ac44"
 
 getpass@^0.1.1:
   version "0.1.7"
@@ -682,14 +638,6 @@ ipaddr.js@1.3.0:
   version "1.3.0"
   resolved "https://registry.yarnpkg.com/ipaddr.js/-/ipaddr.js-1.3.0.tgz#1e03a52fdad83a8bbb2b25cbf4998b4cffcd3dec"
 
-is-capitalized@^1.0.0:
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/is-capitalized/-/is-capitalized-1.0.0.tgz#4c8464b4d91d3e4eeb44889dd2cd8f1b0ac4c136"
-
-is-class@0.0.4:
-  version "0.0.4"
-  resolved "https://registry.yarnpkg.com/is-class/-/is-class-0.0.4.tgz#e057451705bb34e39e3e33598c93a9837296b736"
-
 is-my-json-valid@^2.12.4:
   version "2.16.0"
   resolved "https://registry.yarnpkg.com/is-my-json-valid/-/is-my-json-valid-2.16.0.tgz#f079dd9bfdae65ee2038aae8acbc86ab109e3693"
@@ -811,12 +759,6 @@ jws@^3.0.0, jws@^3.1.3, jws@^3.1.4:
     base64url "^2.0.0"
     jwa "^1.1.4"
     safe-buffer "^5.0.1"
-
-keypather@^1.10.2:
-  version "1.10.2"
-  resolved "https://registry.yarnpkg.com/keypather/-/keypather-1.10.2.tgz#e0449632d4b3e516f21cc014ce7c5644fddce614"
-  dependencies:
-    "101" "^1.0.0"
 
 lodash.noop@^3.0.1:
   version "3.0.1"
@@ -1103,10 +1045,9 @@ retry-request@^1.3.2:
     through2 "^2.0.0"
 
 retry-request@^2.0.0:
-  version "2.0.4"
-  resolved "https://registry.yarnpkg.com/retry-request/-/retry-request-2.0.4.tgz#2cc7da18b0817ea085f9a4005594b5d8cda160b2"
+  version "2.0.5"
+  resolved "https://registry.yarnpkg.com/retry-request/-/retry-request-2.0.5.tgz#d089a14a15db9ed60685b8602b40f4dcc0d3fb3c"
   dependencies:
-    first-event "^1.0.0"
     request "^2.81.0"
     through2 "^2.0.0"
 
@@ -1258,10 +1199,6 @@ tunnel-agent@~0.4.1:
 tweetnacl@^0.14.3, tweetnacl@~0.14.0:
   version "0.14.5"
   resolved "https://registry.yarnpkg.com/tweetnacl/-/tweetnacl-0.14.5.tgz#5ae68177f192d4456269d108afa93ff8743f4f64"
-
-type-detect@0.1.1:
-  version "0.1.1"
-  resolved "https://registry.yarnpkg.com/type-detect/-/type-detect-0.1.1.tgz#0ba5ec2a885640e470ea4e8505971900dac58822"
 
 type-is@~1.6.15:
   version "1.6.15"

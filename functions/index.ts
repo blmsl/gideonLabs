@@ -1,18 +1,41 @@
 import * as functions from 'firebase-functions';
 import * as admin from 'firebase-admin';
-//import * as nodemailer from 'nodemailer';
+import * as nodemailer from 'nodemailer';
 
 import * as _storage from '@google-cloud/storage';
 import { spawn } from 'child-process-promise';
-//import * as mkdirp from 'mkdirp-promise';
 
 admin.initializeApp(functions.config().firebase);
 const bucket = _storage().bucket(functions.config().firebase.storageBucket);
 const projectId = 'gideonlabs-b4b71';
 
+const gmailEmail = encodeURIComponent(functions.config().gmail.email);
+const gmailPassword = encodeURIComponent(functions.config().gmail.password);
+const mailTransport = nodemailer.createTransport(`smtps://${gmailEmail}:${gmailPassword}@smtp.gmail.com`);
+
+exports.sendContactMessage = functions.database.ref('/messages/{pushKey}').onWrite(async event => {
+
+  const snapshot = event.data;
+
+  // Only send email for new messages.
+  if (snapshot.previous.val() || !snapshot.val().name) return;
+
+  const val = snapshot.val();
+
+  const mailOptions = {
+    to: 'markgoho@gmail.com',
+    subject: `Information Request from ${val.name}`,
+    html: val.html
+  };
+
+  await mailTransport.sendMail(mailOptions).then(() => console.log('Mail sent to: markgoho@gmail.com'));
+});
+
 exports.resizeImage = functions.storage.object().onChange(async event => {
 
   const thumbPrefix = 'thumb_';
+  const maxThumbHeight = 300;
+  const maxThumbWidth = 300;
   const path = event.data.name;
   const [storyPath, storySlug, pictureSlug, fileName] = path.split('/');
   
@@ -29,7 +52,7 @@ exports.resizeImage = functions.storage.object().onChange(async event => {
   const file = bucket.file(path);
   await file.download({ destination: tmpFilePath });
 
-  await spawn('convert', [tmpFilePath, '-thumbnail', '300x300>', tmpFilePath]);
+  await spawn('convert', [tmpFilePath, '-thumbnail', `${maxThumbHeight}x${maxThumbWidth}>`, tmpFilePath]);
 
   const destination = `${storyPath}/${storySlug}/${pictureSlug}/thumb_${pictureSlug}.jpg`;
 

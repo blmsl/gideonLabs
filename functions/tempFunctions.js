@@ -1,25 +1,5 @@
 
-const gmailEmail = encodeURIComponent(functions.config().gmail.email);
-const gmailPassword = encodeURIComponent(functions.config().gmail.password);
-const mailTransport = nodemailer.createTransport(`smtps://${gmailEmail}:${gmailPassword}@smtp.gmail.com`);
 
-exports.sendContactMessage = functions.database.ref('/messages/{pushKey}').onWrite(async event => {
-
-  const snapshot = event.data;
-
-  // Only send email for new messages.
-  if (snapshot.previous.val() || !snapshot.val().name) return;
-
-  const val = snapshot.val();
-
-  const mailOptions = {
-    to: 'markgoho@gmail.com',
-    subject: `Information Request from ${val.name}`,
-    html: val.html
-  };
-
-  await mailTransport.sendMail(mailOptions).then(() => console.log('Mail sent to: markgoho@gmail.com'));
-});
 
 exports.metadata = functions.storage.object().onChange(event => {
   const object = event.data;
@@ -89,64 +69,3 @@ exports.metadata = functions.storage.object().onChange(event => {
 
 });
 
-exports.generateThumbnail = functions.storage.object().onChange(event => {
-  const thumbMaxHeight = 200;
-  const thumbMaxWidth = 200;
-  const thumbPrefix = 'thumb_';
-  const filePath = event.data.name;
-  const filePathSplit = filePath.split('/');
-  const storySlug = filePathSplit[1];
-  const pictureSlug = filePathSplit[2];
-  const fileName = filePathSplit.pop();
-  const fileDir = filePathSplit.join('/') + (filePathSplit.length > 0 ? '/' : '');
-  const thumbFilePath = `${fileDir}${thumbPrefix}${fileName}`;
-  const tempLocalDir = `${localTempFolder}${fileDir}`;
-  const tempLocalFile = `${tempLocalDir}${fileName}`;
-  const tempLocalThumbFile = `${localTempFolder}${thumbFilePath}`;
-
-  // Exit if this is triggered on a file that is not an image.
-  if (!event.data.contentType.startsWith('image/')) {
-    console.log('This is not an image.');
-    return;
-  }
-
-  // Exit if the image is already a thumbnail.
-  if (fileName.startsWith(thumbPrefix)) {
-    console.log('Already a Thumbnail.');
-    return;
-  }
-
-  // Exit if this is a move or deletion event.
-  if (event.data.resourceState === 'not_exists') {
-    console.log('This is a deletion event.');
-    return;
-  }
-
-  // Create the temp directory where the storage file will be downloaded.
-  return mkdirp(tempLocalDir)
-    .then(() => {
-      // Download file from bucket.
-      const bucket = gcs.bucket(event.data.bucket);
-      
-      return bucket.file(filePath).download({ destination: tempLocalFile })
-        .then(() => {
-          console.log('The file has been downloaded to', tempLocalFile);
-          
-          // Generate a thumbnail using ImageMagick.
-          return spawn('convert', [tempLocalFile, '-thumbnail', `${thumbMaxWidth}x${thumbMaxHeight}>`, tempLocalThumbFile])
-            .then(() => {
-              console.log('Thumbnail created at', tempLocalThumbFile);
-              
-              // Uploading the Thumbnail.
-              return bucket.upload(tempLocalThumbFile, {destination: thumbFilePath})
-                .then(() => {
-                  console.log('Thumbnail uploaded to Storage at', thumbFilePath);
-                  const config = { action: 'read', expires: '03-17-2025' };
-                  const thumbFile = bucket.file(thumbFilePath);
-                  thumbFile.makePublic();
-                  return admin.database().ref(`/pictures/${pictureSlug}/thumb`).set({storageURL: 'url'});
-                });
-            });
-        });
-    });
-});
