@@ -38,6 +38,7 @@ exports.resizeImage = functions.storage.object().onChange(async event => {
   const maxThumbWidth = 300;
   const path = event.data.name;
   const [storyPath, storySlug, pictureSlug, fileName] = path.split('/');
+  const [fileSlug, fileType] = fileName.split('.');
   
   // Exit if this is triggered on a file that is not an image.
   if (!event.data.contentType.startsWith('image/')) return;

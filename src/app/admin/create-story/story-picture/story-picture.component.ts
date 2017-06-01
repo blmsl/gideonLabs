@@ -27,25 +27,17 @@ export class StoryPictureComponent {
   @Output()
   rawFile = new EventEmitter<File>();
 
-  constructor(private fb: FirebaseApp, private sanitizer: DomSanitizer) { }
+  constructor(private sanitizer: DomSanitizer) { }
 
-  // onUploadPicture(event: any) {
-  //   let target: HTMLInputElement = event.target as HTMLInputElement;
-  //   let files: FileList = target.files;
-
-  //   if (files && files[0]) {
-  //     this.upload(files[0]);
-  //   }
-  // }
-
-  get pictureExists() {
+  get pictureExists(): boolean {
     return (
       this.parent.get('picture.slug')!.hasError('pictureExists')
     )
   }
 
-  patchFileInfo(file: File) {
+  patchFileInfo(file: File): void {
     const objectURL = this.sanitizer.bypassSecurityTrustUrl((window.URL.createObjectURL(file)));
+    const [fileName, fileType] = file.name.split('.');
     this.fileUrl = objectURL;
     this.parent.get('picture')!
       .patchValue({ 
@@ -55,49 +47,25 @@ export class StoryPictureComponent {
           size: file.size,
           type: file.type,
           webkitRelativePath: file.webkitRelativePath
-        }, objectURL
+        }, 
+        objectURL,
+        title: fileName
       });
 
     this.file = file;
   }
 
-  changeFeatured(event: any) {
+  changeFeatured(event: any): void {
     this.parent.get('picture.featured')!.patchValue(event.target.checked);
   }
 
-  upload(file: any) {
-    let storageRef = this.fb.storage().ref();
-    let slug = this.parent.get('slug')!.value;
-    let path = `/stories/${slug}/${file.name}`;
-    let picturePath = storageRef.child(path);
-
-    this.parent.get('picture.type')!.patchValue(file.type);
-
-    const metadata: firebase.storage.UploadMetadata = {
-      contentType: file.type,
-    }
-
-    let pictureTask: firebase.storage.UploadTask = picturePath.put(file, metadata);
-
-    pictureTask
-      .on('state_changed',
-        (snapshot: any) => this.progressValue = (snapshot.bytesTransferred / snapshot.totalBytes) * 100, 
-        error => console.error('There was an error uploading', error),
-        // Called on complete
-        () => {
-          let url = pictureTask.snapshot.downloadURL;
-          this.parent.get('picture')!.patchValue({ storageUrl: url });
-        }
-      );
-  }
-
-  onAddPicture() {
+  onAddPicture(): void {
     const picture = this.parent.get('picture')!.value;
     this.added.emit(picture);
     this.rawFile.emit(this.file)
   }
 
-  onResetPicture() {
+  onResetPicture(): void {
     this.pictureReset.emit();
     this.progressValue = 0;
   }
