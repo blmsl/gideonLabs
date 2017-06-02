@@ -92,7 +92,11 @@ exports.convertToWebP = functions.storage.object().onChange((event) => __awaiter
     // Convert file
     const buffer = yield imagemin.buffer(Buffer.concat(downloadBuffer), { plugins: [imageminWebp({ quality: 50 })] });
     // Upload file
-    const destination = `${storyPath}/${storySlug}/${pictureSlug}/${pictureSlug}.webp`;
+    let destination = `${storyPath}/${storySlug}/${pictureSlug}.webp`;
+    if (fileName.startsWith(thumbPrefix)) {
+        destination = `${storyPath}/${storySlug}/thumb_${pictureSlug}.webp`;
+    }
+    console.log(`Uploading ${pictureSlug}.webp to destination`);
     const newBucketFile = bucket.file(destination);
     yield newBucketFile.save(buffer, {
         metadata: {
@@ -102,11 +106,9 @@ exports.convertToWebP = functions.storage.object().onChange((event) => __awaiter
         private: false,
         resumable: false
     });
-    const metadata = yield newBucketFile.getMetadata();
-    console.log(metadata[0]);
     // Contruct storage url: https://github.com/firebase/functions-samples/issues/123
     const storageURL = `https://storage.googleapis.com/${projectId}.appspot.com/${destination}`;
-    if (pictureSlug.startsWith(thumbPrefix)) {
+    if (fileName.startsWith(thumbPrefix)) {
         yield admin.database().ref(`/pictures/${pictureSlug}/thumbnail`).update({ webp: storageURL });
     }
     else {
