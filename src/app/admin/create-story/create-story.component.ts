@@ -289,14 +289,15 @@ export class CreateStoryComponent implements OnInit {
       const picture = this._pictures.value[index];
       let { altText, author, caption, featured, slug, title } = picture;
       const pictureDetails = { altText, author, caption, featured, slug, title };
+      const [fileName, fileType] = file.name.split('.');
       // Try atomic update to set picture details on /storyPictures and /pictures
       // More details at https://github.com/angular/angularfire2/issues/435
       const pictureUpdate: any = {};
       pictureUpdate[`/storyPictures/${story.slug}/${picture.slug}`] = pictureDetails;
       pictureUpdate[`/pictures/${picture.slug}`] = pictureDetails;
       this.db.object('/').update(pictureUpdate);
-      const filePath = `/stories/${story.slug}/${picture.slug}/${picture-slug}.jpg`;
-
+      
+      const filePath = `/stories/${story.slug}/${picture.slug}/${picture.slug}.${fileType}`;
       console.log(`Uploading ${picture.slug}.jpg`)
       const snapshot = await this.fbApp.storage().ref(filePath).put(file);
       const fullPath = snapshot.metadata.fullPath;

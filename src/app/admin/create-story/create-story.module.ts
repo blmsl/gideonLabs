@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { ReactiveFormsModule } from "@angular/forms";
-import {EditorModule,SharedModule} from 'primeng/primeng';
+import { EditorModule, SharedModule } from 'primeng/primeng';
 import { AngularFireDatabaseModule } from 'angularfire2/database';
 
 import { CreateStoryRoutingModule } from './create-story-routing.module';
