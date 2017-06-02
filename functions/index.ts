@@ -1,9 +1,13 @@
 import * as functions from 'firebase-functions';
 import * as admin from 'firebase-admin';
 import * as nodemailer from 'nodemailer';
+import * as fs from 'fs';
 
 import * as _storage from '@google-cloud/storage';
 import { spawn } from 'child-process-promise';
+
+import * as imagemin from 'imagemin';
+import * as imageminWebp from 'imagemin-webp';
 
 admin.initializeApp(functions.config().firebase);
 const bucket = _storage().bucket(functions.config().firebase.storageBucket);
@@ -12,6 +16,8 @@ const projectId = 'gideonlabs-b4b71';
 const gmailEmail = encodeURIComponent(functions.config().gmail.email);
 const gmailPassword = encodeURIComponent(functions.config().gmail.password);
 const mailTransport = nodemailer.createTransport(`smtps://${gmailEmail}:${gmailPassword}@smtp.gmail.com`);
+const LOCAL_TMP_FOLDER = '/tmp/';
+const thumbPrefix = 'thumb_';
 
 exports.sendContactMessage = functions.database.ref('/messages/{pushKey}').onWrite(async event => {
 
@@ -28,17 +34,22 @@ exports.sendContactMessage = functions.database.ref('/messages/{pushKey}').onWri
     html: val.html
   };
 
-  await mailTransport.sendMail(mailOptions).then(() => console.log('Mail sent to: markgoho@gmail.com'));
+  await mailTransport.sendMail(mailOptions);
+  console.log('Mail sent to: markgoho@gmail.com');
 });
 
-exports.resizeImage = functions.storage.object().onChange(async event => {
-
-  const thumbPrefix = 'thumb_';
+exports.resizeImage = functions.storage.object().onChange(async event => {  
   const maxThumbHeight = 300;
   const maxThumbWidth = 300;
   const path = event.data.name;
   const [storyPath, storySlug, pictureSlug, fileName] = path.split('/');
-  const [fileSlug, fileType] = fileName.split('.');
+  const fileType = fileName.split('.')[1];
+
+  // Exit if the image is already in the WebP format.
+  if (fileName.endsWith('.webp')) {
+    console.log('ImageMagick does not support the WebP format. Exiting resizeImage.')
+    return;
+  }
   
   // Exit if this is triggered on a file that is not an image.
   if (!event.data.contentType.startsWith('image/')) return;
@@ -49,14 +60,14 @@ exports.resizeImage = functions.storage.object().onChange(async event => {
   // Exit if this is a move or deletion event.
   if (event.data.resourceState === 'not_exists') return;
 
-  const tmpFilePath = `/tmp/${pictureSlug}.jpg`;
+  const tmpFilePath = `${LOCAL_TMP_FOLDER}${pictureSlug}.${fileType}`;
   const file = bucket.file(path);
   await file.download({ destination: tmpFilePath });
 
   await spawn('convert', [tmpFilePath, '-thumbnail', `${maxThumbHeight}x${maxThumbWidth}>`, tmpFilePath]);
 
-  const destination = `${storyPath}/${storySlug}/${pictureSlug}/thumb_${pictureSlug}.jpg`;
-
+  const destination = `${storyPath}/${storySlug}/${pictureSlug}/thumb_${pictureSlug}.${fileType}`;
+  console.log('Tmpfilepath:', tmpFilePath);
   await bucket.upload(tmpFilePath, { 
     destination,
   }, (err, file) => {
@@ -68,4 +79,52 @@ exports.resizeImage = functions.storage.object().onChange(async event => {
   const storageURL = `https://storage.googleapis.com/${projectId}.appspot.com/${destination}`;
 
   await admin.database().ref(`/pictures/${pictureSlug}/thumbnail`).set({ storageURL });
+});
+
+exports.convertToWebP = functions.storage.object().onChange(async event => {
+  // Exit if this is triggered on a file that is not an image.
+  if (!event.data.contentType.startsWith('image/')) return;
+    
+  // Exit if this is a move or deletion event.
+  if (event.data.resourceState === 'not_exists') return;
+
+  const path = event.data.name;
+  const [storyPath, storySlug, pictureSlug, fileName] = path.split('/');
+
+  // Exit if the image is already in the WebP format.
+  if (fileName.endsWith('.webp')) return;
+
+  // Use the Buffer to download, convert, and upload the image
+  // https://github.com/tuelsch/bolg/blob/master/functions/index.js
+  // Download file
+  const file = bucket.file(path);
+  const downloadBuffer = await file.download();
+
+  // Convert file
+  const buffer = await imagemin.buffer(Buffer.concat(downloadBuffer), { plugins: [ imageminWebp({quality: 50})] });
+
+  // Upload file
+  const destination = `${storyPath}/${storySlug}/${pictureSlug}/${pictureSlug}.webp`;
+  const newBucketFile = bucket.file(destination);
+  await newBucketFile.save(buffer, {
+    metadata: {
+      contentType: 'image/webp'
+    },
+    public: true,
+    private: false,
+    resumable: false
+  });
+
+  const metadata = await newBucketFile.getMetadata();
+  console.log(metadata[0]);
+
+  // Contruct storage url: https://github.com/firebase/functions-samples/issues/123
+  const storageURL = `https://storage.googleapis.com/${projectId}.appspot.com/${destination}`;
+
+  if (pictureSlug.startsWith(thumbPrefix)) {
+    await admin.database().ref(`/pictures/${pictureSlug}/thumbnail`).update({ webp: storageURL });
+  } else {
+    await admin.database().ref(`/pictures/${pictureSlug}/original`).update({ webp: storageURL });
+  }
+  
 });
