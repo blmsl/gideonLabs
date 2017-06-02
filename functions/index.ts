@@ -1,7 +1,6 @@
 import * as functions from 'firebase-functions';
 import * as admin from 'firebase-admin';
 import * as nodemailer from 'nodemailer';
-import * as fs from 'fs';
 
 import * as _storage from '@google-cloud/storage';
 import { spawn } from 'child-process-promise';
@@ -46,10 +45,7 @@ exports.resizeImage = functions.storage.object().onChange(async event => {
   const fileType = fileName.split('.')[1];
 
   // Exit if the image is already in the WebP format.
-  if (fileName.endsWith('.webp')) {
-    console.log('ImageMagick does not support the WebP format. Exiting resizeImage.')
-    return;
-  }
+  if (fileName.endsWith('.webp')) return;
   
   // Exit if this is triggered on a file that is not an image.
   if (!event.data.contentType.startsWith('image/')) return;

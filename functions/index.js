@@ -44,10 +44,8 @@ exports.resizeImage = functions.storage.object().onChange((event) => __awaiter(t
     const [storyPath, storySlug, pictureSlug, fileName] = path.split('/');
     const fileType = fileName.split('.')[1];
     // Exit if the image is already in the WebP format.
-    if (fileName.endsWith('.webp')) {
-        console.log('ImageMagick does not support the WebP format. Exiting resizeImage.');
+    if (fileName.endsWith('.webp'))
         return;
-    }
     // Exit if this is triggered on a file that is not an image.
     if (!event.data.contentType.startsWith('image/'))
         return;

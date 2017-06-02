@@ -37,7 +37,7 @@ export class StoryPictureComponent {
 
   patchFileInfo(file: File): void {
     const objectURL = this.sanitizer.bypassSecurityTrustUrl((window.URL.createObjectURL(file)));
-    const [fileName, fileType] = file.name.split('.');
+    const fileName = file.name.split('.')[0].replace(/-/g, ' ');
     this.fileUrl = objectURL;
     this.parent.get('picture')!
       .patchValue({ 
