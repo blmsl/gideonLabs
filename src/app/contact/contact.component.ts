@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AngularFireDatabase } from 'angularfire2/database';
 
-
 @Component({
   selector: 'app-contact',
   styleUrls: ['./contact.component.scss'],
@@ -10,12 +9,12 @@ import { AngularFireDatabase } from 'angularfire2/database';
 })
 export class ContactComponent implements OnInit {
   contactForm: FormGroup;
-  
+
   constructor(private fb: FormBuilder, private db: AngularFireDatabase) {
     this.createForm();
   }
 
-  ngOnInit() { }
+  ngOnInit() {}
 
   createForm() {
     this.contactForm = this.fb.group({
@@ -26,7 +25,7 @@ export class ContactComponent implements OnInit {
   }
 
   onSubmit() {
-    const {name, email, problem} = this.contactForm.value;
+    const { name, email, problem } = this.contactForm.value;
     const date = Date();
     const html = `
       <div>From: ${name}</div>
@@ -44,5 +43,4 @@ export class ContactComponent implements OnInit {
     this.db.list('/messages').push(message);
     this.contactForm.reset();
   }
-
 }

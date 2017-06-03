@@ -1,23 +1,20 @@
 <h1>Information Request</h1>
 <div>Submit your name, email, and a description of your problem and we'll get back to you as soon as possible.</div>
 <form [formGroup]="contactForm" (ngSubmit)="onSubmit()">
-    <input 
-      type="text" 
-      placeholder="Name"
-      formControlName="name">
-    
-    <input type="text" placeholder="Email" formControlName="email">
+  <input type="text" placeholder="Name" formControlName="name">
 
-    <p-editor formControlName="problem" [style]="{'height':'200px'}" placeholder="Enter a description of your problem">
-      <p-header>
-        <span class="ql-formats">
+  <input type="text" placeholder="Email" formControlName="email">
+
+  <p-editor formControlName="problem" [style]="{'height':'200px'}" placeholder="Enter a description of your problem">
+    <p-header>
+      <span class="ql-formats">
           <button class="ql-bold"></button>
           <button class="ql-italic"></button>
           <button class="ql-underline"></button>
         </span>
-      </p-header>
-    </p-editor>
+    </p-header>
+  </p-editor>
 
-    <button type="submit" [disabled]="contactForm.invalid">Submit Request</button>
+  <button type="submit" [disabled]="contactForm.invalid">Submit Request</button>
 
 </form>

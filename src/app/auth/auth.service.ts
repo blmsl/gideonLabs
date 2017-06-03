@@ -5,11 +5,10 @@ import * as firebase from 'firebase/app';
 
 @Injectable()
 export class AuthService {
-
   private _user: firebase.User;
 
   constructor(public afAuth: AngularFireAuth, private db: AngularFireDatabase) {
-    afAuth.authState.subscribe(user => this.user = user);  
+    afAuth.authState.subscribe(user => (this.user = user));
   }
 
   get user(): firebase.User {
@@ -29,21 +28,27 @@ export class AuthService {
   }
 
   signInWithGoogle(): firebase.Promise<any> {
-    return this.afAuth.auth.signInWithPopup(new firebase.auth.GoogleAuthProvider())
+    return this.afAuth.auth
+      .signInWithPopup(new firebase.auth.GoogleAuthProvider())
       .then(response => {
-        this.db.object(`/users/${response.user.uid}`)
-          .subscribe(user => {
-            if (!user.$exists()) {
-              let {displayName, email, emailVerified, photoURL, uid} = response.user;
-              this.db.object(`/users/${response.user.uid}`).set({
-                displayName,
-                email,
-                emailVerified,
-                photoURL,
-                uid
-              })
-            }
-          });
+        this.db.object(`/users/${response.user.uid}`).subscribe(user => {
+          if (!user.$exists()) {
+            let {
+              displayName,
+              email,
+              emailVerified,
+              photoURL,
+              uid
+            } = response.user;
+            this.db.object(`/users/${response.user.uid}`).set({
+              displayName,
+              email,
+              emailVerified,
+              photoURL,
+              uid
+            });
+          }
+        });
       })
       .catch(err => console.log('ERRROR @ AuthService#signIn() :', err));
   }
@@ -51,5 +56,4 @@ export class AuthService {
   signOut(): void {
     this.afAuth.auth.signOut();
   }
-
 }

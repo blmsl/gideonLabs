@@ -6,9 +6,7 @@ import { Component } from '@angular/core';
   styleUrls: ['./dashboard.component.scss']
 })
 export class DashboardComponent {
-
   uploadFiles(fileList: File[]) {
     console.log(fileList);
   }
-
 }

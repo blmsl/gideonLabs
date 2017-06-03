@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-import { ReactiveFormsModule } from "@angular/forms";
+import { ReactiveFormsModule } from '@angular/forms';
 import { EditorModule, SharedModule } from 'primeng/primeng';
 import { AngularFireDatabaseModule } from 'angularfire2/database';
 
@@ -10,7 +10,7 @@ import { CreateStoryComponent } from './create-story.component';
 import { StoryInfoComponent } from './story-info/story-info.component';
 import { StoryPicturesComponent } from './story-pictures/story-pictures.component';
 import { StoryPictureComponent } from './story-picture/story-picture.component';
-import { AdminSharedModule } from "../shared/admin-shared.module";
+import { AdminSharedModule } from '../shared/admin-shared.module';
 import { FeaturedImageComponent } from './featured-image/featured-image.component';
 
 @NgModule({
@@ -24,10 +24,11 @@ import { FeaturedImageComponent } from './featured-image/featured-image.componen
     AdminSharedModule
   ],
   declarations: [
-    CreateStoryComponent, 
-    StoryInfoComponent, 
-    StoryPicturesComponent, 
-    StoryPictureComponent, FeaturedImageComponent
+    CreateStoryComponent,
+    StoryInfoComponent,
+    StoryPicturesComponent,
+    StoryPictureComponent,
+    FeaturedImageComponent
   ]
 })
-export class CreateStoryModule { }
+export class CreateStoryModule {}

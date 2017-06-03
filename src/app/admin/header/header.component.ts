@@ -7,13 +7,12 @@ import * as firebase from 'firebase/app';
   styleUrls: ['./header.component.scss']
 })
 export class HeaderComponent {
-
   @Input() authenticated: boolean;
   @Input() userInfo: firebase.UserInfo;
   @Output() signIn = new EventEmitter();
   @Output() signOut = new EventEmitter(false);
 
-  constructor() { }
+  constructor() {}
 
   triggerSignIn() {
     this.signIn.emit();
@@ -22,5 +21,4 @@ export class HeaderComponent {
   triggerSignOut() {
     this.signOut.emit();
   }
-
 }

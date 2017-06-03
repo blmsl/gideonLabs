@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { FormGroup } from "@angular/forms";
+import { FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-story-info',
@@ -35,14 +35,9 @@ import { FormGroup } from "@angular/forms";
   `
 })
 export class StoryInfoComponent {
-
-  @Input()
-  parent: FormGroup;
+  @Input() parent: FormGroup;
 
   get storyExists() {
-    return (
-      this.parent.get('slug')!.hasError('storyExists')
-    )
+    return this.parent.get('slug')!.hasError('storyExists');
   }
-
 }

@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { CreateStoryComponent } from "./create-story.component";
+import { CreateStoryComponent } from './create-story.component';
 
 const routes: Routes = [
   {
@@ -13,4 +13,4 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule]
 })
-export class CreateStoryRoutingModule { }
+export class CreateStoryRoutingModule {}

@@ -1,15 +1,11 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { CategoryListComponent } from "./category/category-list.component";
-import { TagComponent } from "./tag/tag.component";
+import { CategoryListComponent } from './category/category-list.component';
+import { TagComponent } from './tag/tag.component';
 
 @NgModule({
-  imports: [
-    CommonModule
-  ],
+  imports: [CommonModule],
   declarations: [CategoryListComponent, TagComponent],
-  exports: [
-    CategoryListComponent
-  ]
+  exports: [CategoryListComponent]
 })
-export class TaxonomyModule { }
+export class TaxonomyModule {}

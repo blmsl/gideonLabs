@@ -1,7 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { FirebaseListObservable } from "angularfire2/database";
-import { User } from "../user";
-import { FormGroup } from "@angular/forms";
+import { FirebaseListObservable } from 'angularfire2/database';
+import { User } from '../user';
+import { FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-select-users',
@@ -9,15 +9,11 @@ import { FormGroup } from "@angular/forms";
   styleUrls: ['./select-users.component.scss']
 })
 export class SelectUsersComponent implements OnInit {
-  @Input()
-  users: FirebaseListObservable<User[]>
+  @Input() users: FirebaseListObservable<User[]>;
 
-  @Input()
-  parent: FormGroup;
+  @Input() parent: FormGroup;
 
-  constructor() { }
+  constructor() {}
 
-  ngOnInit() {
-  }
-
+  ngOnInit() {}
 }

@@ -1,5 +1,5 @@
 import { Component, Output, EventEmitter } from '@angular/core';
-import { DomSanitizer } from "@angular/platform-browser";
+import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-file-uploader',
@@ -9,19 +9,18 @@ import { DomSanitizer } from "@angular/platform-browser";
 export class FileUploaderComponent {
   dragHighlight: boolean;
   tooManyFiles = false;
-   
-  @Output()
-  file = new EventEmitter<File>();
 
-  constructor() { }
+  @Output() file = new EventEmitter<File>();
+
+  constructor() {}
 
   get isAdvancedUpload() {
     const div = document.createElement('div');
     return (
-      (('draggable' in div) || ('ondragstart' in div && 'ondrop' in div)) 
-      && 'FormData' in window 
-      && 'FileReader' in window
-    )
+      ('draggable' in div || ('ondragstart' in div && 'ondrop' in div)) &&
+      'FormData' in window &&
+      'FileReader' in window
+    );
   }
 
   onDrop(event: DragEvent) {
@@ -32,8 +31,8 @@ export class FileUploaderComponent {
       this.tooManyFiles = true;
       return;
     }
-    
-    for(let i = 0; i < files.length; i++) {
+
+    for (let i = 0; i < files.length; i++) {
       this.file.emit(files[i]);
     }
 
@@ -59,5 +58,4 @@ export class FileUploaderComponent {
     event.preventDefault();
     event.stopPropagation();
   }
-
 }

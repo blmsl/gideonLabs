@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ReactiveFormsModule } from "@angular/forms";
+import { ReactiveFormsModule } from '@angular/forms';
 import 'firebase/storage';
 
 import { AdminRoutingModule } from './admin-routing.module';
@@ -10,16 +10,12 @@ import { SignInComponent } from './sign-in/sign-in.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    AdminRoutingModule,
-    ReactiveFormsModule
-  ],
+  imports: [CommonModule, AdminRoutingModule, ReactiveFormsModule],
   declarations: [
-    AdminComponent, 
-    HeaderComponent, 
-    SignInComponent, 
-    DashboardComponent,
+    AdminComponent,
+    HeaderComponent,
+    SignInComponent,
+    DashboardComponent
   ]
 })
-export class AdminModule { }
+export class AdminModule {}

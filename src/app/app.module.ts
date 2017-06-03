@@ -12,7 +12,7 @@ import { AngularFireDatabaseModule } from 'angularfire2/database';
 import { environment } from '../environments/environment';
 
 import { CategoryService } from './categories/category.service';
-import { AuthService } from "./auth/auth.service";
+import { AuthService } from './auth/auth.service';
 
 import { AppComponent } from './app.component';
 import { PostListComponent } from './posts/post-list/post-list.component';
@@ -23,11 +23,11 @@ import { CategoryListComponent } from './categories/category-list/category-list.
 import 'rxjs/add/operator/do';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/take';
-import { AuthGuard } from "./auth/auth.guard";
-import { ChildGuard } from "./auth/child-guard.guard";
-import { TaxonomyService } from "./taxonomy/taxonomy.service";
-import { BaseModule } from "./base/base.module";
-import { FirebaseStorageService } from "./services/firebase-storage.service";
+import { AuthGuard } from './auth/auth.guard';
+import { ChildGuard } from './auth/child-guard.guard';
+import { TaxonomyService } from './taxonomy/taxonomy.service';
+import { BaseModule } from './base/base.module';
+import { FirebaseStorageService } from './services/firebase-storage.service';
 
 @NgModule({
   declarations: [
@@ -35,7 +35,7 @@ import { FirebaseStorageService } from "./services/firebase-storage.service";
     PostListComponent,
     PostSingleComponent,
     CategorySingleComponent,
-    CategoryListComponent,
+    CategoryListComponent
   ],
   imports: [
     BrowserModule,
@@ -50,7 +50,7 @@ import { FirebaseStorageService } from "./services/firebase-storage.service";
     AngularFireDatabaseModule
   ],
   providers: [
-    CategoryService, 
+    CategoryService,
     AuthService,
     AuthGuard,
     ChildGuard,
@@ -59,5 +59,4 @@ import { FirebaseStorageService } from "./services/firebase-storage.service";
   ],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
-
+export class AppModule {}

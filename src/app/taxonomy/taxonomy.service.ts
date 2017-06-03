@@ -1,10 +1,9 @@
 import { Injectable } from '@angular/core';
 import { AngularFireDatabase } from 'angularfire2/database';
-import { Category } from "./category/category";
+import { Category } from './category/category';
 
 @Injectable()
 export class TaxonomyService {
-
   _categories: Category[];
 
   constructor(private db: AngularFireDatabase) {
@@ -19,8 +18,5 @@ export class TaxonomyService {
     this._categories = categories;
   }
 
-  retrieveCategories(): void {
-    
-  }
-
+  retrieveCategories(): void {}
 }

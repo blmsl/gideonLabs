@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
-import { FormGroup } from "@angular/forms";
-import { Category } from "../../../taxonomy/category/category";
+import { FormGroup } from '@angular/forms';
+import { Category } from '../../../taxonomy/category/category';
 
 @Component({
   selector: 'app-select-categories',
@@ -20,18 +20,13 @@ import { Category } from "../../../taxonomy/category/category";
   `
 })
 export class SelectCategoriesComponent {
-  @Input()
-  parent: FormGroup;
+  @Input() parent: FormGroup;
 
-  @Input()
-  categories: Category[];
+  @Input() categories: Category[];
 
-  @Input()
-  controlName: string;
+  @Input() controlName: string;
 
-  space = "\u00A0\u00A0\u00A0";
-  
-
+  space = '\u00A0\u00A0\u00A0';
 }
 
 // <optgroup label="Old Testament">

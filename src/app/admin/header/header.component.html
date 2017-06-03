@@ -4,17 +4,12 @@
     <a [routerLink]="['']">Gideon Analytical Labs</a>
   </div>
 
-  
+
   <div class="app-user" *ngIf="authenticated">
     <a routerLink="create-story">Create Story</a>
     <a routerLink="create-category">Create Category</a>
-    <img 
-      class="user-image" 
-      [src]="userInfo.photoURL"/>
-    <button
-      class="user-action"
-      type="button"
-      (click)="triggerSignOut()">Sign Out</button>
+    <img class="user-image" [src]="userInfo.photoURL" />
+    <button class="user-action" type="button" (click)="triggerSignOut()">Sign Out</button>
   </div>
 
 </div>

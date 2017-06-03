@@ -5,7 +5,7 @@ import { PostSingleComponent } from './posts/post-single/post-single.component';
 import { CategoryListComponent } from './categories/category-list/category-list.component';
 import { CategorySingleComponent } from './categories/category-single/category-single.component';
 
-import { BaseComponent } from "./base/base.component";
+import { BaseComponent } from './base/base.component';
 
 const routes: Routes = [
   {
@@ -21,27 +21,29 @@ const routes: Routes = [
         component: PostListComponent
       },
       { path: 'posts', component: PostListComponent },
-        {
-          path: 'posts/category', children: [
-            { path: '', component: CategoryListComponent },
-            { path: ':category', component: CategorySingleComponent }
-          ]
-        },
-        {
-          path: 'posts/:slug',
-          component: PostSingleComponent
-        },
+      {
+        path: 'posts/category',
+        children: [
+          { path: '', component: CategoryListComponent },
+          { path: ':category', component: CategorySingleComponent }
+        ]
+      },
+      {
+        path: 'posts/:slug',
+        component: PostSingleComponent
+      },
       {
         path: 'history',
         loadChildren: 'app/history/history.module#HistoryModule'
       },
       {
-        path: 'contact', 
+        path: 'contact',
         loadChildren: 'app/contact/contact.module#ContactModule'
       },
-      { 
-        path: 'analytical-services', 
-        loadChildren: 'app/analytical-services/analytical-services.module#AnalyticalServicesModule'
+      {
+        path: 'analytical-services',
+        loadChildren:
+          'app/analytical-services/analytical-services.module#AnalyticalServicesModule'
       },
       {
         path: 'components',
@@ -53,21 +55,21 @@ const routes: Routes = [
       },
       {
         path: 'specifications',
-        loadChildren: 'app/specifications/specifications.module#SpecificationsModule'
-      },
-    ],
+        loadChildren:
+          'app/specifications/specifications.module#SpecificationsModule'
+      }
+    ]
   },
   {
-    path: '**', redirectTo: ''
+    path: '**',
+    redirectTo: ''
   }
-  
 ];
 
+//  ,{preloadingStrategy: PreloadAllModules}
 @NgModule({
-  imports: [RouterModule.forRoot(routes
-  //  ,{preloadingStrategy: PreloadAllModules}
-  )],
+  imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule],
   providers: []
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}

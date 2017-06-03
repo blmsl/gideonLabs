@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
-import { AuthService } from "../auth/auth.service";
-import { Router } from "@angular/router";
+import { AuthService } from '../auth/auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-admin',
@@ -8,17 +8,14 @@ import { Router } from "@angular/router";
   styleUrls: ['./admin.component.scss']
 })
 export class AdminComponent {
-
-  constructor(public auth: AuthService, 
-              private router: Router) { }
+  constructor(public auth: AuthService, private router: Router) {}
 
   signIn() {
     this.auth.signInWithGoogle();
   }
 
   signOut(): void {
-        this.auth.signOut();
-        this.router.navigate(['admin', 'sign-in']);
-    }
-
+    this.auth.signOut();
+    this.router.navigate(['admin', 'sign-in']);
+  }
 }

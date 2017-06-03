@@ -8,30 +8,20 @@
     <label for="slug">Slug</label>
     <div class="validation-error">
       <input type="text" id="slug" formControlName="slug">
-      <div 
-        class="error"
-        *ngIf="categoryExists">
+      <div class="error" *ngIf="categoryExists">
         Category already exists. Please change name or just slug.
       </div>
     </div>
 
     <label for="category">Parent</label>
-    <app-select-categories
-      [parent]="form"
-      [controlName]="parentControlName"
-      [categories]="hierarchyCategories">
+    <app-select-categories [parent]="form" [controlName]="parentControlName" [categories]="hierarchyCategories">
     </app-select-categories>
 
     <label for="link">URL</label>
     <input type="text" readonly formControlName="link">
 
     <label for="description">Description</label>
-    <p-editor
-      id="description"
-      tabindex="2"
-      [style]="{'height': '25em'}"
-      formControlName="description"
-      placeholder="Category description">
+    <p-editor id="description" tabindex="2" [style]="{'height': '25em'}" formControlName="description" placeholder="Category description">
       <p-header>
         <span class="ql-formats">
           <button class="ql-bold" type="button" type="button"></button>
@@ -54,9 +44,7 @@
     </p-editor>
 
     <div class="submit-button">
-      <button
-        type="submit"
-        [disabled]="form.invalid">
+      <button type="submit" [disabled]="form.invalid">
         Create Category
       </button>
     </div>

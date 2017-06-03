@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
-import { FirebaseListObservable } from "angularfire2/database";
-import { Category } from "./category";
+import { FirebaseListObservable } from 'angularfire2/database';
+import { Category } from './category';
 
 @Component({
   selector: 'app-category-list',
@@ -8,7 +8,5 @@ import { Category } from "./category";
   styleUrls: ['./category-list.component.scss']
 })
 export class CategoryListComponent {
-  @Input()
-  categories: FirebaseListObservable<Category[]>;
-
+  @Input() categories: FirebaseListObservable<Category[]>;
 }

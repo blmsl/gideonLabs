@@ -1,14 +1,14 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-import { ReactiveFormsModule } from "@angular/forms";
+import { ReactiveFormsModule } from '@angular/forms';
 import { AngularFireDatabaseModule } from 'angularfire2/database';
 
 import { EditorModule, SharedModule } from 'primeng/primeng';
 
 import { CreateCategoryRoutingModule } from './create-category-routing.module';
 import { CreateCategoryComponent } from './create-category.component';
-import { AdminSharedModule } from "../shared/admin-shared.module";
+import { AdminSharedModule } from '../shared/admin-shared.module';
 
 @NgModule({
   imports: [
@@ -22,4 +22,4 @@ import { AdminSharedModule } from "../shared/admin-shared.module";
   ],
   declarations: [CreateCategoryComponent]
 })
-export class CreateCategoryModule { }
+export class CreateCategoryModule {}
