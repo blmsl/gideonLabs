@@ -41,9 +41,5 @@ functions/node_modules
 .DS_Store
 Thumbs.db
 *.log
-<<<<<<< HEAD
 .vscode/settings.json
-=======
-.vscode/settings.json
->>>>>>> parent of 4a668c2... Updating drag and drop
 functions/gideonlabs-b4b71-firebase-adminsdk-9fvpi-fe1dbc1114.json
