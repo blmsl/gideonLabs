@@ -92,9 +92,9 @@ exports.convertToWebP = functions.storage.object().onChange((event) => __awaiter
     // Convert file
     const buffer = yield imagemin.buffer(Buffer.concat(downloadBuffer), { plugins: [imageminWebp({ quality: 50 })] });
     // Upload file
-    let destination = `${storyPath}/${storySlug}/${pictureSlug}.webp`;
+    let destination = `${storyPath}/${storySlug}/${pictureSlug}/${pictureSlug}.webp`;
     if (fileName.startsWith(thumbPrefix)) {
-        destination = `${storyPath}/${storySlug}/thumb_${pictureSlug}.webp`;
+        destination = `${storyPath}/${storySlug}/${pictureSlug}/thumb_${pictureSlug}.webp`;
     }
     console.log(`Uploading ${pictureSlug}.webp to destination`);
     const newBucketFile = bucket.file(destination);
@@ -109,9 +109,9 @@ exports.convertToWebP = functions.storage.object().onChange((event) => __awaiter
     // Contruct storage url: https://github.com/firebase/functions-samples/issues/123
     const storageURL = `https://storage.googleapis.com/${projectId}.appspot.com/${destination}`;
     if (fileName.startsWith(thumbPrefix)) {
-        yield admin.database().ref(`/pictures/${pictureSlug}/thumbnail`).update({ webp: storageURL });
+        yield admin.database().ref(`/storyPictures/${pictureSlug}/thumbnail`).update({ webp: storageURL });
     }
     else {
-        yield admin.database().ref(`/pictures/${pictureSlug}/original`).update({ webp: storageURL });
+        yield admin.database().ref(`/storyPictures/${pictureSlug}/original`).update({ webp: storageURL });
     }
 }));

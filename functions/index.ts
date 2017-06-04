@@ -100,9 +100,9 @@ exports.convertToWebP = functions.storage.object().onChange(async event => {
   const buffer = await imagemin.buffer(Buffer.concat(downloadBuffer), { plugins: [ imageminWebp({quality: 50})] });
 
   // Upload file
-  let destination = `${storyPath}/${storySlug}/${pictureSlug}.webp`;
+  let destination = `${storyPath}/${storySlug}/${pictureSlug}/${pictureSlug}.webp`;
   if (fileName.startsWith(thumbPrefix)) {
-    destination = `${storyPath}/${storySlug}/thumb_${pictureSlug}.webp`
+    destination = `${storyPath}/${storySlug}/${pictureSlug}/thumb_${pictureSlug}.webp`
   }
   console.log(`Uploading ${pictureSlug}.webp to destination`);
   const newBucketFile = bucket.file(destination);
@@ -119,9 +119,9 @@ exports.convertToWebP = functions.storage.object().onChange(async event => {
   const storageURL = `https://storage.googleapis.com/${projectId}.appspot.com/${destination}`;
 
   if (fileName.startsWith(thumbPrefix)) {
-    await admin.database().ref(`/pictures/${pictureSlug}/thumbnail`).update({ webp: storageURL });
+    await admin.database().ref(`/storyPictures/${pictureSlug}/thumbnail`).update({ webp: storageURL });
   } else {
-    await admin.database().ref(`/pictures/${pictureSlug}/original`).update({ webp: storageURL });
+    await admin.database().ref(`/storyPictures/${pictureSlug}/original`).update({ webp: storageURL });
   }
   
 });
