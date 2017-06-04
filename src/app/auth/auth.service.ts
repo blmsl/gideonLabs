@@ -8,7 +8,7 @@ export class AuthService {
   private _user: firebase.User;
 
   constructor(public afAuth: AngularFireAuth, private db: AngularFireDatabase) {
-    afAuth.authState.subscribe(user => (this.user = user));
+    afAuth.idToken.subscribe(user => (this.user = user));
   }
 
   get user(): firebase.User {
