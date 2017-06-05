@@ -9,11 +9,12 @@ import { Router } from '@angular/router';
 export class SignInComponent {
   constructor(private auth: AuthService, private router: Router) {}
 
-  signInWithGoogle(): void {
-    this.auth.signInWithGoogle().then(() => this.postSignIn());
+  async signInWithGoogle() {
+    await this.auth.signInWithGoogle();
+    this.postSignIn();
   }
 
-  postSignIn(): void {
-    this.router.navigate(['/admin']);
+  postSignIn(): Promise<boolean> {
+    return this.router.navigate(['/admin']);
   }
 }
