@@ -51,7 +51,7 @@ export class AuthService {
     });
   }
 
-  signOut(): void {
-    this.afAuth.auth.signOut();
+  signOut(): firebase.Promise<any> {
+    return this.afAuth.auth.signOut();
   }
 }

@@ -14,7 +14,7 @@ export class SignInComponent {
     this.postSignIn();
   }
 
-  postSignIn(): void {
-    this.router.navigate(['/admin']);
+  postSignIn(): Promise<boolean> {
+    return this.router.navigate(['/admin']);
   }
 }
