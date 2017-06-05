@@ -27,30 +27,28 @@ export class AuthService {
     return this.authenticated ? this.user.uid : '';
   }
 
-  signInWithGoogle(): firebase.Promise<any> {
-    return this.afAuth.auth
-      .signInWithPopup(new firebase.auth.GoogleAuthProvider())
-      .then(response => {
-        this.db.object(`/users/${response.user.uid}`).subscribe(user => {
-          if (!user.$exists()) {
-            let {
-              displayName,
-              email,
-              emailVerified,
-              photoURL,
-              uid
-            } = response.user;
-            this.db.object(`/users/${response.user.uid}`).set({
-              displayName,
-              email,
-              emailVerified,
-              photoURL,
-              uid
-            });
-          }
+  async signInWithGoogle(): firebase.Promise<any> {
+    const response = await this.afAuth.auth.signInWithPopup(
+      new firebase.auth.GoogleAuthProvider()
+    );
+    return this.db.object(`/users/${response.user.uid}`).subscribe(user => {
+      if (!user.$exists()) {
+        let {
+          displayName,
+          email,
+          emailVerified,
+          photoURL,
+          uid
+        } = response.user;
+        this.db.object(`/users/${response.user.uid}`).set({
+          displayName,
+          email,
+          emailVerified,
+          photoURL,
+          uid
         });
-      })
-      .catch(err => console.log('ERRROR @ AuthService#signIn() :', err));
+      }
+    });
   }
 
   signOut(): void {
