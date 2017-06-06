@@ -9,8 +9,11 @@ import { AngularFireDatabase } from 'angularfire2/database';
 import { Category } from '../../taxonomy/category/category';
 
 import 'rxjs/add/operator/debounceTime';
+import 'rxjs/add/operator/distinctUntilChanged';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/first';
+import 'rxjs/add/operator/do';
+import 'rxjs/add/operator/filter';
 import { Observable } from 'rxjs/Observable';
 
 @Component({
@@ -29,10 +32,13 @@ export class CreateCategoryComponent implements OnInit {
     this.createForm();
     this.getCategories();
 
-    this.form.get('name')!.valueChanges.debounceTime(350).subscribe(name => {
-      this.form.get('slug')!.patchValue(this.createSlug(name));
-      this.createLink();
-    });
+    this.form.get('name')!.valueChanges
+      .debounceTime(350)
+      .distinctUntilChanged()
+      .subscribe(name => {
+        this.form.get('slug')!.patchValue(this.createSlug(name));
+        this.createLink();
+      });
 
     this.form.get('parent')!.valueChanges.subscribe(slug => {
       this.createLink();
@@ -89,19 +95,13 @@ export class CreateCategoryComponent implements OnInit {
 
   getCategories() {
     this.db.list('/categories').subscribe(categories => {
-      const parents: Category[] = categories.filter(category => {
-        if (category.parent === undefined) {
-          return true;
-        }
-        return;
-      });
+      const parents: Category[] = categories.filter(
+        category => category.parent === undefined
+      );
 
-      const children: Category[] = categories.filter(category => {
-        if (category.parent !== undefined) {
-          return true;
-        }
-        return;
-      });
+      const children: Category[] = categories.filter(
+        category => category.parent !== undefined
+      );
 
       const hierarchy: Category[] = [];
 
@@ -128,8 +128,13 @@ export class CreateCategoryComponent implements OnInit {
 
   findCategory(category: Category): Observable<boolean> {
     return this.db
-      .object(`/categories/${category}`)
-      .map(category => category.$exists());
+      .list(`/categories`, {
+        query: {
+          orderByChild: 'slug',
+          equalTo: category
+        }
+      })
+      .map(category => category.length);
   }
 
   validateCategory(control: AbstractControl) {
@@ -154,19 +159,22 @@ export class CreateCategoryComponent implements OnInit {
     return this.form.get('slug')!.hasError('categoryExists');
   }
 
-  onSubmit() {
-    const { slug, name, description, parent, link } = this.form.value;
+  async onSubmit() {
+    const { slug, name, description, link, parent } = this.form.value;
 
     const newCategory: Category = {
       count: 0,
       description,
       link,
       name,
-      slug,
-      parent
+      slug
     };
 
-    this.db.object(`/categories/${slug}`).set(newCategory);
+    if (parent !== '') {
+      newCategory.parent = parent;
+    }
+
+    await this.db.list(`/categories`).push(newCategory);
     this.form.reset({
       name: '',
       slug: '',
