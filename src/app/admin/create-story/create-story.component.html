@@ -1,10 +1,10 @@
 <div class="create-story-container">
-  
+
   <div *ngIf="uploading" class="uploading-pictures">
     <h2>Uploading Photos to Storage</h2>
     <div>Do not refresh. Do not close this tab.</div>
   </div>
-  
+
   <form [formGroup]="form" (ngSubmit)="onSubmit()">
 
     <app-story-info [parent]="form"></app-story-info>
@@ -12,41 +12,25 @@
     <div class="publish-box">
       <h2>Publish</h2>
       <label for="date">Date</label>
-      <input
-        id="date"
-        formControlName="date"
-        type="text">
-      <app-select-users
-        [parent]="form"
-        [users]="users">
+      <input id="date" formControlName="date" type="text">
+      <app-select-users [parent]="form" [users]="users">
       </app-select-users>
-      <button
-        type="submit"
-        [disabled]="
+      <button type="submit" [disabled]="
           form.get('title').invalid || 
           form.get('content').invalid ||
           form.get('pictures').value.length === 0">
         Create Story
       </button>
-      <button
-        (click)="formReset()"
-        type="button">Reset Story</button>
+      <button (click)="formReset()" type="button">Reset Story</button>
     </div>
 
-    <app-checkbox-categories
-      [parent]="form"
-      [controlName]="categoryControlName"
-      [categories]="hierarchyCategories"
-      (checkedCategory)="categorySelection($event)">
+    <app-checkbox-categories [parent]="form" [controlName]="categoryControlName" [categories]="hierarchyCategories" (checkedCategory)="categorySelection($event)">
     </app-checkbox-categories>
 
 
     <div class="content-box">
       <h2>Story Content</h2>
-      <p-editor
-        [style]="{'background-color': 'white', 'height': '25em'}"
-        formControlName="content"
-        placeholder="Story">
+      <p-editor [style]="{'background-color': 'white', 'height': '25em'}" formControlName="content" placeholder="Story">
         <p-header>
           <span class="ql-formats">
             <button class="ql-bold" type="button" type="button"></button>
@@ -69,37 +53,23 @@
       </p-editor>
     </div>
 
-    <app-story-pictures
-      [parent]="form"
-      (removed)="removePicture($event)">
-      <button
-        (click)="toggleAddPicture()"
-        type="button">Add Picture</button>
-      <button 
-        [disabled]="_pictures.length === 0"
-        (click)="resetPictureArray()"
-        type="button">Remove all</button>
+    <app-story-pictures [parent]="form" (removed)="removePicture($event)">
+      <button (click)="toggleAddPicture()" type="button">Add Picture</button>
+      <button [disabled]="_pictures.length === 0" (click)="resetPictureArray()" type="button">Remove all</button>
     </app-story-pictures>
-<!--
-    <pre>
+
+    <!--<pre>
 {{form.value | json}}
     </pre>-->
 
-    <app-featured-image 
-      [imageUrl]="form.get('featuredImage').value">
+    <app-featured-image [imageUrl]="form.get('featuredImage').value">
     </app-featured-image>
   </form>
-  
+
   <div class="picture-box" *ngIf="addingPicture">
-    <app-story-picture
-      [parent]="form"
-      (added)="addPicture($event)"
-      (rawFile)="addFileToUploads($event)"
-      (pictureReset)="resetPicture()">
-      <button
-        (click)="toggleAddPicture()"
-        type="button">Cancel</button>
+    <app-story-picture [parent]="form" (added)="addPicture($event)" (rawFile)="addFileToUploads($event)" (pictureReset)="resetPicture()">
+      <button (click)="toggleAddPicture()" type="button">Cancel</button>
     </app-story-picture>
   </div>
-  
+
 </div>

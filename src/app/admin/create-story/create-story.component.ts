@@ -178,9 +178,14 @@ export class CreateStoryComponent implements OnInit {
   }
 
   findPicture(picture: string): Observable<boolean> {
-    return this.db.object(`/pictures/${picture}`).map(pic => {
-      return pic.$exists();
-    });
+    return this.db
+      .list(`/pictures`, {
+        query: {
+          orderByChild: 'slug',
+          equalTo: picture
+        }
+      })
+      .map(pictures => pictures.length);
   }
 
   validatePicture(control: AbstractControl) {
@@ -288,7 +293,8 @@ export class CreateStoryComponent implements OnInit {
       author
     };
 
-    await this.db.object(`/stories/${slug}`).update(story);
+    const storyRef = await this.db.list(`/stories`).push(story);
+    const storyKey = storyRef.key;
 
     this.uploading = true;
 
@@ -340,23 +346,26 @@ export class CreateStoryComponent implements OnInit {
     console.log('Uploading is complete!');
     this.uploading = false;
 
-    //this.pushCategories(slug, categories);
-    //this.pushCategoryStories(story, categories);
+    this.pushCategoriesToStory(storyKey, categories);
+    this.pushStoryToCategories(story, storyKey, categories);
 
     this.formReset();
   }
 
-  pushCategories(title: string, categories: string[]) {
+  pushCategoriesToStory(key: string, categories: string[]) {
     let categoryList: any = {};
     categories.forEach(category => (categoryList[category] = true));
-    this.db.object(`/stories/${title}/categories`).set(categoryList);
+    this.db.object(`/stories/${key}/categories`).set(categoryList);
   }
 
-  pushCategoryStories(story: Post, categories: string[]) {
+  pushStoryToCategories(story: Post, key: string, categories: string[]) {
+    let { slug, title, excerpt } = story;
+    const storySynopsis = { slug, title, excerpt };
+
     categories.forEach(category => {
-      let { slug, title, excerpt } = story;
-      const storySynopsis = { slug, title, excerpt };
-      this.db.list(`/categories/${category}/stories`).push(storySynopsis);
+      this.db
+        .object(`/categories/${category}/stories/${key}`)
+        .set(storySynopsis);
     });
   }
 

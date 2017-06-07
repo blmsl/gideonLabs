@@ -11,7 +11,7 @@ import { Category } from '../../../taxonomy/category/category';
       <div *ngFor="let parentCat of categories">
         {{space.repeat(parentCat.level)}}<input
           [id]="parentCat.slug"
-          [value]="parentCat.slug"
+          [value]="parentCat.$key"
           (change)="onCheckChange($event)"
           type="checkbox">
         <label for="{{parentCat.slug}}">{{parentCat.name}}</label>
