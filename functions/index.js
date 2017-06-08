@@ -43,8 +43,8 @@ exports.resizeImage = functions.storage.object().onChange((event) => __awaiter(t
     const maxThumbHeight = 300;
     const maxThumbWidth = 300;
     const path = event.data.name;
-    const [storyPath, storySlug, pictureSlug, fileName] = path.split('/');
-    const fileType = fileName.split('.')[1];
+    const [storyPath, storyKey, pictureKey, fileName] = path.split('/');
+    const [pictureSlug, fileType] = fileName.split('.');
     // Exit if the image is already in the WebP format.
     if (fileName.endsWith('.webp'))
         return;
@@ -66,7 +66,7 @@ exports.resizeImage = functions.storage.object().onChange((event) => __awaiter(t
         `${maxThumbHeight}x${maxThumbWidth}>`,
         tmpFilePath
     ]);
-    const destination = `${storyPath}/${storySlug}/${pictureSlug}/thumb_${pictureSlug}.${fileType}`;
+    const destination = `${storyPath}/${storyKey}/${pictureKey}/thumb_${pictureSlug}.${fileType}`;
     console.log('Tmpfilepath:', tmpFilePath);
     yield bucket.upload(tmpFilePath, {
         destination
@@ -79,7 +79,11 @@ exports.resizeImage = functions.storage.object().onChange((event) => __awaiter(t
     const storageURL = `https://storage.googleapis.com/${projectId}.appspot.com/${destination}`;
     yield admin
         .database()
-        .ref(`/pictures/${pictureSlug}/thumbnail`)
+        .ref(`/pictures/${pictureKey}/thumbnail`)
+        .set({ storageURL });
+    yield admin
+        .database()
+        .ref(`/storyPictures/${storyKey}/${pictureKey}/thumbnail`)
         .set({ storageURL });
 }));
 exports.changeStoryCount = functions.database
@@ -140,7 +144,8 @@ exports.convertToWebP = functions.storage.object().onChange((event) => __awaiter
     if (event.data.resourceState === 'not_exists')
         return;
     const path = event.data.name;
-    const [storyPath, storySlug, pictureSlug, fileName] = path.split('/');
+    const [storyPath, storyKey, pictureKey, fileName] = path.split('/');
+    const pictureSlug = fileName.split('.')[0];
     // Exit if the image is already in the WebP format.
     if (fileName.endsWith('.webp'))
         return;
@@ -154,9 +159,9 @@ exports.convertToWebP = functions.storage.object().onChange((event) => __awaiter
         plugins: [imageminWebp({ quality: 50 })]
     });
     // Upload file
-    let destination = `${storyPath}/${storySlug}/${pictureSlug}/${pictureSlug}.webp`;
+    let destination = `${storyPath}/${storyKey}/${pictureKey}/${pictureSlug}.webp`;
     if (fileName.startsWith(thumbPrefix)) {
-        destination = `${storyPath}/${storySlug}/${pictureSlug}/thumb_${pictureSlug}.webp`;
+        destination = `${storyPath}/${storyKey}/${pictureKey}/thumb_${pictureSlug}.webp`;
     }
     console.log(`Uploading ${pictureSlug}.webp to destination`);
     const newBucketFile = bucket.file(destination);
@@ -173,13 +178,21 @@ exports.convertToWebP = functions.storage.object().onChange((event) => __awaiter
     if (fileName.startsWith(thumbPrefix)) {
         yield admin
             .database()
-            .ref(`/storyPictures/${pictureSlug}/thumbnail`)
+            .ref(`/pictures/${pictureKey}/thumbnail`)
+            .update({ webp: storageURL });
+        yield admin
+            .database()
+            .ref(`/storyPictures/${storyKey}/${pictureKey}/thumbnail`)
             .update({ webp: storageURL });
     }
     else {
         yield admin
             .database()
-            .ref(`/storyPictures/${pictureSlug}/original`)
+            .ref(`/pictures/${pictureKey}/original`)
+            .update({ webp: storageURL });
+        yield admin
+            .database()
+            .ref(`/storyPictures/${storyKey}/${pictureKey}/original`)
             .update({ webp: storageURL });
     }
 }));

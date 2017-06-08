@@ -293,8 +293,7 @@ export class CreateStoryComponent implements OnInit {
       author
     };
 
-    const storyRef = await this.db.list(`/stories`).push(story);
-    const storyKey = storyRef.key;
+    const { key: storyKey } = await this.db.list(`/stories`).push(story);
 
     this.uploading = true;
 
@@ -314,32 +313,32 @@ export class CreateStoryComponent implements OnInit {
         title
       };
       const [fileName, fileType] = file.name.split('.');
-      // Try atomic update to set picture details on /storyPictures and /pictures
-      // More details at https://github.com/angular/angularfire2/issues/435
-      const pictureUpdate: any = {};
-      pictureUpdate[
-        `/storyPictures/${story.slug}/${picture.slug}`
-      ] = pictureDetails;
-      pictureUpdate[`/pictures/${picture.slug}`] = pictureDetails;
-      this.db.object('/').update(pictureUpdate);
 
-      const filePath = `/stories/${story.slug}/${picture.slug}/${picture.slug}.${fileType}`;
+      // Push new picture to /pictures
+      const { key: pictureKey } = await this.db
+        .list('/pictures')
+        .push(pictureDetails);
+
+      // Add picture details to /storyPicture
+      await this.db
+        .object(`/storyPictures/${storyKey}/${pictureKey}`)
+        .set(pictureDetails);
+
+      const filePath = `/stories/${storyKey}/${pictureKey}/${picture.slug}.${fileType}`;
       console.log(`Uploading ${picture.slug}.jpg`);
       const snapshot = await this.fbApp.storage().ref(filePath).put(file);
       const fullPath = snapshot.metadata.fullPath;
       const imageUrl = this.fbApp.storage().ref(fullPath).toString();
 
       const storageURL = await this.fbStorage.getDownloadURL(imageUrl);
-      if (picture.featured) {
-        this.db
-          .object(`/stories/${story.slug}/featuredImage`)
-          .set(picture.slug);
-      }
+      // if (picture.featured) {
+      //   this.db
+      //     .object(`/stories/${storyRef.key}/featuredImage`)
+      //     .set(picture.slug);
+      // }
+      this.db.object(`/pictures/${pictureKey}/original`).update({ storageURL });
       this.db
-        .object(`/pictures/${picture.slug}/original`)
-        .update({ storageURL });
-      this.db
-        .object(`/storyPictures/${story.slug}/${picture.slug}/original`)
+        .object(`/storyPictures/${storyKey}/${pictureKey}/original`)
         .update({ storageURL });
     }
 

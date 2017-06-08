@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import {
   FormBuilder,
   FormGroup,
@@ -25,6 +25,7 @@ export class CreateCategoryComponent implements OnInit {
   public form: FormGroup;
   hierarchyCategories: Category[];
   parentControlName = 'parent';
+  @Input() editCategory: Category;
 
   constructor(private fb: FormBuilder, private db: AngularFireDatabase) {}
 

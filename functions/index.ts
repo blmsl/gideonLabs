@@ -44,8 +44,8 @@ exports.resizeImage = functions.storage.object().onChange(async event => {
   const maxThumbHeight = 300;
   const maxThumbWidth = 300;
   const path = event.data.name;
-  const [storyPath, storySlug, pictureSlug, fileName] = path!.split('/');
-  const fileType = fileName.split('.')[1];
+  const [storyPath, storyKey, pictureKey, fileName] = path!.split('/');
+  const [pictureSlug, fileType] = fileName.split('.');
 
   // Exit if the image is already in the WebP format.
   if (fileName.endsWith('.webp')) return;
@@ -70,7 +70,7 @@ exports.resizeImage = functions.storage.object().onChange(async event => {
     tmpFilePath
   ]);
 
-  const destination = `${storyPath}/${storySlug}/${pictureSlug}/thumb_${pictureSlug}.${fileType}`;
+  const destination = `${storyPath}/${storyKey}/${pictureKey}/thumb_${pictureSlug}.${fileType}`;
   console.log('Tmpfilepath:', tmpFilePath);
   await bucket.upload(
     tmpFilePath,
@@ -88,7 +88,12 @@ exports.resizeImage = functions.storage.object().onChange(async event => {
 
   await admin
     .database()
-    .ref(`/pictures/${pictureSlug}/thumbnail`)
+    .ref(`/pictures/${pictureKey}/thumbnail`)
+    .set({ storageURL });
+
+  await admin
+    .database()
+    .ref(`/storyPictures/${storyKey}/${pictureKey}/thumbnail`)
     .set({ storageURL });
 });
 
@@ -109,7 +114,7 @@ exports.storyDelete = functions.database
   .onWrite(event => {
     // Exit if the data written is still there
     if (event.data.exists()) return;
-    const storyKey = event.params.pushId;
+    const storyKey = event.params!.pushId;
     const story = event.data.previous.val();
     const categoryKeys = Object.keys(story.categories);
     return categoryKeys.forEach(key => {
@@ -122,8 +127,8 @@ exports.removeCategoryFromStory = functions.database
   .onWrite(event => {
     // Exit if the data written is still there
     if (event.data.exists()) return;
-    const categoryRef = event.params.categoryId;
-    const storyRef = event.params.storyId;
+    const categoryRef = event.params!.categoryId;
+    const storyRef = event.params!.storyId;
     return admin
       .database()
       .ref(`/categories/${categoryRef}/stories/${storyRef}`)
@@ -151,7 +156,8 @@ exports.convertToWebP = functions.storage.object().onChange(async event => {
   if (event.data.resourceState === 'not_exists') return;
 
   const path = event.data.name;
-  const [storyPath, storySlug, pictureSlug, fileName] = path!.split('/');
+  const [storyPath, storyKey, pictureKey, fileName] = path!.split('/');
+  const pictureSlug = fileName.split('.')[0];
 
   // Exit if the image is already in the WebP format.
   if (fileName.endsWith('.webp')) return;
@@ -168,9 +174,9 @@ exports.convertToWebP = functions.storage.object().onChange(async event => {
   });
 
   // Upload file
-  let destination = `${storyPath}/${storySlug}/${pictureSlug}/${pictureSlug}.webp`;
+  let destination = `${storyPath}/${storyKey}/${pictureKey}/${pictureSlug}.webp`;
   if (fileName.startsWith(thumbPrefix)) {
-    destination = `${storyPath}/${storySlug}/${pictureSlug}/thumb_${pictureSlug}.webp`;
+    destination = `${storyPath}/${storyKey}/${pictureKey}/thumb_${pictureSlug}.webp`;
   }
   console.log(`Uploading ${pictureSlug}.webp to destination`);
   const newBucketFile = bucket.file(destination);
@@ -189,12 +195,20 @@ exports.convertToWebP = functions.storage.object().onChange(async event => {
   if (fileName.startsWith(thumbPrefix)) {
     await admin
       .database()
-      .ref(`/storyPictures/${pictureSlug}/thumbnail`)
+      .ref(`/pictures/${pictureKey}/thumbnail`)
+      .update({ webp: storageURL });
+    await admin
+      .database()
+      .ref(`/storyPictures/${storyKey}/${pictureKey}/thumbnail`)
       .update({ webp: storageURL });
   } else {
     await admin
       .database()
-      .ref(`/storyPictures/${pictureSlug}/original`)
+      .ref(`/pictures/${pictureKey}/original`)
+      .update({ webp: storageURL });
+    await admin
+      .database()
+      .ref(`/storyPictures/${storyKey}/${pictureKey}/original`)
       .update({ webp: storageURL });
   }
 });
