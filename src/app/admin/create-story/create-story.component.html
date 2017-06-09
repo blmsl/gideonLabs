@@ -24,7 +24,7 @@
       <button (click)="formReset()" type="button">Reset Story</button>
     </div>
 
-    <app-checkbox-categories [parent]="form" [controlName]="categoryControlName" [categories]="hierarchyCategories" (checkedCategory)="categorySelection($event)">
+    <app-checkbox-categories [categories]="hierarchyCategories" (checkedCategory)="categorySelection($event)">
     </app-checkbox-categories>
 
 
@@ -58,9 +58,9 @@
       <button [disabled]="_pictures.length === 0" (click)="resetPictureArray()" type="button">Remove all</button>
     </app-story-pictures>
 
-    <!--<pre>
+    <pre>
 {{form.value | json}}
-    </pre>-->
+    </pre>
 
     <app-featured-image [imageUrl]="form.get('featuredImage').value">
     </app-featured-image>

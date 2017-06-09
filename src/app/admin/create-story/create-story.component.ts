@@ -232,7 +232,7 @@ export class CreateStoryComponent implements OnInit {
       slug: '',
       date: dateString,
       author: this.auth.user.uid,
-      category: '',
+      categories: [],
       picture: {
         date: Date.now(),
         title: '',
@@ -302,30 +302,31 @@ export class CreateStoryComponent implements OnInit {
 
     for (let file of this.filesToUpload) {
       let index = this.filesToUpload.indexOf(file);
-      const picture = this._pictures.value[index];
-      let { altText, author, caption, featured, slug, title } = picture;
-      const pictureDetails = {
-        altText,
-        author,
-        caption,
-        featured,
-        slug,
-        title
+      const picture = {
+        ...this._pictures.value[index],
+        file: null,
+        objectURL: null
       };
-      const [fileName, fileType] = file.name.split('.');
+      // let { altText, author, caption, featured, slug, title } = picture;
+      // const pictureDetails = {
+      //   altText,
+      //   author,
+      //   caption,
+      //   featured,
+      //   slug,
+      //   title
+      // };
+      const fileType = file.name.split('.')[1];
 
       // Push new picture to /pictures
-      const { key: pictureKey } = await this.db
-        .list('/pictures')
-        .push(pictureDetails);
+      const { key: pictureKey } = await this.db.list('/pictures').push(picture);
 
       // Add picture details to /storyPicture
       await this.db
         .object(`/storyPictures/${storyKey}/${pictureKey}`)
-        .set(pictureDetails);
+        .set(picture);
 
       const filePath = `/stories/${storyKey}/${pictureKey}/${picture.slug}.${fileType}`;
-      console.log(`Uploading ${picture.slug}.jpg`);
       const snapshot = await this.fbApp.storage().ref(filePath).put(file);
       const fullPath = snapshot.metadata.fullPath;
       const imageUrl = this.fbApp.storage().ref(fullPath).toString();
@@ -342,11 +343,12 @@ export class CreateStoryComponent implements OnInit {
         .update({ storageURL });
     }
 
-    console.log('Uploading is complete!');
     this.uploading = false;
 
-    this.pushCategoriesToStory(storyKey, categories);
-    this.pushStoryToCategories(story, storyKey, categories);
+    if (categories.length > 0) {
+      this.pushCategoriesToStory(storyKey, categories);
+      this.pushStoryToCategories(story, storyKey, categories);
+    }
 
     this.formReset();
   }
@@ -357,13 +359,13 @@ export class CreateStoryComponent implements OnInit {
     this.db.object(`/stories/${key}/categories`).set(categoryList);
   }
 
-  pushStoryToCategories(story: Post, key: string, categories: string[]) {
+  pushStoryToCategories(story: Post, storyKey: string, categories: string[]) {
     let { slug, title, excerpt } = story;
     const storySynopsis = { slug, title, excerpt };
 
-    categories.forEach(category => {
+    categories.forEach(categoryKey => {
       this.db
-        .object(`/categories/${category}/stories/${key}`)
+        .object(`/categories/${categoryKey}/stories/${storyKey}`)
         .set(storySynopsis);
     });
   }

@@ -136,6 +136,36 @@ exports.createPermaLink = functions.database
         .child('permaLink')
         .set(`https://www.gideonlabs.com/postsByKey/${pushId}`);
 });
+exports.writeFeaturedImageToCategory = functions.database
+    .ref('/storyPictures/{storyId}/{pictureId}/thumbnail/webp')
+    .onWrite((event) => __awaiter(this, void 0, void 0, function* () {
+    // Only edit data when it is first created
+    if (event.data.previous.exists())
+        return;
+    // Exit when the data is deleted.
+    if (!event.data.exists())
+        return;
+    const { storyId, pictureId } = event.params;
+    const featured = yield admin
+        .database()
+        .ref(`/storyPictures/${storyId}/${pictureId}/featured`)
+        .once('value');
+    // Exit if this is not a featured image
+    if (!featured.val())
+        return;
+    const thumbnailData = yield event.data.ref.parent.once('value');
+    const categories = yield admin
+        .database()
+        .ref(`/stories/${storyId}/categories`)
+        .once('value');
+    const categoryKeys = Object.keys(categories.val());
+    return categoryKeys.forEach((key) => __awaiter(this, void 0, void 0, function* () {
+        yield admin
+            .database()
+            .ref(`/categories/${key}/stories/${storyId}/thumbnail`)
+            .set(thumbnailData.val());
+    }));
+}));
 exports.convertToWebP = functions.storage.object().onChange((event) => __awaiter(this, void 0, void 0, function* () {
     // Exit if this is triggered on a file that is not an image.
     if (!event.data.contentType.startsWith('image/'))

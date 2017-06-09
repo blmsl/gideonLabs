@@ -1,5 +1,5 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
+//import { FormGroup } from '@angular/forms';
 import { Category } from '../../../taxonomy/category/category';
 
 @Component({
@@ -19,12 +19,12 @@ import { Category } from '../../../taxonomy/category/category';
     </div>
   `
 })
-export class CheckboxCategoriesComponent implements OnInit {
-  @Input() parent: FormGroup;
+export class CheckboxCategoriesComponent {
+  //@Input() parent: FormGroup;
 
   @Input() categories: Category[];
 
-  @Input() controlName: string;
+  //@Input() controlName: string;
 
   @Output() checkedCategory: EventEmitter<string> = new EventEmitter();
 
@@ -33,8 +33,4 @@ export class CheckboxCategoriesComponent implements OnInit {
   onCheckChange(event: any) {
     this.checkedCategory.emit(event.target);
   }
-
-  constructor() {}
-
-  ngOnInit() {}
 }
