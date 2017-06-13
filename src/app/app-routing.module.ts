@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { PostListComponent } from './posts/post-list/post-list.component';
-import { PostSingleComponent } from './posts/post-single/post-single.component';
 import { CategoryListComponent } from './categories/category-list/category-list.component';
 import { CategorySingleComponent } from './categories/category-single/category-single.component';
 
@@ -30,7 +29,7 @@ const routes: Routes = [
       },
       {
         path: 'posts/:slug',
-        component: PostSingleComponent
+        loadChildren: 'app/story-single/story-single.module#StorySingleModule'
       },
       {
         path: 'history',

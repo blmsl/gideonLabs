@@ -1,0 +1,11 @@
+// https://stackoverflow.com/questions/36265026/angular-2-innerhtml-styling
+:host /deep/ a {
+  color: orange;
+}
+
+
+.story {
+  display: grid;
+  grid-template-columns: 60ch 1fr;
+  grid-gap: 2em;
+}

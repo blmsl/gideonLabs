@@ -195,9 +195,9 @@ export class CreateStoryComponent implements OnInit {
   }
 
   findStory(story: string): Observable<boolean> {
-    return this.db.object(`/stories/${story}`).map(story => {
-      return story.$exists();
-    });
+    return this.db
+      .list(`/stories`, { query: { orderByChild: 'slug', equalTo: story } })
+      .map(story => story.length);
   }
 
   validateStory(control: AbstractControl) {

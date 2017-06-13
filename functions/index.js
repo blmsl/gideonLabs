@@ -67,7 +67,6 @@ exports.resizeImage = functions.storage.object().onChange((event) => __awaiter(t
         tmpFilePath
     ]);
     const destination = `${storyPath}/${storyKey}/${pictureKey}/thumb_${pictureSlug}.${fileType}`;
-    console.log('Tmpfilepath:', tmpFilePath);
     yield bucket.upload(tmpFilePath, {
         destination
     }, (err, file) => {
@@ -81,7 +80,7 @@ exports.resizeImage = functions.storage.object().onChange((event) => __awaiter(t
         .database()
         .ref(`/pictures/${pictureKey}/thumbnail`)
         .set({ storageURL });
-    yield admin
+    return yield admin
         .database()
         .ref(`/storyPictures/${storyKey}/${pictureKey}/thumbnail`)
         .set({ storageURL });
@@ -158,6 +157,8 @@ exports.writeFeaturedImageToCategory = functions.database
         .database()
         .ref(`/stories/${storyId}/categories`)
         .once('value');
+    if (categories.val() === undefined)
+        return;
     const categoryKeys = Object.keys(categories.val());
     return categoryKeys.forEach((key) => __awaiter(this, void 0, void 0, function* () {
         yield admin
@@ -188,6 +189,7 @@ exports.convertToWebP = functions.storage.object().onChange((event) => __awaiter
     const buffer = yield imagemin.buffer(Buffer.concat(downloadBuffer), {
         plugins: [imageminWebp({ quality: 50 })]
     });
+    console.log(`Buffer byteLength for ${fileName}.webp`, buffer.byteLength);
     // Upload file
     let destination = `${storyPath}/${storyKey}/${pictureKey}/${pictureSlug}.webp`;
     if (fileName.startsWith(thumbPrefix)) {

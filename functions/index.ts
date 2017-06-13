@@ -71,7 +71,7 @@ exports.resizeImage = functions.storage.object().onChange(async event => {
   ]);
 
   const destination = `${storyPath}/${storyKey}/${pictureKey}/thumb_${pictureSlug}.${fileType}`;
-  console.log('Tmpfilepath:', tmpFilePath);
+
   await bucket.upload(
     tmpFilePath,
     {
@@ -91,7 +91,7 @@ exports.resizeImage = functions.storage.object().onChange(async event => {
     .ref(`/pictures/${pictureKey}/thumbnail`)
     .set({ storageURL });
 
-  await admin
+  return await admin
     .database()
     .ref(`/storyPictures/${storyKey}/${pictureKey}/thumbnail`)
     .set({ storageURL });
@@ -173,6 +173,8 @@ exports.writeFeaturedImageToCategory = functions.database
       .ref(`/stories/${storyId}/categories`)
       .once('value');
 
+    if (categories.val() === undefined) return;
+
     const categoryKeys = Object.keys(categories.val());
 
     return categoryKeys.forEach(async key => {
@@ -207,6 +209,8 @@ exports.convertToWebP = functions.storage.object().onChange(async event => {
   const buffer = await imagemin.buffer(Buffer.concat(downloadBuffer), {
     plugins: [imageminWebp({ quality: 50 })]
   });
+
+  console.log(`Buffer byteLength for ${fileName}.webp`, buffer.byteLength);
 
   // Upload file
   let destination = `${storyPath}/${storyKey}/${pictureKey}/${pictureSlug}.webp`;
