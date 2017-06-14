@@ -26,6 +26,11 @@ const routes: Routes = [
             path: 'create-category',
             loadChildren:
               'app/admin/create-category/create-category.module#CreateCategoryModule'
+          },
+          {
+            path: 'stories',
+            loadChildren:
+              'app/admin/all-stories/all-stories.module#AllStoriesModule'
           }
         ]
       },

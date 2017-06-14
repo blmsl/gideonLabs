@@ -130,10 +130,10 @@ exports.createPermaLink = functions.database
     // Exit when the data is deleted.
     if (!event.data.exists())
         return;
-    const pushId = event.params.pushId;
+    const storyId = event.params.storyId;
     return event.data.ref
         .child('permaLink')
-        .set(`https://www.gideonlabs.com/postsByKey/${pushId}`);
+        .set(`https://www.gideonlabs.com/postsByKey/${storyId}`);
 });
 exports.writeFeaturedImageToCategory = functions.database
     .ref('/storyPictures/{storyId}/{pictureId}/thumbnail/webp')
@@ -189,7 +189,7 @@ exports.convertToWebP = functions.storage.object().onChange((event) => __awaiter
     const buffer = yield imagemin.buffer(Buffer.concat(downloadBuffer), {
         plugins: [imageminWebp({ quality: 50 })]
     });
-    console.log(`Buffer byteLength for ${fileName}.webp`, buffer.byteLength);
+    console.log(`Buffer byteLength for ${pictureSlug}.webp`, buffer.byteLength);
     // Upload file
     let destination = `${storyPath}/${storyKey}/${pictureKey}/${pictureSlug}.webp`;
     if (fileName.startsWith(thumbPrefix)) {
