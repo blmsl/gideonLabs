@@ -5,9 +5,11 @@
     <div>Do not refresh. Do not close this tab.</div>
   </div>
 
+  <button (click)="toggle()">Toggle Fade</button>
+
   <form [formGroup]="form" (ngSubmit)="onSubmit()">
 
-    <app-story-info [parent]="form"></app-story-info>
+    <app-story-info [@someCoolAnimation]="bindingVariable" [parent]="form"></app-story-info>
 
     <div class="publish-box">
       <h2>Publish</h2>

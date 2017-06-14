@@ -19,13 +19,24 @@ import { Category } from '../../taxonomy/category/category';
 import { Post } from '../../shared/post';
 import { User } from '../shared/user';
 import { FirebaseStorageService } from '../../services/firebase-storage.service';
+import { trigger, transition, style, animate } from '@angular/animations';
 
 @Component({
   selector: 'app-create-story',
   styleUrls: ['./create-story.component.scss'],
-  templateUrl: './create-story.component.html'
+  templateUrl: './create-story.component.html',
+  animations: [
+    trigger('someCoolAnimation', [
+      transition('* => fadeIn', [
+        style({ opacity: 0 }),
+        animate(1000, style({ opacity: 1 }))
+      ]),
+      transition('* => fadeOut', [animate(1000, style({ opacity: 0 }))])
+    ])
+  ]
 })
 export class CreateStoryComponent implements OnInit {
+  bindingVariable = '';
   public form: FormGroup;
   hierarchyCategories: Category[];
   users: User[];
@@ -51,6 +62,18 @@ export class CreateStoryComponent implements OnInit {
     featured: false,
     objectURL: ''
   };
+
+  fadeIn() {
+    this.bindingVariable = 'fadeIn';
+  }
+
+  fadeOut() {
+    this.bindingVariable = 'fadeOut';
+  }
+
+  toggle() {
+    this.bindingVariable == 'fadeIn' ? this.fadeIn() : this.fadeOut();
+  }
 
   constructor(
     private fb: FormBuilder,
