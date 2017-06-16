@@ -308,15 +308,6 @@ export class CreateStoryComponent implements OnInit {
         file: null,
         objectURL: null
       };
-      // let { altText, author, caption, featured, slug, title } = picture;
-      // const pictureDetails = {
-      //   altText,
-      //   author,
-      //   caption,
-      //   featured,
-      //   slug,
-      //   title
-      // };
       const fileType = file.name.split('.')[1];
 
       // Push new picture to /pictures
@@ -333,11 +324,6 @@ export class CreateStoryComponent implements OnInit {
       const imageUrl = this.fbApp.storage().ref(fullPath).toString();
 
       const storageURL = await this.fbStorage.getDownloadURL(imageUrl);
-      // if (picture.featured) {
-      //   this.db
-      //     .object(`/stories/${storyRef.key}/featuredImage`)
-      //     .set(picture.slug);
-      // }
       this.db.object(`/pictures/${pictureKey}/original`).update({ storageURL });
       this.db
         .object(`/storyPictures/${storyKey}/${pictureKey}/original`)

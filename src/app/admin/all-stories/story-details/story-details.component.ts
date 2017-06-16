@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { Post } from '../../../shared/post';
 
 @Component({
@@ -6,9 +6,6 @@ import { Post } from '../../../shared/post';
   templateUrl: './story-details.component.html',
   styleUrls: ['./story-details.component.scss']
 })
-export class StoryDetailsComponent implements OnInit {
+export class StoryDetailsComponent {
   @Input() story: Post;
-  constructor() {}
-
-  ngOnInit() {}
 }

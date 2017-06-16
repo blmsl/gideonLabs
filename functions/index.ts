@@ -148,7 +148,7 @@ exports.createPermaLink = functions.database
       .set(`https://www.gideonlabs.com/postsByKey/${storyId}`);
   });
 
-exports.writeFeaturedImageToCategory = functions.database
+exports.writeFeaturedImage = functions.database
   .ref('/storyPictures/{storyId}/{pictureId}/thumbnail/webp')
   .onWrite(async event => {
     // Only edit data when it is first created
@@ -177,6 +177,13 @@ exports.writeFeaturedImageToCategory = functions.database
 
     const categoryKeys = Object.keys(categories.val());
 
+    // Add thumbnail data to story
+    await admin
+      .database()
+      .ref(`/stories/${storyId}/thumbnail`)
+      .set(thumbnailData.val());
+
+    // Add thumbnail data to each category
     return categoryKeys.forEach(async key => {
       await admin
         .database()

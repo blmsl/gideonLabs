@@ -8,6 +8,14 @@ export interface Picture {
   altText: string;
   type: string;
   storageUrl: string;
+  original?: {
+    storageURL: string;
+    webp: string;
+  };
+  thumbnail?: {
+    storageURL: string;
+    webp: string;
+  };
   mediaDetails?: {
     width: number;
     height: number;
