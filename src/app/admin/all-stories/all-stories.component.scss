@@ -1,0 +1,33 @@
+.story-container {
+  display: grid;
+  grid-template-columns: max-content 1fr max-content max-content;
+  grid-template-rows: auto;
+  grid-template-areas: 
+    'list details user pictures';
+  grid-gap: 1em;
+  width: 95vw;
+  margin: 0 auto;
+
+  > * {
+    background-color: rgb(245,245,245);
+    border: 3px solid rgb(215,215,215);
+    border-radius: 5px;
+    padding: 1em;
+  }
+}
+
+app-story-list {
+  grid-area: list;
+}
+
+app-story-details {
+  grid-area: details;
+}
+
+app-pictures {
+  grid-area: pictures;
+}
+
+app-user-info {
+  grid-area: user;
+}

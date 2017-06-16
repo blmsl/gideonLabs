@@ -180,7 +180,7 @@ exports.writeFeaturedImage = functions.database
     // Add thumbnail data to story
     await admin
       .database()
-      .ref(`/stories/${storyId}/thumbnail`)
+      .ref(`/stories/${storyId}/featuredImage`)
       .set(thumbnailData.val());
 
     // Add thumbnail data to each category

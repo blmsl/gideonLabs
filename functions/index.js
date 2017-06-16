@@ -163,7 +163,7 @@ exports.writeFeaturedImage = functions.database
     // Add thumbnail data to story
     yield admin
         .database()
-        .ref(`/stories/${storyId}/thumbnail`)
+        .ref(`/stories/${storyId}/featuredImage`)
         .set(thumbnailData.val());
     // Add thumbnail data to each category
     return categoryKeys.forEach((key) => __awaiter(this, void 0, void 0, function* () {

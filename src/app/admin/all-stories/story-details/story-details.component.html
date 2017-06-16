@@ -1,7 +1,5 @@
-<div *ngIf="story">
-
-  <pre>
-{{story | json}}
-</pre>
-
+<div *ngIf="story" class="details-container">
+  <h2>{{story.title}}</h2>
+  <div class="story-content" [innerHTML]="story.content"></div>
+  <div class="published">Published: {{story.created | date}}</div>
 </div>
