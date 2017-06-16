@@ -5,6 +5,7 @@ import {
   FirebaseObjectObservable
 } from 'angularfire2/database';
 import { Post } from '../../shared/post';
+import { Picture } from '../../shared/picture';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/filter';
 import 'rxjs/add/operator/pluck';
@@ -25,6 +26,7 @@ import 'rxjs/add/operator/switchMap';
 export class AllStoriesComponent implements OnInit {
   stories: FirebaseListObservable<Post[]>;
   story: FirebaseObjectObservable<Post>;
+  pictures: FirebaseListObservable<Picture[]>;
 
   constructor(private db: AngularFireDatabase) {}
 
@@ -35,5 +37,6 @@ export class AllStoriesComponent implements OnInit {
   selectStory(key: string) {
     console.log(key);
     this.story = this.db.object(`/stories/${key}`);
+    this.pictures = this.db.list(`/storyPictures/${key}`);
   }
 }
