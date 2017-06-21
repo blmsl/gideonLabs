@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { FirebaseListObservable } from 'angularfire2/database';
-import { Category } from './category';
+import { Category } from '../../shared/category';
 
 @Component({
   selector: 'app-category-list',

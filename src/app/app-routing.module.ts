@@ -1,8 +1,6 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { PostListComponent } from './posts/post-list/post-list.component';
-import { CategoryListComponent } from './categories/category-list/category-list.component';
-import { CategorySingleComponent } from './categories/category-single/category-single.component';
 
 import { BaseComponent } from './base/base.component';
 
@@ -22,10 +20,7 @@ const routes: Routes = [
       { path: 'posts', component: PostListComponent },
       {
         path: 'posts/category',
-        children: [
-          { path: '', component: CategoryListComponent },
-          { path: ':category', component: CategorySingleComponent }
-        ]
+        loadChildren: 'app/categories/categories.module#CategoriesModule'
       },
       {
         path: 'posts/:slug',

@@ -1,6 +1,5 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
-//import { FormGroup } from '@angular/forms';
-import { Category } from '../../../taxonomy/category/category';
+import { Category } from '../../../shared/category';
 
 @Component({
   selector: 'app-checkbox-categories',

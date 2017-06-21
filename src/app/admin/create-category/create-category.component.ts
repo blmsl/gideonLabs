@@ -6,7 +6,6 @@ import {
   AbstractControl
 } from '@angular/forms';
 import { AngularFireDatabase } from 'angularfire2/database';
-import { Category } from '../../taxonomy/category/category';
 
 import 'rxjs/add/operator/debounceTime';
 import 'rxjs/add/operator/distinctUntilChanged';
@@ -15,6 +14,7 @@ import 'rxjs/add/operator/first';
 import 'rxjs/add/operator/do';
 import 'rxjs/add/operator/filter';
 import { Observable } from 'rxjs/Observable';
+import { Category } from '../../shared/category';
 
 @Component({
   selector: 'app-create-category',

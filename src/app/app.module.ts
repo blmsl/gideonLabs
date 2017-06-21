@@ -17,25 +17,16 @@ import { AuthService } from './auth/auth.service';
 import { AppComponent } from './app.component';
 import { PostListComponent } from './posts/post-list/post-list.component';
 
-import { CategorySingleComponent } from './categories/category-single/category-single.component';
-import { CategoryListComponent } from './categories/category-list/category-list.component';
-
 import 'rxjs/add/operator/do';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/take';
 import { AuthGuard } from './auth/auth.guard';
 import { ChildGuard } from './auth/child-guard.guard';
-import { TaxonomyService } from './taxonomy/taxonomy.service';
 import { BaseModule } from './base/base.module';
 import { FirebaseStorageService } from './services/firebase-storage.service';
 
 @NgModule({
-  declarations: [
-    AppComponent,
-    PostListComponent,
-    CategorySingleComponent,
-    CategoryListComponent
-  ],
+  declarations: [AppComponent, PostListComponent],
   imports: [
     BrowserModule,
     FormsModule,
@@ -53,7 +44,6 @@ import { FirebaseStorageService } from './services/firebase-storage.service';
     AuthService,
     AuthGuard,
     ChildGuard,
-    TaxonomyService,
     FirebaseStorageService
   ],
   bootstrap: [AppComponent]

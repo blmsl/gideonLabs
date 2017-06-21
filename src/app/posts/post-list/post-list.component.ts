@@ -1,5 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { WpQueryArgs, WpEndpoint, WpService, CollectionResponse } from 'ng2-wp-api';
+import {
+  WpQueryArgs,
+  WpEndpoint,
+  WpService,
+  CollectionResponse
+} from 'ng2-wp-api';
 import { Router, ActivatedRoute } from '@angular/router';
 
 @Component({
@@ -8,7 +13,6 @@ import { Router, ActivatedRoute } from '@angular/router';
   styleUrls: ['./post-list.component.scss']
 })
 export class PostListComponent implements OnInit {
-
   args;
   posts;
   pagination;
@@ -18,41 +22,37 @@ export class PostListComponent implements OnInit {
 
   ngOnInit() {
     this.get();
-    
   }
 
   get() {
     this.args = new WpQueryArgs({ per_page: 6, _embed: true });
     this.collection = this.wpService.collection().posts();
-    this.collection.get(this.args)
-      .subscribe((res: CollectionResponse) => {
-        if (res.error) {
-          console.error(res.error)
-        } else {
-          this.pagination = res.pagination;
-          this.posts = res.data;
-        }
-      });
+    this.collection.get(this.args).subscribe((res: CollectionResponse) => {
+      if (res.error) {
+        console.error(res.error);
+      } else {
+        this.pagination = res.pagination;
+        this.posts = res.data;
+      }
+    });
     console.log('got the posts!');
   }
 
   getNext() {
     console.log('Getting next page');
-    this.collection.next()
-      .subscribe((res: CollectionResponse) => {
-        this.posts = res.data;
-        this.pagination = res.pagination;
-      })
+    this.collection.next().subscribe((res: CollectionResponse) => {
+      this.posts = res.data;
+      this.pagination = res.pagination;
+    });
   }
 
   getPrevious() {
     console.log('Getting previous page');
     if (this.pagination.currentPage > 1) {
-      this.collection.prev()
-        .subscribe((res: CollectionResponse) => {
-          this.posts = res.data;
-          this.pagination = res.pagination;
-        })
+      this.collection.prev().subscribe((res: CollectionResponse) => {
+        this.posts = res.data;
+        this.pagination = res.pagination;
+      });
     } else {
       alert('You are on the first page of results!');
     }
@@ -62,7 +62,3 @@ export class PostListComponent implements OnInit {
     this.router.navigate(['posts', slug]);
   }
 }
-
-
-
-

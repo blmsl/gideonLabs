@@ -16,10 +16,10 @@ import 'rxjs/add/operator/first';
 import { Observable } from 'rxjs/Observable';
 
 import { AuthService } from '../../auth/auth.service';
-import { Category } from '../../taxonomy/category/category';
 import { Post } from '../../shared/post';
-import { User } from '../shared/user';
 import { FirebaseStorageService } from '../../services/firebase-storage.service';
+import { User } from '../../shared/user';
+import { Category } from '../../shared/category';
 
 @Component({
   selector: 'app-create-story',
