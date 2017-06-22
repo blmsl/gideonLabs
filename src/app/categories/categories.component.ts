@@ -15,8 +15,11 @@ import { Observable } from 'rxjs/Observable';
 
 @Component({
   selector: 'app-categories',
-  templateUrl: './categories.component.html',
-  styleUrls: ['./categories.component.scss']
+  styleUrls: ['./categories.component.scss'],
+  template: `
+    <app-category-detail [category]="category | async"></app-category-detail>
+    <app-story-overview [stories]="stories | async"></app-story-overview>
+  `,
 })
 export class CategoriesComponent implements OnInit {
   category: Observable<Category>;
@@ -36,8 +39,8 @@ export class CategoriesComponent implements OnInit {
         })
       )
       .map(category => category[0])
-      .do(category => console.log(category));
 
-    this.category.pluck('stories').subscribe(stories => console.log(stories));
+    this.stories = this.category.pluck('$key')
+      .switchMap(key => this.db.list(`/categories/${key}/stories`))
   }
 }
