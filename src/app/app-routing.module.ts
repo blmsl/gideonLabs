@@ -17,7 +17,6 @@ const routes: Routes = [
         path: '',
         component: PostListComponent
       },
-      { path: 'posts', component: PostListComponent },
       {
         path: 'posts/category',
         loadChildren: 'app/categories/categories.module#CategoriesModule'

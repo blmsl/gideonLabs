@@ -110,15 +110,31 @@ exports.changeStoryCount = functions.database
   });
 
 exports.storyDelete = functions.database
-  .ref('/stories/{pushId}')
-  .onWrite(event => {
+  .ref('/stories/{storyId}')
+  .onWrite(async event => {
     // Exit if the data written is still there
     if (event.data.exists()) return;
-    const storyKey = event.params!.pushId;
+    const storyId = event.params!.storyId;
     const story = event.data.previous.val();
+    console.log(`Deleting files from the ${storyId} story in Storage.`);
+    const files = await bucket.deleteFiles({ prefix: `stories/${storyId}` });
+    console.log(`Files left at stories/${storyId}`, files);
     const categoryKeys = Object.keys(story.categories);
+    await admin.database().ref(`storyPictures/${storyId}`).remove();
     return categoryKeys.forEach(key => {
-      admin.database().ref(`categories/${key}/stories/${storyKey}`).remove();
+      admin.database().ref(`categories/${key}/stories/${storyId}`).remove();
+    });
+  });
+
+exports.picturesDelete = functions.database
+  .ref('/storyPictures/{storyId}')
+  .onWrite(async event => {
+    // Exit if the data written is still there
+    if (event.data.exists()) return;
+    const storyPictures = event.data.previous.val();
+    const pictureKeys = Object.keys(storyPictures);
+    return pictureKeys.forEach(key => {
+      admin.database().ref(`pictures/${key}`).remove();
     });
   });
 
@@ -185,6 +201,7 @@ exports.writeFeaturedImage = functions.database
 
     // Add thumbnail data to each category
     return categoryKeys.forEach(async key => {
+      console.log(`Writing thumbnail data to ${key} category`);
       await admin
         .database()
         .ref(`/categories/${key}/stories/${storyId}/thumbnail`)

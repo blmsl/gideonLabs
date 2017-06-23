@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { AngularFireDatabase } from 'angularfire2/database';
 
 import 'rxjs/add/operator/map';
@@ -19,12 +19,16 @@ import { Observable } from 'rxjs/Observable';
   template: `
     <app-category-detail [category]="category | async"></app-category-detail>
     <app-story-overview [stories]="stories | async"></app-story-overview>
-  `,
+  `
 })
 export class CategoriesComponent implements OnInit {
   category: Observable<Category>;
   stories: Observable<Post[]>;
-  constructor(private route: ActivatedRoute, private db: AngularFireDatabase) {}
+  constructor(
+    private route: ActivatedRoute,
+    private db: AngularFireDatabase,
+    private router: Router
+  ) {}
 
   ngOnInit() {
     this.category = this.route.url
@@ -39,8 +43,18 @@ export class CategoriesComponent implements OnInit {
         })
       )
       .map(category => category[0])
+      .do(category => {
+        if (category) {
+          this.stories = this.category
+            .pluck('$key')
+            .switchMap(key => this.db.list(`/categories/${key}/stories`));
+        } else {
+          this.router.navigate(['/posts/category']);
+        }
+      });
 
-    this.stories = this.category.pluck('$key')
-      .switchMap(key => this.db.list(`/categories/${key}/stories`))
+    // this.stories = this.category
+    //   .pluck('$key')
+    //   .switchMap(key => this.db.list(`/categories/${key}/stories`));
   }
 }
