@@ -7,4 +7,5 @@ export interface Category {
   parent?: string;
   children?: Category[];
   level?: number;
+  $key?: string;
 }

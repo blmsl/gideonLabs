@@ -8,6 +8,7 @@ export interface Picture {
   altText: string;
   type: string;
   storageUrl: string;
+  $key?: string;
   original?: {
     storageURL: string;
     webp: string;

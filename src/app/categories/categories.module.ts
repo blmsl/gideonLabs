@@ -6,6 +6,7 @@ import { CategoriesComponent } from './categories.component';
 import { CategoryDetailComponent } from './categoryDetail/category-detail.component';
 import { StoryOverviewComponent } from './storyOverview/story-overview.component';
 import { CategoryListComponent } from './category-list/category-list.component';
+import { CategoryLinksComponent } from './category-links/category-links.component';
 
 @NgModule({
   imports: [CommonModule, CategoriesRoutingModule],
@@ -13,7 +14,8 @@ import { CategoryListComponent } from './category-list/category-list.component';
     CategoriesComponent,
     CategoryDetailComponent,
     StoryOverviewComponent,
-    CategoryListComponent
+    CategoryListComponent,
+    CategoryLinksComponent
   ]
 })
 export class CategoriesModule {}

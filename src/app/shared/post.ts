@@ -18,4 +18,5 @@ export interface Post {
   comment_status?: string;
   sticky?: boolean;
   categories?: string[];
+  $key?: string;
 }

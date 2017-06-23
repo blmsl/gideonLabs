@@ -117,11 +117,7 @@ export class CreateStoryComponent implements OnInit {
         type: [pic.file.type || ''],
         webkitRelativePath: [pic.file.webkitRelativePath || '']
       }),
-      slug: [
-        pic.slug || '',
-        [Validators.required],
-        [this.validatePicture.bind(this)]
-      ],
+      slug: [pic.slug || '', Validators.required],
       title: [pic.title || '', Validators.required],
       author: [pic.author || this.auth.user.uid, Validators.required],
       caption: [pic.caption || '', Validators.required],
@@ -178,22 +174,22 @@ export class CreateStoryComponent implements OnInit {
     });
   }
 
-  findPicture(picture: string): Observable<boolean> {
-    return this.db
-      .list(`/pictures`, {
-        query: {
-          orderByChild: 'slug',
-          equalTo: picture
-        }
-      })
-      .map(pictures => pictures.length);
-  }
+  // findPicture(picture: string): Observable<boolean> {
+  //   return this.db
+  //     .list(`/pictures`, {
+  //       query: {
+  //         orderByChild: 'slug',
+  //         equalTo: picture
+  //       }
+  //     })
+  //     .map(pictures => pictures.length);
+  // }
 
-  validatePicture(control: AbstractControl) {
-    return this.findPicture(control.value).first().map((response: boolean) => {
-      return response ? { pictureExists: true } : null;
-    });
-  }
+  // validatePicture(control: AbstractControl) {
+  //   return this.findPicture(control.value).first().map((response: boolean) => {
+  //     return response ? { pictureExists: true } : null;
+  //   });
+  // }
 
   findStory(story: string): Observable<boolean> {
     return this.db
@@ -295,7 +291,10 @@ export class CreateStoryComponent implements OnInit {
     };
 
     const { key: storyKey } = await this.db.list(`/stories`).push(story);
-
+    if (categories.length > 0) {
+      this.pushCategoriesToStory(storyKey, categories);
+      this.pushStoryToCategories(story, storyKey, categories);
+    }
     this.uploading = true;
 
     // Try for async file uploading:
@@ -331,11 +330,6 @@ export class CreateStoryComponent implements OnInit {
     }
 
     this.uploading = false;
-
-    if (categories.length > 0) {
-      this.pushCategoriesToStory(storyKey, categories);
-      this.pushStoryToCategories(story, storyKey, categories);
-    }
 
     this.formReset();
   }

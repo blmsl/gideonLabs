@@ -155,33 +155,42 @@ exports.writeFeaturedImage = functions.database
     .ref('/storyPictures/{storyId}/{pictureId}/thumbnail/webp')
     .onWrite((event) => __awaiter(this, void 0, void 0, function* () {
     // Only edit data when it is first created
-    if (event.data.previous.exists())
-        return;
+    if (event.data.previous.exists()) {
+        return console.log('WebP data already exsisted, exiting');
+    }
     // Exit when the data is deleted.
-    if (!event.data.exists())
-        return;
+    if (!event.data.exists()) {
+        return console.log('WebP data deleted, exiting');
+    }
     const { storyId, pictureId } = event.params;
     const featured = yield admin
         .database()
         .ref(`/storyPictures/${storyId}/${pictureId}/featured`)
         .once('value');
     // Exit if this is not a featured image
-    if (!featured.val())
-        return;
+    if (!featured.val()) {
+        return console.log(`Featured is ${featured.val()}, exiting`);
+    }
     const thumbnailData = yield event.data.ref.parent.once('value');
+    //console.log('Thumbnail data to be written:', thumbnailData.val());
     const categories = yield admin
         .database()
         .ref(`/stories/${storyId}/categories`)
         .once('value');
-    if (categories.val() === undefined)
-        return;
+    if (categories.val() === null || undefined) {
+        return console.log(`Categories don't exist on this story, exiting`);
+    }
+    // console.log('Categories', categories.val());
+    // console.log('Category keys', Object.keys(categories.val()));
     const categoryKeys = Object.keys(categories.val());
     // Add thumbnail data to story
+    //console.log(`Writing thumbnailData to ${storyId}`);
     yield admin
         .database()
         .ref(`/stories/${storyId}/featuredImage`)
         .set(thumbnailData.val());
     // Add thumbnail data to each category
+    //console.log('Writing thumbnailData to each category...');
     return categoryKeys.forEach((key) => __awaiter(this, void 0, void 0, function* () {
         console.log(`Writing thumbnail data to ${key} category`);
         yield admin

@@ -52,9 +52,5 @@ export class CategoriesComponent implements OnInit {
           this.router.navigate(['/posts/category']);
         }
       });
-
-    // this.stories = this.category
-    //   .pluck('$key')
-    //   .switchMap(key => this.db.list(`/categories/${key}/stories`));
   }
 }
