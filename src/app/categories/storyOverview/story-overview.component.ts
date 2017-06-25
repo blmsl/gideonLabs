@@ -12,13 +12,11 @@ import { Post } from '../../shared/post';
         <img [src]="story.thumbnail.storageURL">
       </div>
     </div>
-  `,
+  `
 })
 export class StoryOverviewComponent implements OnInit {
   @Input() stories: Post[];
-  constructor() { }
+  constructor() {}
 
-  ngOnInit() {
-  }
-
+  ngOnInit() {}
 }

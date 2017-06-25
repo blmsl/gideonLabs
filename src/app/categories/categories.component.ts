@@ -7,7 +7,7 @@ import 'rxjs/add/operator/switchMap';
 import 'rxjs/add/operator/first';
 import 'rxjs/add/operator/take';
 import 'rxjs/add/operator/do';
-import 'rxjs/add/operator/pluck';
+import 'rxjs/add/operator/retry';
 
 import { Category } from '../shared/category';
 import { Post } from '../shared/post';
@@ -24,13 +24,14 @@ import { Observable } from 'rxjs/Observable';
 export class CategoriesComponent implements OnInit {
   category: Observable<Category>;
   stories: Observable<Post[]>;
+
   constructor(
     private route: ActivatedRoute,
     private db: AngularFireDatabase,
     private router: Router
   ) {}
 
-  ngOnInit() {
+  async ngOnInit() {
     this.category = this.route.url
       .map(segment => segment[segment.length - 1].path) // take final segment as category
       .switchMap(category =>
@@ -43,13 +44,14 @@ export class CategoriesComponent implements OnInit {
       )
       .map(category => category[0])
       .do(category => {
-        if (category) {
-          this.stories = this.category
-            .pluck('$key')
-            .switchMap(key => this.db.list(`/categories/${key}/stories`));
-        } else {
+        if (!category) {
           this.router.navigate(['/posts/category']);
         }
       });
+
+    this.stories = this.category
+      .map(category => category.$key)
+      .switchMap(key => this.db.list(`/categories/${key}/stories`))
+      .retry();
   }
 }

@@ -11,10 +11,9 @@ export class CatLinkPipe implements PipeTransform {
     const finalArray: string[] = [];
 
     for (let i: number = catIndex + 1; i < endIndex; i++) {
-      console.log('Index', i, 'is', linkSplit[i]);
       finalArray.push(linkSplit[i]);
     }
-    console.log(finalArray);
+
     return finalArray;
   }
 }
