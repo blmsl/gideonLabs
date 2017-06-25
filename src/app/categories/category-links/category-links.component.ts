@@ -6,8 +6,8 @@ import { Category } from '../../shared/category';
   styleUrls: ['./category-links.component.scss'],
   template: `
     <div *ngFor="let category of categories">
-      {{space.repeat(category.level)}}<a
-        [routerLink]="['']">{{category.name}}</a>
+     {{space.repeat(category.level)}}<a
+     [routerLink]="category.link | catLink">{{category.name}}</a>
     </div>
   `
 })

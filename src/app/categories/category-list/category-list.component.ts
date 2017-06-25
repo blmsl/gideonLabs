@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { Category } from '../../shared/category';
 import { AngularFireDatabase } from 'angularfire2/database';
 
+import 'rxjs/add/operator/take';
+
 @Component({
   selector: 'app-category-list',
   styleUrls: ['./category-list.component.scss'],

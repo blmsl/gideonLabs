@@ -7,6 +7,7 @@ import { CategoryDetailComponent } from './categoryDetail/category-detail.compon
 import { StoryOverviewComponent } from './storyOverview/story-overview.component';
 import { CategoryListComponent } from './category-list/category-list.component';
 import { CategoryLinksComponent } from './category-links/category-links.component';
+import { CatLinkPipe } from './cat-link.pipe';
 
 @NgModule({
   imports: [CommonModule, CategoriesRoutingModule],
@@ -15,7 +16,8 @@ import { CategoryLinksComponent } from './category-links/category-links.componen
     CategoryDetailComponent,
     StoryOverviewComponent,
     CategoryListComponent,
-    CategoryLinksComponent
+    CategoryLinksComponent,
+    CatLinkPipe
   ]
 })
 export class CategoriesModule {}

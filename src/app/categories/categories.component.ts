@@ -33,7 +33,6 @@ export class CategoriesComponent implements OnInit {
   ngOnInit() {
     this.category = this.route.url
       .map(segment => segment[segment.length - 1].path) // take final segment as category
-      // .do(segment => console.log(segment))
       .switchMap(category =>
         this.db.list(`/categories`, {
           query: {
