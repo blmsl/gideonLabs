@@ -4,8 +4,6 @@ import { AngularFireDatabase } from 'angularfire2/database';
 
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/switchMap';
-import 'rxjs/add/operator/first';
-import 'rxjs/add/operator/take';
 import 'rxjs/add/operator/do';
 import 'rxjs/add/operator/retry';
 
@@ -31,7 +29,7 @@ export class CategoriesComponent implements OnInit {
     private router: Router
   ) {}
 
-  async ngOnInit() {
+  ngOnInit() {
     this.category = this.route.url
       .map(segment => segment[segment.length - 1].path) // take final segment as category
       .switchMap(category =>
