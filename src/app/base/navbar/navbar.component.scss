@@ -4,12 +4,12 @@
 }
 
 .navbar {
-  background-color: #560114;
+  background-color: var(--rgba-primary-4);
   margin-bottom: 1em;
 }
 
 .navbar-inverse .navbar-toggler {
-  border: 2px solid rgba(255,255,255,.6);
+  border: 2px solid rgba(255, 255, 255, .6);
 }
 
 .navbar .form-inline .btn {

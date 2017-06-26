@@ -1,16 +1,14 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { ServiceListComponent } from "./service-list/service-list.component";
-import { ServiceDetailComponent } from "./service-detail/service-detail.component";
-import { AnalyticalServicesComponent } from "./analytical-services.component";
+
+import { ServiceDetailComponent } from './service-detail/service-detail.component';
+import { AnalyticalServicesComponent } from './analytical-services.component';
 
 const routes: Routes = [
-  { 
-    path: '', 
+  {
+    path: '',
     component: AnalyticalServicesComponent,
-    children: [
-      { path: ':slug', component: ServiceDetailComponent },
-    ]
+    children: [{ path: ':slug', component: ServiceDetailComponent }]
   }
 ];
 
@@ -19,4 +17,4 @@ const routes: Routes = [
   exports: [RouterModule],
   providers: []
 })
-export class AnalyticalServicesRoutingModule { }
+export class AnalyticalServicesRoutingModule {}
