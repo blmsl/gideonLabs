@@ -1,16 +1,12 @@
 .app-container {
   display: grid;
-  grid-template-columns: 1fr;
+  grid-template-columns: repeat(6, 1fr);
   grid-template-rows: minmax(1em, auto) 1fr minmax(1em, auto);
 }
 
 app-navbar,
 app-footer {
-  grid-column: span 2;
-}
-
-main {
-  grid-column: 2/6;
+  grid-column: 1/-1;
 }
 
 // header img {
