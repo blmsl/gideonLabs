@@ -4,22 +4,10 @@
 }
 
 .navbar {
-  background-color: var(--rgba-primary-4);
-  margin-bottom: 1em;
+  background-color: rgb(255, 255, 255);
+  padding: 2em 0;
 }
 
-.navbar-inverse .navbar-toggler {
-  border: 2px solid rgba(255, 255, 255, .6);
-}
-
-.navbar .form-inline .btn {
-  background-color: transparent;
-  border: 1px solid white;
-  color: white;
-}
-
-.navbar .form-inline .btn:hover {
-  background-color: white;
-  border: 1px solid white;
-  color: #560114;
+.cls-1 {
+  fill: rgb(0, 0, 0);
 }

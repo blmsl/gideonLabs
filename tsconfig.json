@@ -15,9 +15,6 @@
     "noImplicitReturns": true,
     "noFallthroughCasesInSwitch": true,
     "target": "es5",
-    "lib": [
-      "es2016",
-      "dom"
-    ]
+    "lib": ["es2016", "dom"]
   }
 }

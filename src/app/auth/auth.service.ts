@@ -27,7 +27,7 @@ export class AuthService {
     return this.authenticated ? this.user.uid : '';
   }
 
-  async signInWithGoogle(): firebase.Promise<any> {
+  async signInWithGoogle() {
     const response = await this.afAuth.auth.signInWithPopup(
       new firebase.auth.GoogleAuthProvider()
     );

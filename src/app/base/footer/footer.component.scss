@@ -1,5 +1,5 @@
 .footer {
-  background-color: #560114;
+  background-color: var(--rgba-primary-3);
   padding: 1em 0;
 
   ul {
@@ -9,7 +9,6 @@
   a {
     color: white;
   }
-
 }
 
 .nap-info {

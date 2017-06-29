@@ -6,6 +6,11 @@
   --rgba-primary-2: rgba(96, 75, 74, 1);
   --rgba-primary-3: rgba(52, 31, 30, 1);
   --rgba-primary-4: rgba(47, 23, 21, 1);
+  --rgba-light-0: rgba(195, 184, 186, 1); // Main Primary color */
+  --rgba-light-1: rgba(231, 197, 204, 1);
+  --rgba-light-2: rgba(180, 161, 165, 1);
+  --rgba-light-3: rgba(162, 136, 142, 1);
+  --rgba-light-4: rgba(148, 115, 123, 1);
 }
 /*! normalize.css v7.0.0 | MIT License | github.com/necolas/normalize.css */
 
@@ -39,7 +44,12 @@ body {
  * Add the correct display in IE 9-.
  */
 
-article, aside, footer, header, nav, section {
+article,
+aside,
+footer,
+header,
+nav,
+section {
   display: block;
 }
 
@@ -61,7 +71,9 @@ h1 {
  * 1. Add the correct display in IE.
  */
 
-figcaption, figure, main {
+figcaption,
+figure,
+main {
   /* 1 */
   display: block;
 }
@@ -123,7 +135,8 @@ abbr[title] {
  * Prevent the duplicate application of `bolder` by the next rule in Safari 6.
  */
 
-b, strong {
+b,
+strong {
   font-weight: inherit;
 }
 
@@ -131,7 +144,8 @@ b, strong {
  * Add the correct font weight in Chrome, Edge, and Safari.
  */
 
-b, strong {
+b,
+strong {
   font-weight: bolder;
 }
 
@@ -140,7 +154,9 @@ b, strong {
  * 2. Correct the odd `em` font sizing in all browsers.
  */
 
-code, kbd, samp {
+code,
+kbd,
+samp {
   font-family: monospace, monospace; /* 1 */
   font-size: 1em; /* 2 */
 }
@@ -175,7 +191,8 @@ small {
  * all browsers.
  */
 
-sub, sup {
+sub,
+sup {
   font-size: 75%;
   line-height: 0;
   position: relative;
@@ -197,7 +214,8 @@ sup {
  * Add the correct display in IE 9-.
  */
 
-audio, video {
+audio,
+video {
   display: inline-block;
 }
 
@@ -234,7 +252,11 @@ svg:not(:root) {
  * 2. Remove the margin in Firefox and Safari.
  */
 
-button, input, optgroup, select, textarea {
+button,
+input,
+optgroup,
+select,
+textarea {
   font-family: sans-serif; /* 1 */
   font-size: 100%; /* 1 */
   line-height: 1.15; /* 1 */
@@ -246,7 +268,8 @@ button, input, optgroup, select, textarea {
  * 1. Show the overflow in Edge.
  */
 
-button, input {
+button,
+input {
   /* 1 */
   overflow: visible;
 }
@@ -256,7 +279,8 @@ button, input {
  * 1. Remove the inheritance of text transform in Firefox.
  */
 
-button, select {
+button,
+select {
   /* 1 */
   text-transform: none;
 }
@@ -267,8 +291,11 @@ button, select {
  * 2. Correct the inability to style clickable types in iOS and Safari.
  */
 
-button, html [type="button"], /* 1 */
-[type="reset"], [type="submit"] {
+button,
+html [type="button"],
+/* 1 */
+[type="reset"],
+[type="submit"] {
   -webkit-appearance: button; /* 2 */
 }
 
@@ -342,7 +369,8 @@ textarea {
  * 2. Remove the padding in IE 10-.
  */
 
-[type="checkbox"], [type="radio"] {
+[type="checkbox"],
+[type="radio"] {
   box-sizing: border-box; /* 1 */
   padding: 0; /* 2 */
 }
@@ -393,7 +421,8 @@ textarea {
  * 1. Add the correct display in Edge, IE, and Firefox.
  */
 
-details, /* 1 */
+details,
+/* 1 */
 menu {
   display: block;
 }
