@@ -1,12 +1,7 @@
 .app-container {
   display: grid;
-  grid-template-columns: repeat(6, 1fr);
+  grid-template-columns: auto;
   grid-template-rows: minmax(1em, auto) 1fr minmax(1em, auto);
-}
-
-app-navbar,
-app-footer {
-  grid-column: 1/-1;
 }
 
 // header img {

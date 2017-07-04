@@ -11,7 +11,6 @@ import { AngularFireAuthModule } from 'angularfire2/auth';
 import { AngularFireDatabaseModule } from 'angularfire2/database';
 import { environment } from '../environments/environment';
 
-import { CategoryService } from './categories/category.service';
 import { AuthService } from './auth/auth.service';
 
 import { AppComponent } from './app.component';
@@ -39,13 +38,7 @@ import { FirebaseStorageService } from './services/firebase-storage.service';
     AngularFireDatabaseModule,
     BrowserAnimationsModule
   ],
-  providers: [
-    CategoryService,
-    AuthService,
-    AuthGuard,
-    ChildGuard,
-    FirebaseStorageService
-  ],
+  providers: [AuthService, AuthGuard, ChildGuard, FirebaseStorageService],
   bootstrap: [AppComponent]
 })
 export class AppModule {}
