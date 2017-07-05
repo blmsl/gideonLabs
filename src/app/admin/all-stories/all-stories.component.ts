@@ -21,7 +21,6 @@ import { User } from '../../shared/user';
         (storyKey)="selectStory($event)"></app-story-list>
       <app-story-details [story]="story | async"></app-story-details>
       <app-pictures [pictures]="pictures | async"></app-pictures>
-      <app-user-info [author]="author | async"></app-user-info>
     </div>
   `
 })
