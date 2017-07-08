@@ -8,6 +8,37 @@
   padding: 2em 0;
 }
 
+.logo {
+  display: inline-grid;
+}
+
+.gideon {
+  font-family: 'FuturaBT-Heavy';
+  font-size: 4em;
+  line-height: 0.7;
+}
+
+.labs {
+  font-size: 0.42em;
+  letter-spacing: 3px;
+  font-family: 'FuturaBT-Light';
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+.div-logo {
+  grid-template-columns: repeat(6, min-content);
+
+  .gideon {
+    letter-spacing: -4px;
+    grid-area: 1 / 1 / -1 / -1;
+  }
+  .labs {
+    grid-area: 1 / 1 / -1 / -1;
+    justify-self: end;
+  }
+}
+
 .cls-1 {
   fill: rgb(0, 0, 0);
 }
