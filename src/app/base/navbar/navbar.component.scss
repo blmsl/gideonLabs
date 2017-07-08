@@ -19,9 +19,9 @@
 }
 
 .labs {
-  font-size: 0.42em;
+  font-size: 0.40em;
   letter-spacing: 3px;
-  font-family: 'FuturaBT-Light';
+  font-family: 'FuturaBT-Book';
   font-weight: bold;
   text-transform: uppercase;
 }
@@ -37,8 +37,4 @@
     grid-area: 1 / 1 / -1 / -1;
     justify-self: end;
   }
-}
-
-.cls-1 {
-  fill: rgb(0, 0, 0);
 }
