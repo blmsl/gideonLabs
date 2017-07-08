@@ -1,6 +1,23 @@
 /* You can add global styles to this file, and also import other style files */
 @import 'variables';
 
+@font-face {
+  font-family: 'FuturaBT-Book';
+  src: url("/assets/fonts/FuturaBT-Book.woff2") format("woff2"),
+    url("/assets/fonts/FuturaBT-Book.woff") format("woff");
+}
+@font-face {
+  font-family: 'FuturaBT-Heavy';
+
+  src: url("/assets/fonts/FuturaBT-Heavy.woff2") format("woff2"),
+    url("/assets/fonts/FuturaBT-Heavy.woff") format("woff");
+}
+@font-face {
+  font-family: 'FuturaBT-Light';
+  src: url("/assets/fonts/FuturaBT-Light.woff2") format("woff2"),
+    url("/assets/fonts/FuturaBT-Light.woff") format("woff");
+}
+
 /*! normalize.css v7.0.0 | MIT License | github.com/necolas/normalize.css */
 
 /* Document
@@ -28,7 +45,7 @@ html {
 body {
   margin: 0;
   background-color: #f9f8f6;
-  font-family: 'Assistant', Arial, Helvetica, sans-serif;
+  font-family: 'FuturaBT-Book', sans-serif;
 }
 
 .grid-container {
