@@ -43,8 +43,8 @@ exports.resizeImage = functions.storage.object().onChange((event) => __awaiter(t
     const maxThumbHeight = 300;
     const maxThumbWidth = 300;
     const path = event.data.name;
-    const [storyPath, storySlug, pictureSlug, fileName] = path.split('/');
-    const fileType = fileName.split('.')[1];
+    const [storyPath, storyKey, pictureKey, fileName] = path.split('/');
+    const [pictureSlug, fileType] = fileName.split('.');
     // Exit if the image is already in the WebP format.
     if (fileName.endsWith('.webp'))
         return;
@@ -66,8 +66,7 @@ exports.resizeImage = functions.storage.object().onChange((event) => __awaiter(t
         `${maxThumbHeight}x${maxThumbWidth}>`,
         tmpFilePath
     ]);
-    const destination = `${storyPath}/${storySlug}/${pictureSlug}/thumb_${pictureSlug}.${fileType}`;
-    console.log('Tmpfilepath:', tmpFilePath);
+    const destination = `${storyPath}/${storyKey}/${pictureKey}/thumb_${pictureSlug}.${fileType}`;
     yield bucket.upload(tmpFilePath, {
         destination
     }, (err, file) => {
@@ -79,7 +78,11 @@ exports.resizeImage = functions.storage.object().onChange((event) => __awaiter(t
     const storageURL = `https://storage.googleapis.com/${projectId}.appspot.com/${destination}`;
     yield admin
         .database()
-        .ref(`/pictures/${pictureSlug}/thumbnail`)
+        .ref(`/pictures/${pictureKey}/thumbnail`)
+        .set({ storageURL });
+    return yield admin
+        .database()
+        .ref(`/storyPictures/${storyKey}/${pictureKey}/thumbnail`)
         .set({ storageURL });
 }));
 exports.changeStoryCount = functions.database
@@ -93,18 +96,34 @@ exports.changeStoryCount = functions.database
     return event.data.ref.parent.child('count').set(size);
 });
 exports.storyDelete = functions.database
-    .ref('/stories/{pushId}')
-    .onWrite(event => {
+    .ref('/stories/{storyId}')
+    .onWrite((event) => __awaiter(this, void 0, void 0, function* () {
     // Exit if the data written is still there
     if (event.data.exists())
         return;
-    const storyKey = event.params.pushId;
+    const storyId = event.params.storyId;
     const story = event.data.previous.val();
+    console.log(`Deleting files from the ${storyId} story in Storage.`);
+    const files = yield bucket.deleteFiles({ prefix: `stories/${storyId}` });
+    console.log(`Files left at stories/${storyId}`, files);
     const categoryKeys = Object.keys(story.categories);
+    yield admin.database().ref(`storyPictures/${storyId}`).remove();
     return categoryKeys.forEach(key => {
-        admin.database().ref(`categories/${key}/stories/${storyKey}`).remove();
+        admin.database().ref(`categories/${key}/stories/${storyId}`).remove();
     });
-});
+}));
+exports.picturesDelete = functions.database
+    .ref('/storyPictures/{storyId}')
+    .onWrite((event) => __awaiter(this, void 0, void 0, function* () {
+    // Exit if the data written is still there
+    if (event.data.exists())
+        return;
+    const storyPictures = event.data.previous.val();
+    const pictureKeys = Object.keys(storyPictures);
+    return pictureKeys.forEach(key => {
+        admin.database().ref(`pictures/${key}`).remove();
+    });
+}));
 exports.removeCategoryFromStory = functions.database
     .ref('/stories/{storyId}/categories/{categoryId}')
     .onWrite(event => {
@@ -127,11 +146,59 @@ exports.createPermaLink = functions.database
     // Exit when the data is deleted.
     if (!event.data.exists())
         return;
-    const pushId = event.params.pushId;
+    const storyId = event.params.storyId;
     return event.data.ref
         .child('permaLink')
-        .set(`https://www.gideonlabs.com/postsByKey/${pushId}`);
+        .set(`https://www.gideonlabs.com/postsByKey/${storyId}`);
 });
+exports.writeFeaturedImage = functions.database
+    .ref('/storyPictures/{storyId}/{pictureId}/thumbnail/webp')
+    .onWrite((event) => __awaiter(this, void 0, void 0, function* () {
+    // Only edit data when it is first created
+    if (event.data.previous.exists()) {
+        return console.log('WebP data already exsisted, exiting');
+    }
+    // Exit when the data is deleted.
+    if (!event.data.exists()) {
+        return console.log('WebP data deleted, exiting');
+    }
+    const { storyId, pictureId } = event.params;
+    const featured = yield admin
+        .database()
+        .ref(`/storyPictures/${storyId}/${pictureId}/featured`)
+        .once('value');
+    // Exit if this is not a featured image
+    if (!featured.val()) {
+        return console.log(`Featured is ${featured.val()}, exiting`);
+    }
+    const thumbnailData = yield event.data.ref.parent.once('value');
+    //console.log('Thumbnail data to be written:', thumbnailData.val());
+    const categories = yield admin
+        .database()
+        .ref(`/stories/${storyId}/categories`)
+        .once('value');
+    if (categories.val() === null || undefined) {
+        return console.log(`Categories don't exist on this story, exiting`);
+    }
+    // console.log('Categories', categories.val());
+    // console.log('Category keys', Object.keys(categories.val()));
+    const categoryKeys = Object.keys(categories.val());
+    // Add thumbnail data to story
+    //console.log(`Writing thumbnailData to ${storyId}`);
+    yield admin
+        .database()
+        .ref(`/stories/${storyId}/featuredImage`)
+        .set(thumbnailData.val());
+    // Add thumbnail data to each category
+    //console.log('Writing thumbnailData to each category...');
+    return categoryKeys.forEach((key) => __awaiter(this, void 0, void 0, function* () {
+        console.log(`Writing thumbnail data to ${key} category`);
+        yield admin
+            .database()
+            .ref(`/categories/${key}/stories/${storyId}/thumbnail`)
+            .set(thumbnailData.val());
+    }));
+}));
 exports.convertToWebP = functions.storage.object().onChange((event) => __awaiter(this, void 0, void 0, function* () {
     // Exit if this is triggered on a file that is not an image.
     if (!event.data.contentType.startsWith('image/'))
@@ -140,7 +207,8 @@ exports.convertToWebP = functions.storage.object().onChange((event) => __awaiter
     if (event.data.resourceState === 'not_exists')
         return;
     const path = event.data.name;
-    const [storyPath, storySlug, pictureSlug, fileName] = path.split('/');
+    const [storyPath, storyKey, pictureKey, fileName] = path.split('/');
+    const pictureSlug = fileName.split('.')[0];
     // Exit if the image is already in the WebP format.
     if (fileName.endsWith('.webp'))
         return;
@@ -153,10 +221,11 @@ exports.convertToWebP = functions.storage.object().onChange((event) => __awaiter
     const buffer = yield imagemin.buffer(Buffer.concat(downloadBuffer), {
         plugins: [imageminWebp({ quality: 50 })]
     });
+    console.log(`Buffer byteLength for ${pictureSlug}.webp`, buffer.byteLength);
     // Upload file
-    let destination = `${storyPath}/${storySlug}/${pictureSlug}/${pictureSlug}.webp`;
+    let destination = `${storyPath}/${storyKey}/${pictureKey}/${pictureSlug}.webp`;
     if (fileName.startsWith(thumbPrefix)) {
-        destination = `${storyPath}/${storySlug}/${pictureSlug}/thumb_${pictureSlug}.webp`;
+        destination = `${storyPath}/${storyKey}/${pictureKey}/thumb_${pictureSlug}.webp`;
     }
     console.log(`Uploading ${pictureSlug}.webp to destination`);
     const newBucketFile = bucket.file(destination);
@@ -173,13 +242,21 @@ exports.convertToWebP = functions.storage.object().onChange((event) => __awaiter
     if (fileName.startsWith(thumbPrefix)) {
         yield admin
             .database()
-            .ref(`/storyPictures/${pictureSlug}/thumbnail`)
+            .ref(`/pictures/${pictureKey}/thumbnail`)
+            .update({ webp: storageURL });
+        yield admin
+            .database()
+            .ref(`/storyPictures/${storyKey}/${pictureKey}/thumbnail`)
             .update({ webp: storageURL });
     }
     else {
         yield admin
             .database()
-            .ref(`/storyPictures/${pictureSlug}/original`)
+            .ref(`/pictures/${pictureKey}/original`)
+            .update({ webp: storageURL });
+        yield admin
+            .database()
+            .ref(`/storyPictures/${storyKey}/${pictureKey}/original`)
             .update({ webp: storageURL });
     }
 }));

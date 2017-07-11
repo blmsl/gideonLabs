@@ -5,6 +5,4 @@ import { Component } from '@angular/core';
   templateUrl: './navbar.component.html',
   styleUrls: ['./navbar.component.scss']
 })
-export class NavbarComponent {
-  public isNavbarCollapsed: boolean = false;
-}
+export class NavbarComponent {}

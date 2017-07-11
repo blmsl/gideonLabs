@@ -1,39 +1,7 @@
-header {
-  display: none;
-  /*margin: 0 auto;*/
-  width: 100%;
-  position: relative;
-  margin-bottom: 1em;
-
-  @media (min-width: 40em) {
-    display: block;
-  }
-}
-
-header img {
-  width: 100%;
-  object-fit: cover;
-}
-
-.header-callout {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  display: flex;
-  justify-content: center;
+.app-container {
+  display: grid;
+  grid-template-columns: auto;
+  grid-template-rows: 7em minmax(calc(100vh - 7em), 1fr) minmax(1em, auto);
+  min-height: 100vh;
   align-items: center;
-  flex-direction: column;
-  text-align: center;
-}
-
-.callout-container {
-  background-color: rgba(255,255,255,0.8);
-}
-
-.header-callout--phone a {
-  font-size: 3.5em;
-  color: #560114;
-  font-weight: bold;
 }

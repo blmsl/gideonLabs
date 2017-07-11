@@ -1,0 +1,5 @@
+<div *ngIf="pictures">
+  <div *ngFor="let picture of pictures">
+    <img [src]="picture.thumbnail.webp" alt="picture.altText">
+  </div>
+</div>

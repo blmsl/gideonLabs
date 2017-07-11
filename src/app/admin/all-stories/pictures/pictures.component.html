@@ -1,0 +1,6 @@
+<div *ngIf="pictures" class="pictures-container">
+  <picture *ngFor="let picture of pictures">
+    <source [srcset]="picture.thumbnail.webp" type="image/webp">
+    <img [srcset]="picture.thumbnail.storageURL" [attr.alt]="picture.altText">
+  </picture>
+</div>

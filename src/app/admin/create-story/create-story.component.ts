@@ -6,6 +6,7 @@ import {
   Validators,
   AbstractControl
 } from '@angular/forms';
+
 import { AngularFireDatabase } from 'angularfire2/database';
 // import * as firebase from 'firebase/app'; // for typings
 import { FirebaseApp } from 'angularfire2'; // for methods
@@ -15,10 +16,10 @@ import 'rxjs/add/operator/first';
 import { Observable } from 'rxjs/Observable';
 
 import { AuthService } from '../../auth/auth.service';
-import { Category } from '../../taxonomy/category/category';
 import { Post } from '../../shared/post';
-import { User } from '../shared/user';
 import { FirebaseStorageService } from '../../services/firebase-storage.service';
+import { User } from '../../shared/user';
+import { Category } from '../../shared/category';
 
 @Component({
   selector: 'app-create-story',
@@ -116,11 +117,7 @@ export class CreateStoryComponent implements OnInit {
         type: [pic.file.type || ''],
         webkitRelativePath: [pic.file.webkitRelativePath || '']
       }),
-      slug: [
-        pic.slug || '',
-        [Validators.required],
-        [this.validatePicture.bind(this)]
-      ],
+      slug: [pic.slug || '', Validators.required],
       title: [pic.title || '', Validators.required],
       author: [pic.author || this.auth.user.uid, Validators.required],
       caption: [pic.caption || '', Validators.required],
@@ -177,27 +174,27 @@ export class CreateStoryComponent implements OnInit {
     });
   }
 
-  findPicture(picture: string): Observable<boolean> {
-    return this.db
-      .list(`/pictures`, {
-        query: {
-          orderByChild: 'slug',
-          equalTo: picture
-        }
-      })
-      .map(pictures => pictures.length);
-  }
+  // findPicture(picture: string): Observable<boolean> {
+  //   return this.db
+  //     .list(`/pictures`, {
+  //       query: {
+  //         orderByChild: 'slug',
+  //         equalTo: picture
+  //       }
+  //     })
+  //     .map(pictures => pictures.length);
+  // }
 
-  validatePicture(control: AbstractControl) {
-    return this.findPicture(control.value).first().map((response: boolean) => {
-      return response ? { pictureExists: true } : null;
-    });
-  }
+  // validatePicture(control: AbstractControl) {
+  //   return this.findPicture(control.value).first().map((response: boolean) => {
+  //     return response ? { pictureExists: true } : null;
+  //   });
+  // }
 
   findStory(story: string): Observable<boolean> {
-    return this.db.object(`/stories/${story}`).map(story => {
-      return story.$exists();
-    });
+    return this.db
+      .list(`/stories`, { query: { orderByChild: 'slug', equalTo: story } })
+      .map(story => story.length);
   }
 
   validateStory(control: AbstractControl) {
@@ -232,7 +229,7 @@ export class CreateStoryComponent implements OnInit {
       slug: '',
       date: dateString,
       author: this.auth.user.uid,
-      category: '',
+      categories: [],
       picture: {
         date: Date.now(),
         title: '',
@@ -293,9 +290,11 @@ export class CreateStoryComponent implements OnInit {
       author
     };
 
-    const storyRef = await this.db.list(`/stories`).push(story);
-    const storyKey = storyRef.key;
-
+    const { key: storyKey } = await this.db.list(`/stories`).push(story);
+    if (categories.length > 0) {
+      this.pushCategoriesToStory(storyKey, categories);
+      this.pushStoryToCategories(story, storyKey, categories);
+    }
     this.uploading = true;
 
     // Try for async file uploading:
@@ -303,51 +302,34 @@ export class CreateStoryComponent implements OnInit {
 
     for (let file of this.filesToUpload) {
       let index = this.filesToUpload.indexOf(file);
-      const picture = this._pictures.value[index];
-      let { altText, author, caption, featured, slug, title } = picture;
-      const pictureDetails = {
-        altText,
-        author,
-        caption,
-        featured,
-        slug,
-        title
+      const picture = {
+        ...this._pictures.value[index],
+        file: null,
+        objectURL: null
       };
-      const [fileName, fileType] = file.name.split('.');
-      // Try atomic update to set picture details on /storyPictures and /pictures
-      // More details at https://github.com/angular/angularfire2/issues/435
-      const pictureUpdate: any = {};
-      pictureUpdate[
-        `/storyPictures/${story.slug}/${picture.slug}`
-      ] = pictureDetails;
-      pictureUpdate[`/pictures/${picture.slug}`] = pictureDetails;
-      this.db.object('/').update(pictureUpdate);
+      const fileType = file.name.split('.')[1];
 
-      const filePath = `/stories/${story.slug}/${picture.slug}/${picture.slug}.${fileType}`;
-      console.log(`Uploading ${picture.slug}.jpg`);
+      // Push new picture to /pictures
+      const { key: pictureKey } = await this.db.list('/pictures').push(picture);
+
+      // Add picture details to /storyPicture
+      await this.db
+        .object(`/storyPictures/${storyKey}/${pictureKey}`)
+        .set(picture);
+
+      const filePath = `/stories/${storyKey}/${pictureKey}/${picture.slug}.${fileType}`;
       const snapshot = await this.fbApp.storage().ref(filePath).put(file);
       const fullPath = snapshot.metadata.fullPath;
       const imageUrl = this.fbApp.storage().ref(fullPath).toString();
 
       const storageURL = await this.fbStorage.getDownloadURL(imageUrl);
-      if (picture.featured) {
-        this.db
-          .object(`/stories/${story.slug}/featuredImage`)
-          .set(picture.slug);
-      }
+      this.db.object(`/pictures/${pictureKey}/original`).update({ storageURL });
       this.db
-        .object(`/pictures/${picture.slug}/original`)
-        .update({ storageURL });
-      this.db
-        .object(`/storyPictures/${story.slug}/${picture.slug}/original`)
+        .object(`/storyPictures/${storyKey}/${pictureKey}/original`)
         .update({ storageURL });
     }
 
-    console.log('Uploading is complete!');
     this.uploading = false;
-
-    this.pushCategoriesToStory(storyKey, categories);
-    this.pushStoryToCategories(story, storyKey, categories);
 
     this.formReset();
   }
@@ -358,13 +340,13 @@ export class CreateStoryComponent implements OnInit {
     this.db.object(`/stories/${key}/categories`).set(categoryList);
   }
 
-  pushStoryToCategories(story: Post, key: string, categories: string[]) {
+  pushStoryToCategories(story: Post, storyKey: string, categories: string[]) {
     let { slug, title, excerpt } = story;
     const storySynopsis = { slug, title, excerpt };
 
-    categories.forEach(category => {
+    categories.forEach(categoryKey => {
       this.db
-        .object(`/categories/${category}/stories/${key}`)
+        .object(`/categories/${categoryKey}/stories/${storyKey}`)
         .set(storySynopsis);
     });
   }

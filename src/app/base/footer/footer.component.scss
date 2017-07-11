@@ -1,15 +1,39 @@
 .footer {
-  background-color: #560114;
-  padding: 1em 0;
+  background-color: var(--rgba-primary-4);
+  height: 100vh;
+  color: white;
+}
 
-  ul {
-    list-style: none;
+.section-header {
+  font-family: 'FuturaBT-Heavy', sans-serif;
+  font-weight: 100;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  font-size: 0.8725em;
+  margin-bottom: 1.5625em;
+}
+
+.section-list {
+  font-size: 1.125em;
+  color: #fff;
+  li {
+    margin-bottom: 0.75em;
   }
+}
 
-  a {
-    color: white;
+.section-list  a {
+  opacity: 1;
+  transition: opacity 0.06s linear;
+  text-decoration: none;
+  &:hover {
+    opacity: 0.7;
   }
+}
 
+.container {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-template-rows: repeat(3, 1fr);
 }
 
 .nap-info {
@@ -18,4 +42,13 @@
 
 .gal-logo {
   max-width: 350px;
+}
+
+.disclaimer {
+  grid-area: 3 / 1 / -1 / -1;
+  font-size: 0.8em;
+  line-height: 1.75;
+  opacity: 0.3;
+  color: #fff;
+  padding: 0.75em 0;
 }

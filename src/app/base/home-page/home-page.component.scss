@@ -1,0 +1,54 @@
+:host {
+  color: #54575a;
+}
+
+// .grid-container {
+//   padding: 7em 0;
+// }
+
+h1 {
+  font-family: 'FuturaBT-Heavy', sans-serif;
+  font-size: 5.625em;
+  font-weight: 100;
+  letter-spacing: -5px;
+  max-width: 40vw;
+  line-height: 1.111;
+  margin: 0;
+  padding: 0;
+}
+
+.sub-header {
+  color: #7e8082;
+  max-width: 30vw;
+  font-size: 1.5em;
+  line-height: 1.333;
+  margin: 1.5em 0;
+}
+
+.container {
+  grid-column: 2/6;
+}
+
+img {
+  grid-column: 6/8;
+  max-width: 100%;
+}
+
+.call-to-action {
+  appearance: none;
+  box-shadow: none;
+  border: none;
+  background-color: #549431;
+  font-family: 'FuturaBT-Book', sans-serif;
+  font-size: 1.75em;
+  padding: 0.75em 1em;
+  border-radius: 15px;
+  color: white;
+  text-decoration: none;
+  transition: all 0.1s ease;
+  cursor: pointer;
+}
+
+.call-to-action:hover {
+  background-color: #326f12;
+}

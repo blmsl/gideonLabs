@@ -24,7 +24,7 @@
       <button (click)="formReset()" type="button">Reset Story</button>
     </div>
 
-    <app-checkbox-categories [parent]="form" [controlName]="categoryControlName" [categories]="hierarchyCategories" (checkedCategory)="categorySelection($event)">
+    <app-checkbox-categories [categories]="hierarchyCategories" (checkedCategory)="categorySelection($event)">
     </app-checkbox-categories>
 
 
