@@ -2,9 +2,9 @@
   color: #54575a;
 }
 
-.grid-container {
-  padding: 7em 0;
-}
+// .grid-container {
+//   padding: 7em 0;
+// }
 
 h1 {
   font-family: 'FuturaBT-Heavy', sans-serif;
@@ -45,14 +45,9 @@ img {
   border-radius: 15px;
   color: white;
   text-decoration: none;
-  box-shadow: 0 8px #1a4a00;
+  transition: all 0.1s ease;
 }
 
 .call-to-action:hover {
   background-color: #326f12;
-}
-
-.call-to-action:active {
-  box-shadow: 0 3px #1a4a00;
-  transform: translateY(5px);
 }
