@@ -2,32 +2,6 @@
   display: grid;
   grid-template-columns: auto;
   grid-template-rows: minmax(1em, auto) 1fr minmax(1em, auto);
+  min-height: 100vh;
+  align-items: center;
 }
-
-// header img {
-//   width: 100%;
-//   object-fit: cover;
-// }
-
-// .header-callout {
-//   position: absolute;
-//   top: 0;
-//   left: 0;
-//   width: 100%;
-//   height: 100%;
-//   display: flex;
-//   justify-content: center;
-//   align-items: center;
-//   flex-direction: column;
-//   text-align: center;
-// }
-
-// .callout-container {
-//   background-color: rgba(255, 255, 255, 0.8);
-// }
-
-// .header-callout--phone a {
-//   font-size: 3.5em;
-//   color: #560114;
-//   font-weight: bold;
-// }

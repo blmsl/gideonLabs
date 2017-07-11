@@ -2,10 +2,6 @@
   color: #54575a;
 }
 
-.container {
-  padding: 5em 0;
-}
-
 h1 {
   font-family: 'FuturaBT-Heavy', sans-serif;
   font-size: 5.625em;
@@ -25,6 +21,14 @@ h1 {
   margin: 1.5em 0;
 }
 
+.container {
+  grid-column: 2/6;
+}
+
+img {
+  grid-column: 6/8;
+}
+
 .call-to-action {
   appearance: none;
   box-shadow: none;
@@ -32,11 +36,11 @@ h1 {
   background-color: #549431;
   font-family: 'FuturaBT-Book', sans-serif;
   font-size: 1.75em;
-  padding: 1em 1.25em;
+  padding: 0.75em 1em;
   border-radius: 15px;
   color: white;
   text-decoration: none;
-  box-shadow: 0 10px #1a4a00;
+  box-shadow: 0 8px #1a4a00;
 }
 
 .call-to-action:hover {
@@ -44,6 +48,6 @@ h1 {
 }
 
 .call-to-action:active {
-  box-shadow: 0 5px #1a4a00;
+  box-shadow: 0 3px #1a4a00;
   transform: translateY(5px);
 }

@@ -52,6 +52,7 @@ body {
   display: grid;
   grid-template-columns: 1fr repeat(6, minmax(auto, 15em)) 1fr;
   grid-template-rows: auto;
+  align-items: center;
   > .container {
     grid-column: 2/8;
   }
