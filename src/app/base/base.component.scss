@@ -1,7 +1,7 @@
 .app-container {
   display: grid;
   grid-template-columns: auto;
-  grid-template-rows: 7em minmax(calc(100vh - 7em)) minmax(1em, auto);
+  grid-template-rows: 7em minmax(calc(100vh - 7em), 1fr) minmax(1em, auto);
   min-height: 100vh;
   align-items: center;
 }

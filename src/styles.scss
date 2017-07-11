@@ -48,6 +48,11 @@ body {
   font-family: 'FuturaBT-Book', sans-serif;
 }
 
+html,
+body {
+  text-rendering: optimizeSpeed;
+}
+
 .grid-container {
   display: grid;
   grid-template-columns: 1fr repeat(6, minmax(auto, 15em)) 1fr;
@@ -136,6 +141,8 @@ pre {
 a {
   background-color: transparent; /* 1 */
   -webkit-text-decoration-skip: objects; /* 2 */
+  text-decoration: none;
+  color: inherit;
 }
 
 /**
@@ -481,4 +488,11 @@ template {
 
 [hidden] {
   display: none;
+}
+
+ul,
+ol {
+  list-style: none;
+  margin: 0;
+  padding: 0;
 }
