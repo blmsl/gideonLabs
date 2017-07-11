@@ -2,6 +2,10 @@
   color: #54575a;
 }
 
+.grid-container {
+  padding: 7em 0;
+}
+
 h1 {
   font-family: 'FuturaBT-Heavy', sans-serif;
   font-size: 5.625em;
@@ -27,6 +31,7 @@ h1 {
 
 img {
   grid-column: 6/8;
+  max-width: 100%;
 }
 
 .call-to-action {
