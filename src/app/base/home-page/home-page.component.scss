@@ -29,7 +29,8 @@ h1 {
   grid-column: 2/6;
 }
 
-img {
+.hero-image {
+  padding: 2em 0;
   grid-column: 6/8;
   max-width: 100%;
 }
