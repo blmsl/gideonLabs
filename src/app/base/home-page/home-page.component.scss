@@ -32,7 +32,6 @@ h1 {
 .hero-image {
   grid-area: image;
   padding: 2em 0;
-  border: 1px solid red;
   max-width: 100%;
   grid-area: 1 / 2 / 2 / 8;
   justify-self: end;
@@ -53,6 +52,9 @@ h1 {
   cursor: pointer;
 }
 
+.call-to-action:hover {
+  background-color: #326f12;
+}
 .griditem1,
 .griditem2,
 .griditem3,
@@ -80,10 +82,6 @@ h1 {
 }
 .griditem6 {
   grid-area: 1 / 7 / 2 / 8;
-}
-
-.call-to-action:hover {
-  background-color: #326f12;
 }
 
 .underlay {

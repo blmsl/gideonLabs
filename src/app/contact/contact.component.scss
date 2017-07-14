@@ -1,0 +1,62 @@
+.container {
+  background-color: white;
+  padding: 2em;
+  grid-column: 3 / 7;
+}
+
+h1 {
+  font-family: 'FuturaBT-Heavy', sans-serif;
+  font-weight: 100;
+  text-align: center;
+  font-size: 2.25em;
+}
+
+form {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: auto;
+  grid-gap: 0.875em;
+}
+
+input {
+  font-family: 'FuturaBT-Book', sans-serif;
+  font-size: 1.125em;
+  font-weight: 300;
+  padding: 1.125em;
+  border: 1px solid rgb(221, 221, 221);
+}
+p-editor {
+  grid-column: span 2;
+}
+
+.sub-heading {
+  font-size: 1.25em;
+  text-align: center;
+  margin-bottom: 2em;
+}
+
+.call-to-action[disabled] {
+  opacity: 0.65;
+  cursor: not-allowed;
+}
+
+.call-to-action {
+  appearance: none;
+  box-shadow: none;
+  border: none;
+  background-color: #549431;
+  font-family: 'FuturaBT-Book', sans-serif;
+  font-size: 1.25em;
+  padding: 0.75em 1em;
+  border-radius: 10px;
+  color: white;
+  text-decoration: none;
+  transition: all 0.1s ease;
+  cursor: pointer;
+  grid-column: span 2;
+  max-width: 10em;
+  justify-self: center;
+}
+.call-to-action:hover:not([disabled]) {
+  background-color: #326f12;
+}
