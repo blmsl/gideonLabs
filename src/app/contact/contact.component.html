@@ -1,5 +1,5 @@
 <div class="grid-container">
-  <div class="container">
+  <div *ngIf="notSent" class="container">
     <h1>Start solving problems</h1>
     <div class="sub-heading">Submit the information below to start the problem-solving process.</div>
     <form [formGroup]="contactForm" (ngSubmit)="onSubmit()">
@@ -20,6 +20,16 @@
       <button class="call-to-action" type="submit" [disabled]="contactForm.invalid">Start solving</button>
 
     </form>
+  </div>
+
+  <div *ngIf="!notSent" class="container">
+    <h1>You've taken the first step in solving the problem!</h1>
+    <div class="sub-heading">
+      We'll get back to you with the next step as soon as possible.
+    </div>
+    <div (click)="notSent = true" class="call-to-action center">
+      Solve another problem
+    </div>
   </div>
 
 </div>

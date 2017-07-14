@@ -9,6 +9,7 @@ import { AngularFireDatabase } from 'angularfire2/database';
 })
 export class ContactComponent implements OnInit {
   contactForm: FormGroup;
+  notSent = true;
 
   constructor(private fb: FormBuilder, private db: AngularFireDatabase) {
     this.createForm();
@@ -40,6 +41,7 @@ export class ContactComponent implements OnInit {
       date,
       html
     };
+    this.notSent = false;
     this.db.list('/messages').push(message);
     this.contactForm.reset();
   }

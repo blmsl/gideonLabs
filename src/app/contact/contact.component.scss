@@ -1,7 +1,8 @@
 .container {
   background-color: white;
-  padding: 2em;
+  padding: 3em;
   grid-column: 3 / 7;
+  margin: 2em 0;
 }
 
 h1 {
@@ -27,6 +28,10 @@ input {
 }
 p-editor {
   grid-column: span 2;
+}
+
+.center {
+  margin: 0 auto;
 }
 
 .sub-heading {
